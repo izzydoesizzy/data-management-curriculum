@@ -1,4 +1,79 @@
 {
+  "cw-avg-wait": {
+    "answer": 37.4,
+    "note": "",
+    "tolerance": 0.1,
+    "type": "number",
+    "unit": "days"
+  },
+  "cw-conversion": {
+    "answer": 75.8,
+    "note": "",
+    "tolerance": 0.1,
+    "type": "number",
+    "unit": "%"
+  },
+  "cw-longest-wait-program": {
+    "accept": [
+      "Mental Health"
+    ],
+    "answer": "Mental Health",
+    "note": "",
+    "type": "text"
+  },
+  "cw-noshow-band": {
+    "accept": [
+      "16-24"
+    ],
+    "answer": "16-24",
+    "note": "",
+    "type": "text"
+  },
+  "cw-noshow-rate": {
+    "answer": 9.2,
+    "note": "",
+    "tolerance": 0.1,
+    "type": "number",
+    "unit": "%"
+  },
+  "cw-top-caseload": {
+    "answer": 25,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "cw-top-caseload-worker": {
+    "accept": [
+      "W-09",
+      "Isla MacDonald"
+    ],
+    "answer": "W-09",
+    "note": "",
+    "type": "text"
+  },
+  "cw-top-hours": {
+    "answer": 937.5,
+    "note": "",
+    "tolerance": 0.1,
+    "type": "number",
+    "unit": "hours"
+  },
+  "cw-top-source": {
+    "accept": [
+      "Self-referral"
+    ],
+    "answer": "Self-referral",
+    "note": "",
+    "type": "text"
+  },
+  "cw-waitlisted": {
+    "answer": 34,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "referrals"
+  },
   "w1-clients": {
     "answer": 300,
     "note": "",

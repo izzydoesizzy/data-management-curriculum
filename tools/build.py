@@ -63,7 +63,7 @@ WEEKS = [
      "Plan how to get real exports at work, protect client privacy and keep growing.", "60 min"),
 ]
 
-NAV = [("index.html", "Schedule"), ("toolkit.html", "Free toolkit"),
+NAV = [("index.html", "Schedule"), ("caseworks.html", "Caseworks"), ("toolkit.html", "Free toolkit"),
        ("data.html", "Practice data"), ("glossary.html", "Glossary")]
 
 
@@ -194,7 +194,8 @@ def build_page(name, title, desc):
 def build_zip():
     """Bundle the practice files (fixed timestamps so the zip is reproducible)."""
     files = ["services_raw.csv", "clients.csv", "service_codes.csv", "workers.csv",
-             "services_2026-09.csv", "services_clean.csv", "powerbi-starter.xlsx"]
+             "services_2026-09.csv", "services_clean.csv", "referrals.csv", "appointments.csv",
+             "powerbi-starter.xlsx"]
     with zipfile.ZipFile(os.path.join(ROOT, "data", "practice-data.zip"), "w", zipfile.ZIP_DEFLATED) as z:
         for f in files:
             with open(os.path.join(ROOT, "data", f), "rb") as fh:
@@ -208,7 +209,8 @@ if __name__ == "__main__":
     for i, w in enumerate(WEEKS):
         build_week(i, w)
     build_index()
+    build_page("caseworks.html", "Caseworks", "Using Power BI and Excel to build custom reports from CaseWORKS case-management data.")
     build_page("toolkit.html", "Free toolkit", "Free and low-cost ways to use Excel and Power BI on a Mac.")
     build_page("data.html", "Practice data", "Download the fictional casework dataset used in every week.")
     build_page("glossary.html", "Glossary", "Plain-English definitions of data terms.")
-    print(f"built {len(WEEKS)} weeks + 4 pages")
+    print(f"built {len(WEEKS)} weeks + 5 pages")

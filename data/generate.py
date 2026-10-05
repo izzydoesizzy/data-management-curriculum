@@ -237,7 +237,64 @@ def write_csv(name, rows, cols):
             w.writerow([fmt(r[c]) for c in cols])
 
 
+# ---------------------------------------------------------------- Caseworks-style extras
+# Referrals/waitlist and scheduled appointments, the way a case-management system
+# such as CaseWORKS records them. A separate random stream keeps every earlier
+# file (and answer) unchanged.
+xrng = random.Random(SEED + 3)
+SOURCES = [("Self-referral", 0.24), ("Hospital", 0.18), ("Family doctor", 0.16),
+           ("Community agency", 0.20), ("School", 0.10), ("Shelter", 0.12)]
+WAIT_RANGE = {"Housing Support": (10, 70), "Mental Health": (20, 120),
+              "Youth Services": (5, 45), "Newcomer Settlement": (3, 30)}
+
+
+def xpick(weighted):
+    items, weights = zip(*weighted)
+    return xrng.choices(items, weights=weights, k=1)[0]
+
+
+referrals = []
+for c in clients:
+    lo, hi = WAIT_RANGE[c["Program"]]
+    referrals.append({"ClientID": c["ClientID"], "Program": c["Program"], "Source": xpick(SOURCES),
+                      "ReferralDate": c["IntakeDate"] - timedelta(days=xrng.randint(lo, hi)),
+                      "Outcome": "Enrolled"})
+for _ in range(96):  # referrals that never became clients
+    outcome = xpick([("Declined", 0.35), ("Withdrawn", 0.30), ("Waitlisted", 0.35)])
+    if outcome == "Waitlisted":
+        rdate = rand_date(date(2026, 5, 1), DATA_END)
+    else:
+        rdate = rand_date(START - timedelta(days=60), DATA_END)
+    referrals.append({"ClientID": None, "Program": xpick(PROGRAMS), "Source": xpick(SOURCES),
+                      "ReferralDate": rdate, "Outcome": outcome})
+referrals.sort(key=lambda r: (r["ReferralDate"], r["ClientID"] or ""))
+for n, r in enumerate(referrals, 1):
+    r["ReferralID"] = f"R-{n:04d}"
+
+NOSHOW_BASE = {"16-24": 0.17, "25-34": 0.12, "35-44": 0.09, "45-54": 0.08, "55-64": 0.06, "65+": 0.05}
+SCHEDULED = ("HV01", "CH02", "CO01", "CO02")
+appointments = []
+for s in services:  # clean services only, before the deliberate mess
+    if s["ServiceCode"] not in SCHEDULED or s["ServiceID"] in blank_ids:
+        continue
+    appointments.append({"ClientID": s["ClientID"], "WorkerID": s["WorkerID"], "ApptDate": s["ServiceDate"],
+                         "ApptType": s["ServiceCode"], "Status": "Attended"})
+age_of = {c["ClientID"]: c["AgeBand"] for c in clients}
+extra = []
+for a in appointments:
+    roll = xrng.random()
+    p_noshow = NOSHOW_BASE[age_of[a["ClientID"]]]
+    if roll < p_noshow:
+        extra.append(dict(a, ApptDate=a["ApptDate"] - timedelta(days=xrng.randint(2, 10)), Status="No-show"))
+    elif roll < p_noshow + 0.07:
+        extra.append(dict(a, ApptDate=a["ApptDate"] - timedelta(days=xrng.randint(2, 10)), Status="Cancelled"))
+appointments = sorted(appointments + extra, key=lambda a: (a["ApptDate"], a["ClientID"], a["Status"]))
+for n, a in enumerate(appointments, 1):
+    a["AppointmentID"] = f"A-{n:06d}"
+
 SVC_COLS = ["ServiceID", "ClientID", "ServiceDate", "ServiceCode", "WorkerID", "DurationMins"]
+write_csv("referrals.csv", referrals, ["ReferralID", "ReferralDate", "ClientID", "Program", "Source", "Outcome"])
+write_csv("appointments.csv", appointments, ["AppointmentID", "ApptDate", "ClientID", "WorkerID", "ApptType", "Status"])
 write_csv("clients.csv", clients,
           ["ClientID", "IntakeDate", "DischargeDate", "Program", "Region", "AgeBand", "AssignedWorker"])
 write_csv("workers.csv", [dict(zip(["WorkerID", "Name", "Role"], w)) for w in WORKERS],
@@ -372,6 +429,44 @@ key = {
     "w15-q4-top-avg-region": txt(top_avg_region[0]),
     "w15-q5-over-2000": num(sum(1 for v in per_client.values() if v > 2000), "clients", 0),
 }
+
+# Caseworks projects
+enrolled = [r for r in referrals if r["Outcome"] == "Enrolled"]
+waits = {r["ClientID"]: (client_by_id[r["ClientID"]]["IntakeDate"] - r["ReferralDate"]).days for r in enrolled}
+wait_by_prog = defaultdict(list)
+for cid, d in waits.items():
+    wait_by_prog[client_by_id[cid]["Program"]].append(d)
+src_count = defaultdict(int)
+for r in referrals:
+    src_count[r["Source"]] += 1
+band_tot, band_ns = defaultdict(int), defaultdict(int)
+for a in appointments:
+    b = client_by_id[a["ClientID"]]["AgeBand"]
+    band_tot[b] += 1
+    band_ns[b] += a["Status"] == "No-show"
+caseload = defaultdict(int)
+for c in clients:
+    if c["DischargeDate"] is None:
+        caseload[c["AssignedWorker"]] += 1
+top_caseload = max(caseload.items(), key=lambda kv: kv[1])
+assert list(caseload.values()).count(top_caseload[1]) == 1, "caseload tie"
+hours = defaultdict(float)
+for s in S:
+    hours[s["WorkerID"]] += s["DurationMins"] / 60
+top_hours = max(hours.items(), key=lambda kv: kv[1])
+
+key.update({
+    "cw-avg-wait": num(round(sum(waits.values()) / len(waits), 1), "days", 0.1),
+    "cw-longest-wait-program": txt(max(wait_by_prog, key=lambda p: sum(wait_by_prog[p]) / len(wait_by_prog[p]))),
+    "cw-conversion": num(round(100 * len(enrolled) / len(referrals), 1), "%", 0.1),
+    "cw-top-source": txt(max(src_count, key=src_count.get)),
+    "cw-waitlisted": num(sum(1 for r in referrals if r["Outcome"] == "Waitlisted"), "referrals", 0),
+    "cw-noshow-rate": num(round(100 * sum(band_ns.values()) / len(appointments), 1), "%", 0.1),
+    "cw-noshow-band": txt(max(band_tot, key=lambda b: band_ns[b] / band_tot[b])),
+    "cw-top-caseload-worker": txt(top_caseload[0], [top_caseload[0], worker_by_id[top_caseload[0]][1]]),
+    "cw-top-caseload": num(top_caseload[1], "clients", 0),
+    "cw-top-hours": num(round(top_hours[1], 1), "hours", 0.1),
+})
 
 with open(os.path.join(HERE, "answer-key.json"), "w", encoding="utf-8") as f:
     json.dump(key, f, indent=2, sort_keys=True)

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caseworks · Data Skills for Casework</title>
+<meta name="description" content="Using Power BI and Excel to build custom reports from CaseWORKS case-management data.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-root="">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="index.html">Schedule</a><a href="caseworks.html" aria-current="page">Caseworks</a><a href="toolkit.html">Free toolkit</a><a href="data.html">Practice data</a><a href="glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">The Caseworks track</p>
+<h1>Power BI for CaseWORKS agencies</h1>
+<p class="lede">Everything in this course was designed around one goal: taking data out of a case-management system like <strong>CaseWORKS</strong> (by VitalHub) and turning it into reports people actually use. This page connects the dots: what CaseWORKS records, what its own reports already cover, how to get the data out, and three extra projects built on Caseworks-style data.</p>
+
+<div class="callout warn">
+  <p><strong>Every agency's CaseWORKS is set up differently.</strong> It's highly configurable: programs, forms, user-defined fields and service codes vary from place to place. Treat the field names here as typical examples, and check them against your agency's setup with your CaseWORKS administrator.</p>
+</div>
+
+<h2>1. What CaseWORKS records, and what you can report on</h2>
+<p>Each part of CaseWORKS creates its own kind of raw data. Once it's exported, each one is a table you already know how to work with.</p>
+<div class="table-wrap"><table>
+<tr><th>CaseWORKS feature</th><th>The raw data it creates</th><th>Questions it can answer</th><th>Course table it's like</th></tr>
+<tr><td><strong>Client registration &amp; program enrollment</strong></td><td>One row per client per program: enrollment start/end dates, program, demographics</td><td>Active caseload, length of stay, who we serve</td><td><code>clients.csv</code></td></tr>
+<tr><td><strong>Service events / Event Log</strong></td><td>One row per service: date, client, staff, service type, duration</td><td>Services per client, staff time, <strong>cost per client</strong></td><td><code>services_raw.csv</code></td></tr>
+<tr><td><strong>Billing</strong> &amp; service-type setup</td><td>Rates or costs attached to service types</td><td>Spend per client, program or funder</td><td><code>service_codes.csv</code></td></tr>
+<tr><td><strong>Staff &amp; workload management</strong></td><td>Staff list, roles, assigned clients</td><td>Caseload balance, hours per worker</td><td><code>workers.csv</code></td></tr>
+<tr><td><strong>Waitlist &amp; referral management</strong></td><td>One row per referral: date, source, program, outcome</td><td>Wait times, referral sources, conversion, current waitlist</td><td><code>referrals.csv</code> (new)</td></tr>
+<tr><td><strong>Client &amp; staff scheduling</strong></td><td>One row per appointment: date, client, staff, status (attended / no-show / cancelled)</td><td>No-show rates, attendance by group</td><td><code>appointments.csv</code> (new)</td></tr>
+<tr><td><strong>Individual &amp; group services</strong></td><td>Group sessions and attendee lists</td><td>Group attendance, reach per session</td><td>appointments / services</td></tr>
+<tr><td><strong>Assessments &amp; e-forms</strong> (incl. user-defined fields)</td><td>One row per completed assessment, with scores or answers</td><td>Outcome change (first vs. latest score)</td><td>Pattern in recipe 7 below</td></tr>
+<tr><td><strong>Case/progress notes</strong></td><td>Free text</td><td>Mostly <em>not</em> for reporting: private, and hard to count. Count notes, never analyze their contents.</td><td>n/a</td></tr>
+<tr><td><strong>Consent management</strong></td><td>Consent type, given/expiry dates</td><td>Compliance: who's missing or expiring</td><td>Pattern in recipe 9 below</td></tr>
+<tr><td><strong>Task engine, alerts &amp; notifications</strong></td><td>Tasks with due/complete dates</td><td>Overdue tasks per worker</td><td>Same shape as appointments</td></tr>
+</table></div>
+
+<h2>2. CaseWORKS reports vs. Power BI: use each for what it's good at</h2>
+<div class="grid-2">
+  <div class="card">
+    <h3>Use CaseWORKS's own reporting for…</h3>
+    <ul>
+      <li><strong>Funder and ministry submissions.</strong> CaseWORKS is one of the client management systems recognised for Ontario's <strong>Mental Health &amp; Addictions Provincial Data Set (MHA-PDS)</strong>, which funded agencies must start submitting by <strong>December 10, 2026</strong>. Never rebuild official submissions in Power BI; use the certified route.</li>
+      <li><strong>Standard operational reports</strong> already built in, and <strong>dashboards</strong> for day-to-day workload monitoring.</li>
+      <li><strong>Ad-hoc reports</strong>, which double as your <em>export tool</em> (see section 3).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Use Power BI (or Looker Studio) for…</h3>
+    <ul>
+      <li><strong>Questions that cross modules:</strong> cost per client (services × billing), wait time vs. outcomes (referrals × assessments).</li>
+      <li><strong>Combining CaseWORKS with other data:</strong> finance spreadsheets, funded targets, HR hours, census data.</li>
+      <li><strong>Trends over time</strong> with your own layout, filters and drill-downs.</li>
+      <li><strong>Custom views for different audiences:</strong> the board, a program manager, a team lead.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>3. Getting data out of CaseWORKS</h2>
+<p>Three routes, from easiest to most powerful. Most people start with route 1.</p>
+<ol class="steps">
+  <li><strong>Ad-hoc report → export to Excel/CSV.</strong> Build an ad-hoc or custom report in CaseWORKS listing the raw rows (one row per service event, referral or appointment, <em>not</em> totals), and export it. Save each export into one folder with a consistent name, like <code>service-events_2026-09.csv</code>. Then use your Week 7–8 Power Query skills to clean, append and refresh. <strong>This is exactly what the course trained you for.</strong></li>
+  <li><strong>Ask for a scheduled export or reporting access.</strong> Ask your CaseWORKS administrator whether exports can be scheduled automatically, and whether there is a read-only reporting database or data feed Power BI can connect to. What's possible depends on how your agency's CaseWORKS is hosted and licensed, so it's a question for your admin or VitalHub support, not something to work around.</li>
+  <li><strong>Watch for VitalHub's analytics platform.</strong> At its 2025 partner summit, VitalHub described a <em>Unified Data Lakehouse</em> designed for privacy-protected data, BI integration and secure APIs, aimed at making self-service reporting easier. Ask your admin whether your agency has (or will have) access.</li>
+</ol>
+<div class="callout">
+  <p><strong>Golden rule for exports:</strong> export <em>raw rows</em> with <em>ID columns</em> (client ID, staff ID, service type code). If a report gives you totals or merges cells, it's a report, not raw data, and you can't build on it. Ask for the row-level version.</p>
+</div>
+
+<h2>Questions to ask your CaseWORKS administrator</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="caseworks-t1"><span>Which ad-hoc or custom reports can I run, and can they export row-level data to CSV/Excel?</span></label></li>
+  <li><label><input type="checkbox" data-task="caseworks-t2"><span>Is there a data dictionary listing the fields, service types and user-defined fields we use?</span></label></li>
+  <li><label><input type="checkbox" data-task="caseworks-t3"><span>Do service types have costs or billing rates attached, and can I export that list?</span></label></li>
+  <li><label><input type="checkbox" data-task="caseworks-t4"><span>Can exports be scheduled, or is there a reporting database / data feed for Power BI?</span></label></li>
+  <li><label><input type="checkbox" data-task="caseworks-t5"><span>What de-identified fields am I allowed to export, and where may the files be stored?</span></label></li>
+  <li><label><input type="checkbox" data-task="caseworks-t6"><span>Does our organization have Power BI licences, and who can publish and share reports?</span></label></li>
+</ul>
+
+<h2>4. Three Caseworks projects (after Week 14)</h2>
+<p>These use two extra practice files shaped like CaseWORKS waitlist and scheduling exports: <a href="data/referrals.csv" download>referrals.csv</a> and <a href="data/appointments.csv" download>appointments.csv</a>. Both are also included in the <a href="data.html">download bundle</a> and in <code>powerbi-starter.xlsx</code>. Add them to your Power BI model the same way you did in Week 9.</p>
+
+<div class="card">
+  <h3>Project A · Waitlist &amp; referral flow <span class="pill">90 min</span></h3>
+  <p><strong>The question:</strong> <em>"How long do people wait to get in, does it differ by program, and where do our referrals come from?"</em></p>
+  <p><strong>Data:</strong> <code>referrals.csv</code>: ReferralID, ReferralDate, ClientID (blank if they never enrolled), Program, Source, Outcome (Enrolled / Declined / Withdrawn / Waitlisted).</p>
+  <ol class="steps">
+    <li>Load <code>Referrals</code>. Create a relationship <code>Clients[ClientID]</code> 1→* <code>Referrals[ClientID]</code>.</li>
+    <li>Add a calculated column in Referrals:
+<pre><code>Days Waiting =
+IF(
+    Referrals[Outcome] = "Enrolled",
+    DATEDIFF(Referrals[ReferralDate], RELATED(Clients[IntakeDate]), DAY)
+)</code></pre></li>
+    <li>Measures:
+<pre><code>Total Referrals = COUNTROWS(Referrals)
+Avg Days Waiting = AVERAGE(Referrals[Days Waiting])
+Conversion % = DIVIDE(CALCULATE([Total Referrals], Referrals[Outcome] = "Enrolled"), [Total Referrals])
+On Waitlist = CALCULATE([Total Referrals], Referrals[Outcome] = "Waitlisted")</code></pre></li>
+    <li>Build a page: cards (Total Referrals, Conversion %, Avg Days Waiting, On Waitlist); a bar chart of Avg Days Waiting by <strong>Referrals[Program]</strong>; a bar chart of Total Referrals by Source; and a table of the current waitlist sorted oldest first.</li>
+  </ol>
+  <p><em>Excel route:</em> add Days Waiting with <code>=IF([@Outcome]="Enrolled", XLOOKUP([@ClientID], Clients[ClientID], Clients[IntakeDate]) - [@ReferralDate], "")</code>, then use a PivotTable.</p>
+  <div class="checkpoint" data-key="cw-avg-wait"><p class="q">Average days waiting (referral → intake) for enrolled referrals, 1 decimal?</p></div>
+  <div class="checkpoint" data-key="cw-longest-wait-program"><p class="q">Which program has the longest average wait?</p></div>
+  <div class="checkpoint" data-key="cw-conversion"><p class="q">What percentage of all referrals became enrolled clients (1 decimal)?</p></div>
+  <div class="checkpoint" data-key="cw-top-source"><p class="q">Which referral source sends the most referrals?</p></div>
+  <div class="checkpoint" data-key="cw-waitlisted"><p class="q">How many referrals are currently on the waitlist?</p></div>
+</div>
+
+<div class="card">
+  <h3>Project B · Attendance &amp; no-shows <span class="pill">60 min</span></h3>
+  <p><strong>The question:</strong> <em>"How many appointments are missed, and is it worse for some groups?"</em> This kind of insight helps target reminder calls or transit support.</p>
+  <p><strong>Data:</strong> <code>appointments.csv</code>: AppointmentID, ApptDate, ClientID, WorkerID, ApptType, Status (Attended / No-show / Cancelled).</p>
+  <ol class="steps">
+    <li>Load <code>Appointments</code>. Create relationships from <code>Clients[ClientID]</code> and <code>Workers[WorkerID]</code> to Appointments.</li>
+    <li>Measures:
+<pre><code>Appointments = COUNTROWS(Appointments)
+No-show Rate = DIVIDE(CALCULATE([Appointments], Appointments[Status] = "No-show"), [Appointments])</code></pre></li>
+    <li>Bar chart: No-show Rate by <code>Clients[AgeBand]</code>. Line chart: No-show Rate by month. Matrix: Program × Status.</li>
+  </ol>
+  <div class="checkpoint" data-key="cw-noshow-rate"><p class="q">Overall no-show rate (% of all appointments, 1 decimal)?</p></div>
+  <div class="checkpoint" data-key="cw-noshow-band"><p class="q">Which age band has the highest no-show rate?</p></div>
+</div>
+
+<div class="card">
+  <h3>Project C · Caseload &amp; workload balance <span class="pill">60 min</span></h3>
+  <p><strong>The question:</strong> <em>"Are caseloads fair? Who is carrying the most clients and the most hours?"</em></p>
+  <ol class="steps">
+    <li>Active caseload uses each client's <strong>assigned</strong> worker, which is a second link between Clients and Workers. Rather than a second relationship, write a measure on the Workers table:
+<pre><code>Active Caseload =
+COUNTROWS(
+    FILTER(Clients,
+        Clients[AssignedWorker] = SELECTEDVALUE(Workers[WorkerID])
+            &amp;&amp; ISBLANK(Clients[DischargeDate]))
+)</code></pre></li>
+    <li>Hours delivered (uses the existing Workers→Services relationship):
+<pre><code>Hours Delivered = DIVIDE(SUM(Services[DurationMins]), 60)</code></pre></li>
+    <li>Table: <code>Workers[WorkerID]</code>, <code>Workers[Name]</code>, <code>Workers[Role]</code>, Active Caseload, Hours Delivered, Total Spend. Add conditional-formatting data bars to the caseload column.</li>
+  </ol>
+  <p><em>Excel route:</em> a PivotTable on Clients filtered to blank DischargeDate, Rows = AssignedWorker, Values = Count of ClientID.</p>
+  <div class="checkpoint" data-key="cw-top-caseload-worker"><p class="q">Which worker (WorkerID or name) has the largest active caseload?</p></div>
+  <div class="checkpoint" data-key="cw-top-caseload"><p class="q">How many active clients are in that caseload?</p></div>
+  <div class="checkpoint" data-key="cw-top-hours"><p class="q">What is the highest number of service hours delivered by any one worker (1 decimal)?</p></div>
+</div>
+
+<h2>5. Report recipe library for CaseWORKS data</h2>
+<p>Once you've done the projects, every recipe below is a variation on the same moves. Use this list when someone at work says "can we get a report on…?"</p>
+<div class="table-wrap"><table>
+<tr><th>#</th><th>Report</th><th>CaseWORKS data needed</th><th>Key measure</th><th>Best visual</th></tr>
+<tr><td>1</td><td>Cost per client</td><td>Service events + service-type costs</td><td><code>SUMX(Services, RELATED(UnitCost))</code> ÷ clients</td><td>Table sorted desc, program slicer</td></tr>
+<tr><td>2</td><td>Caseload balance</td><td>Enrollments with assigned staff</td><td>Active Caseload per worker</td><td>Bar chart with average line</td></tr>
+<tr><td>3</td><td>Waitlist &amp; wait times</td><td>Referrals / waitlist</td><td>Avg Days Waiting, On Waitlist</td><td>Cards + bar by program</td></tr>
+<tr><td>4</td><td>Referral sources &amp; conversion</td><td>Referrals</td><td>Conversion %</td><td>Bar by source</td></tr>
+<tr><td>5</td><td>Attendance / no-shows</td><td>Schedule / appointments</td><td>No-show Rate</td><td>Bar by group, line by month</td></tr>
+<tr><td>6</td><td>Group program reach</td><td>Group services &amp; attendees</td><td>Distinct clients per group, avg attendance</td><td>Matrix group × month</td></tr>
+<tr><td>7</td><td>Outcome change</td><td>Assessments with scores (first &amp; latest)</td><td>Avg (latest − first) score per client</td><td>Bar by program; count improved / same / worse</td></tr>
+<tr><td>8</td><td>Time to first service</td><td>Enrollments + service events</td><td>Days from intake to first service (<code>MIN</code> ServiceDate)</td><td>Histogram / bar of day ranges</td></tr>
+<tr><td>9</td><td>Consent compliance</td><td>Consent records with expiry dates</td><td>Clients with missing / expiring consent</td><td>Table for team leads, filtered to "action needed"</td></tr>
+<tr><td>10</td><td>Data quality check</td><td>Client and service fields required by funders</td><td>Count of rows with blanks in required fields</td><td>Table by worker. Fix in CaseWORKS <em>before</em> funder submission deadlines.</td></tr>
+<tr><td>11</td><td>Activity vs. funded targets</td><td>Service events + your agency's targets spreadsheet</td><td>Actual ÷ target</td><td>Bullet/bar with target line, by quarter</td></tr>
+<tr><td>12</td><td>Overdue tasks</td><td>Task engine / alerts</td><td>Tasks past due date and not complete</td><td>Table by worker</td></tr>
+</table></div>
+
+<h2>6. Power BI or Looker Studio for a CaseWORKS agency?</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Power BI</th><th>Looker Studio</th></tr>
+<tr><td>Cost to learn</td><td>Free (Desktop on Windows, or browser with a work email)</td><td>Free with any Google account</td></tr>
+<tr><td>Cost to share at work</td><td>Pro licence per user (often already in an agency's Microsoft 365 plan)</td><td>Free to share</td></tr>
+<tr><td>Relationships between many tables</td><td><strong>Strong:</strong> full data model, DAX measures</td><td>Basic: "blends" of a few sources</td></tr>
+<tr><td>Cleaning &amp; monthly refresh</td><td>Power Query built in</td><td>Limited; usually needs Google Sheets first</td></tr>
+<tr><td>Privacy controls for client data</td><td>Microsoft 365 tenant, row-level security, sensitivity labels</td><td>Google account sharing; check your policy first</td></tr>
+<tr><td>Fits most Ontario social-service agencies?</td><td><strong>Usually yes</strong>, since most run on Microsoft 365</td><td>Good for quick, non-sensitive or aggregated dashboards</td></tr>
+</table></div>
+<p><strong>Recommendation:</strong> learn Power BI as the main tool. It handles CaseWORKS's many related tables, and it's what most agencies and job postings expect. Keep Looker Studio as a free option for simple, de-identified or aggregated dashboards. Either way, where client data may live is a privacy-policy decision (see <a href="weeks/week-16.html">Week 16</a>), not a tool preference.</p>
+
+<details class="stuck">
+  <summary>Sources for this page</summary>
+  <ul>
+    <li><a href="https://vitalhub.com/brand/caseworks/">VitalHub: CaseWORKS</a> (features: case management, scheduling, e-forms, waitlist/referrals, service events, reporting, dashboards, billing, consent, task engine)</li>
+    <li><a href="https://www.vitalhub.com/events-webinar/2025-case-management-partner-summit-recap">VitalHub 2025 Case Management Partner Summit recap</a> (reporting direction and the Unified Data Lakehouse)</li>
+    <li><a href="https://www.ontariohealth.ca/news/operational-direction-data-submission-requirements-mental-health-addictions">Ontario Health: MHA data submission requirements</a> (MHA-PDS timeline and compliant systems)</li>
+  </ul>
+  <p>Checked October 2026. Product features change; confirm details with your CaseWORKS administrator.</p>
+</details>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

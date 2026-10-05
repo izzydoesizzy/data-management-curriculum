@@ -13,8 +13,10 @@
 <tr><td><a href="data/service_codes.csv" download>service_codes.csv</a></td><td>The price list: what each service code means, its category and its <strong>unit cost</strong>. Some services cost $0.</td><td>Weeks 4–16</td></tr>
 <tr><td><a href="data/workers.csv" download>workers.csv</a></td><td>Staff: worker ID, name and role (e.g. Community Help Worker).</td><td>Weeks 10–16</td></tr>
 <tr><td><a href="data/services_2026-09.csv" download>services_2026-09.csv</a></td><td>"Next month's export": September 2026, just as messy.</td><td>Week 8</td></tr>
+<tr><td><a href="data/referrals.csv" download>referrals.csv</a></td><td>Referrals / waitlist, like a CaseWORKS waitlist export: date, source, program, outcome.</td><td><a href="caseworks.html">Caseworks projects</a></td></tr>
+<tr><td><a href="data/appointments.csv" download>appointments.csv</a></td><td>Scheduled appointments with status: Attended, No-show or Cancelled.</td><td><a href="caseworks.html">Caseworks projects</a></td></tr>
 <tr><td><a href="data/services_clean.csv" download>services_clean.csv</a></td><td><strong>Catch-up file:</strong> services already cleaned (the result of Week 3).</td><td>Use if you fall behind</td></tr>
-<tr><td><a href="data/powerbi-starter.xlsx" download>powerbi-starter.xlsx</a></td><td>All four clean tables in one workbook, ready to upload to Power BI.</td><td>Weeks 9–16</td></tr>
+<tr><td><a href="data/powerbi-starter.xlsx" download>powerbi-starter.xlsx</a></td><td>All clean tables in one workbook, ready to upload to Power BI.</td><td>Weeks 9–16</td></tr>
 </table></div>
 
 <h2>How the tables connect</h2>
@@ -34,6 +36,8 @@
 └──────────────┘  │ ServiceDate  │
   one → many      └──────────────┘    one → many</code></pre>
 <p>Notice what's <em>not</em> in the services table: there's no dollar amount. The cost lives in the price list (<code>service_codes.csv</code>). To answer "how much did we spend per client?" you have to <strong>connect</strong> the two. That's exactly the skill this course teaches.</p>
+
+<div class="callout"><p><strong>Using CaseWORKS at work?</strong> These files are shaped like CaseWORKS exports: clients ≈ registration/enrollment, services ≈ service events, service codes ≈ service types with billing rates, referrals ≈ waitlist, appointments ≈ scheduling. See the <a href="caseworks.html">Caseworks page</a> for the full mapping.</p></div>
 
 <h2>Column dictionary</h2>
 <div class="table-wrap"><table>

@@ -1,5 +1,5 @@
 """
-Builds data/powerbi-starter.xlsx: the four clean tables, each as a named Excel
+Builds data/powerbi-starter.xlsx: the clean tables (plus the Caseworks-track referrals and appointments), each as a named Excel
 Table, ready to upload to the Power BI service (My workspace > New item >
 Semantic model > Excel) or open in Power BI Desktop.
 
@@ -15,8 +15,9 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SHEETS = [("Services", "services_clean.csv"), ("Clients", "clients.csv"),
-          ("ServiceCodes", "service_codes.csv"), ("Workers", "workers.csv")]
-DATE_COLS = {"ServiceDate", "IntakeDate", "DischargeDate"}
+          ("ServiceCodes", "service_codes.csv"), ("Workers", "workers.csv"),
+          ("Referrals", "referrals.csv"), ("Appointments", "appointments.csv")]
+DATE_COLS = {"ServiceDate", "IntakeDate", "DischargeDate", "ReferralDate", "ApptDate"}
 NUM_COLS = {"DurationMins": int, "UnitCost": float}
 
 wb = Workbook()

@@ -11,6 +11,7 @@ realistic (fictional) casework dataset. It's built for a Mac user and uses only 
 |---|---|
 | `index.html` | Home page: progress bar, start-date planner, 16-week schedule |
 | `weeks/week-NN.html` | One page per week: Learn → Do → Checkpoint → Stuck? → Stretch |
+| `caseworks.html` | CaseWORKS track: what it records, getting data out, 3 extra projects, 12 report recipes |
 | `toolkit.html` | Free tools, and the three Power BI options for a Mac |
 | `data.html` | Practice data downloads and data dictionary |
 | `glossary.html` | Plain-English definitions |
