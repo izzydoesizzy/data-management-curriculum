@@ -183,7 +183,7 @@ def build_index():
 </section>""")
     body = read("index.html").replace("{{SCHEDULE}}", "\n".join(phases_html))
     write("index.html", layout(SITE_TITLE, body, "", current="index.html",
-                               description="A 16-week, 1–2 hours a week plan to learn Excel, Power Query and Power BI using casework data."))
+                               description="A 16-week, 1–2 hours a week plan to build custom CaseWORKS reports and dashboards with Excel and Power BI."))
 
 
 def build_page(name, title, desc):
