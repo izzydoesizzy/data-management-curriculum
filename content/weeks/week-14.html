@@ -1,0 +1,61 @@
+<div class="callout why">
+  <p><strong>Project 3:</strong> this is the report you wished existed when you were doing casework. One page that answers <em>where is the money going, for whom, and how is it changing</em>, and that anyone can filter by region, program or role with a click. Split it over two sessions.</p>
+</div>
+
+<h2>Project spec (exact parameters)</h2>
+<div class="card">
+  <p><strong>Page name:</strong> <code>Cost Dashboard</code> · <strong>Title text box:</strong> "Casework Cost Dashboard · Apr 2025 to Aug 2026"</p>
+  <div class="table-wrap"><table>
+    <tr><th>Area</th><th>Visual</th><th>Fields</th><th>Settings</th></tr>
+    <tr><td>Top strip</td><td>3 slicers</td><td><code>Clients[Region]</code>, <code>Clients[Program]</code>, <code>Workers[Role]</code></td><td>Style: Dropdown. Multi-select allowed.</td></tr>
+    <tr><td>Row 1</td><td>4 cards</td><td><code>Total Spend</code>, <code>Clients Served</code>, <code>Avg Spend per Client</code>, <code>Total Services</code></td><td>Currency for $; no "K/M" shortening on the first card</td></tr>
+    <tr><td>Row 2 left</td><td>Clustered bar chart</td><td>Y: <code>Clients[Program]</code> · X: <code>Total Spend</code></td><td>Sorted descending · data labels on · title "Spend by Program"</td></tr>
+    <tr><td>Row 2 right</td><td>Line chart</td><td>X: <code>Services[Month]</code> · Y: <code>Total Spend</code></td><td>Sorted by Month ascending · title "Monthly Spend"</td></tr>
+    <tr><td>Row 3 left</td><td>Clustered bar chart</td><td>Y: <code>ServiceCodes[Category]</code> · X: <code>Total Spend</code></td><td>Sorted descending · title "Spend by Category"</td></tr>
+    <tr><td>Row 3 right</td><td>Table</td><td><code>Clients[ClientID]</code>, <code>Clients[Program]</code>, <code>Clients[Region]</code>, <code>Total Services</code>, <code>Total Spend</code></td><td>Sorted by Total Spend descending · title "Client Detail"</td></tr>
+  </table></div>
+  <p>Ten visuals sounds like a lot, but slicers and cards are small. Everything should fit on one screen without scrolling.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><strong>Session 1:</strong> new page, title, slicers and the four cards</li>
+  <li><strong>Session 1:</strong> Spend by Program and Monthly Spend charts</li>
+  <li><strong>Session 2:</strong> Spend by Category and Client Detail table</li>
+  <li><strong>Session 2:</strong> line everything up and give it the 5-second test</li>
+  <li>Answer both checkpoints using the slicers</li>
+</ul>
+
+<h2 class="section-label">Session 1 <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li>Add a new page (the <strong>+</strong> at the bottom). Double-click its tab and rename it <code>Cost Dashboard</code>.</li>
+  <li><strong>Title:</strong> <em>Insert → Text box</em>. Type the title, size 20, bold.</li>
+  <li><strong>Slicers:</strong> click the <em>Slicer</em> visual, add <code>Clients[Region]</code>. In <em>Format → Slicer settings → Style</em> choose <strong>Dropdown</strong>. Repeat for Program and Role. Line them up along the top.</li>
+  <li><strong>Cards:</strong> four Card visuals in a row, one per measure. Use <em>View → Gridlines / Snap to grid</em> (Desktop) to align them.</li>
+  <li><strong>Spend by Program</strong> and <strong>Monthly Spend</strong> as in the spec. Turn on data labels for the bar chart (<em>Format → Data labels → On</em>). Save.</li>
+</ol>
+
+<h2 class="section-label">Session 2 <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li><strong>Spend by Category</strong> bar chart, as in the spec.</li>
+  <li><strong>Client Detail</strong> table: add the five fields, then click the <em>Total Spend</em> header to sort descending.</li>
+  <li><strong>Tidy up:</strong> same width for the two charts in each row, consistent gaps, all titles in the same size. Rename the measure fields in the visuals if needed (double-click a field in the field well).</li>
+  <li><strong>The 5-second test:</strong> show it to someone (or imagine your old supervisor). In 5 seconds, can they say what the agency spent and where most of it goes? If not, what's in the way?</li>
+  <li><strong>Use it.</strong> Set the slicers to answer the checkpoints below. Then clear the slicers. Save.</li>
+</ol>
+
+<h2 class="section-label">Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w14-ys-central"><p class="q">Set Program = Youth Services and Region = Central. What is Total Spend?</p></div>
+<div class="checkpoint" data-key="w14-chw-spend"><p class="q">Clear those, then set Role = Community Help Worker. What is Total Spend for services delivered by Community Help Workers?</p></div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>The Role slicer doesn't change anything:</strong> the Workers→Services relationship is missing (Week 10).</li>
+    <li><strong>Client Detail table shows one row with everything:</strong> use <code>Clients[ClientID]</code> as a plain column (not "Count of").</li>
+    <li><strong>Cards show 846.44K:</strong> select the card → <em>Format → Callout value → Display units → None</em>.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 30 min): client drill-through</h2>
+<p>Make a second page called <code>Client Profile</code>. Drag <code>Clients[ClientID]</code> into its <strong>Drill through</strong> box (in the Visualizations pane, under Build). Add cards for Total Spend and Total Services, and a table of that client's services (ServiceDate, ServiceCodes[Description], Workers[Name], ServiceCodes[UnitCost]). Back on the dashboard, right-click a client in Client Detail → <em>Drill through → Client Profile</em>. Read: <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-drillthrough">Set up drill-through</a>.</p>

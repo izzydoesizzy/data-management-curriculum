@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary · Data Skills for Casework</title>
+<meta name="description" content="Plain-English definitions of data terms.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-root="">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="index.html">Schedule</a><a href="toolkit.html">Free toolkit</a><a href="data.html">Practice data</a><a href="glossary.html" aria-current="page">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Plain English, no jargon</p>
+<h1>Glossary</h1>
+<p class="lede">Every term used in this course, explained with casework examples. Come back here whenever a word feels fuzzy.</p>
+
+<dl class="glossary">
+  <dt>Raw data</dt>
+  <dd>The individual records straight out of a system, before anyone summarizes them. One row per service, per visit, per payment. Reports are built <em>from</em> raw data; you can't rebuild raw data from a report.</dd>
+
+  <dt>Export</dt>
+  <dd>A file (usually CSV or Excel) a system produces when you ask for its data. "Can I get an export of all services for last fiscal year?"</dd>
+
+  <dt>CSV</dt>
+  <dd>"Comma-separated values": a plain text file where each line is a row and commas separate the columns. Every system can produce one and every tool can open one.</dd>
+
+  <dt>Row / record</dt>
+  <dd>One thing that happened or exists. In <code>services_raw.csv</code>, one row = one service delivered to one client on one day.</dd>
+
+  <dt>Column / field</dt>
+  <dd>One piece of information about every row, like ServiceDate or ClientID.</dd>
+
+  <dt>Tidy data</dt>
+  <dd>A table where every row is one record, every column is one kind of information, and the top row is the only header. No merged cells, no totals mixed in, no blank rows used for spacing. Tidy data is what every tool in this course expects.</dd>
+
+  <dt>Excel Table</dt>
+  <dd>A range you've formatted with <em>Format as Table</em>. It gets a name (like <code>Services</code>), grows automatically when you add rows, and lets you write formulas like <code>Services[ServiceCode]</code> instead of <code>D2:D13568</code>.</dd>
+
+  <dt>ID / key</dt>
+  <dd>A column that uniquely identifies each row, e.g. <code>ClientID</code> in the clients table. Keys are how tables connect.</dd>
+
+  <dt>Lookup</dt>
+  <dd>Fetching a value from another table by matching an ID. "For this service's code, go find its UnitCost in the price list." In Excel: <code>XLOOKUP</code>.</dd>
+
+  <dt>Aggregate</dt>
+  <dd>Combining many rows into one number: sum, count, average, minimum, maximum. "Total spend" is an aggregate.</dd>
+
+  <dt>SUMIFS / COUNTIFS / AVERAGEIFS</dt>
+  <dd>Excel functions that aggregate only the rows matching your conditions. <code>SUMIFS(cost, client, "C-0042")</code> = total cost for client C-0042.</dd>
+
+  <dt>PivotTable</dt>
+  <dd>Excel's drag-and-drop summarizer. Drop "Program" into Rows and "Cost" into Values and it builds the totals table for you.</dd>
+
+  <dt>Slicer</dt>
+  <dd>A panel of buttons that filters a PivotTable or report, e.g. click "North" to see only North region numbers.</dd>
+
+  <dt>Power Query</dt>
+  <dd>A tool inside both Excel and Power BI that records your cleaning steps (trim, remove duplicates, merge…) as a reusable recipe. Next month, click Refresh and the same steps run on the new file.</dd>
+
+  <dt>Merge (join)</dt>
+  <dd>Combining two tables side by side by matching a key: adding columns. Services + ServiceCodes on ServiceCode gives each service its UnitCost.</dd>
+
+  <dt>Append</dt>
+  <dd>Stacking two tables with the same columns on top of each other: adding rows. August's services + September's services = all services.</dd>
+
+  <dt>Semantic model (data model)</dt>
+  <dd>Power BI's name for your loaded tables, plus the relationships between them, plus your measures. The "brain" behind a report.</dd>
+
+  <dt>Relationship</dt>
+  <dd>A link between two tables in Power BI through a shared key column. Once Clients and Services are related, filtering by Program automatically filters the services.</dd>
+
+  <dt>One-to-many</dt>
+  <dd>The most common relationship: <em>one</em> client has <em>many</em> services. The "one" side has unique IDs; the "many" side repeats them.</dd>
+
+  <dt>Fact table / dimension table</dt>
+  <dd>A <strong>fact</strong> table records events (services). <strong>Dimension</strong> tables describe the who/what/where (clients, codes, workers). A fact table surrounded by dimensions is called a <strong>star schema</strong>, the recommended shape for Power BI.</dd>
+
+  <dt>DAX</dt>
+  <dd>"Data Analysis Expressions": the formula language of Power BI. Looks like Excel formulas but works on whole tables and columns.</dd>
+
+  <dt>Measure</dt>
+  <dd>A DAX formula that calculates a number <em>on the fly</em>, based on whatever is filtered: "Total Spend" shows the grand total on a card, and the per-program total in a chart split by program. Use measures for anything you'd sum, count or average.</dd>
+
+  <dt>Calculated column</dt>
+  <dd>A DAX formula that adds a new column, computed once for every row (e.g. a Month column from ServiceDate). Use for things you'd filter or group <em>by</em>.</dd>
+
+  <dt>Filter context</dt>
+  <dd>The set of filters currently applied to a number: from slicers, chart axes, table rows. It's why one measure can show different values in different places.</dd>
+
+  <dt>Visual</dt>
+  <dd>Any chart, table, card or slicer on a Power BI report page.</dd>
+
+  <dt>KPI card</dt>
+  <dd>A visual that shows one big number, like "Total Spend: $846K". The top row of most dashboards.</dd>
+
+  <dt>Drill-through</dt>
+  <dd>Right-clicking something in a report (like a client) to jump to a detail page filtered to just that thing.</dd>
+
+  <dt>Length of stay</dt>
+  <dd>Days between IntakeDate and DischargeDate. Only meaningful for discharged clients.</dd>
+
+  <dt>De-identified data</dt>
+  <dd>Data with names and identifying details removed or replaced by codes, so the analysis can't be traced to a person. Always the goal when practising with real work data (see Week 16).</dd>
+</dl>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

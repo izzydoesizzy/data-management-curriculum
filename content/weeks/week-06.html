@@ -1,0 +1,64 @@
+<div class="callout why">
+  <p><strong>Project 2:</strong> last week took five formulas per question. A PivotTable answers "spend by program", "spend by category", "top 10 clients" by dragging and dropping. This is the closest thing in Excel to the reports colleagues were building in Power BI.</p>
+</div>
+
+<h2>Project spec (exact parameters)</h2>
+<div class="card">
+  <p><strong>Deliverable:</strong> a sheet called <code>Pivot - Program</code> and a sheet called <code>Pivot - Top Clients</code>.</p>
+  <ul>
+    <li><strong>Pivot - Program:</strong> Rows = Program, Columns = Category, Values = Sum of UnitCost (currency, no decimals), plus a Region slicer.</li>
+    <li><strong>Pivot - Top Clients:</strong> Rows = ClientID, Values = Sum of UnitCost, sorted largest to smallest, filtered to the top 10.</li>
+  </ul>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li>Add a Program column to Services (if I skipped last week's stretch)</li>
+  <li>Build the Program × Category PivotTable</li>
+  <li>Add a Region slicer</li>
+  <li>Build the Top 10 clients PivotTable</li>
+  <li>Answer all four checkpoints</li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>A PivotTable has four boxes you drag fields into:</p>
+<ul>
+  <li><strong>Rows:</strong> what you want one line per (e.g. Program)</li>
+  <li><strong>Columns:</strong> what to split across the top (e.g. Category)</li>
+  <li><strong>Values:</strong> the number to calculate (e.g. Sum of UnitCost)</li>
+  <li><strong>Filters:</strong> what to narrow the whole thing by</li>
+</ul>
+<p>A <strong>slicer</strong> is a set of clickable filter buttons, the same idea as the slicers in Power BI.</p>
+<p>Read: <a href="https://support.microsoft.com/en-us/office/create-a-pivottable-to-analyze-worksheet-data-a9a84538-bfe9-40a9-a8e9-f99134456576">Create a PivotTable</a>.</p>
+
+<h2 class="section-label">2. Do <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li><strong>Add Program to Services</strong> (skip if you did the Week 4 stretch). In the first empty header cell of Services type <code>Program</code>, then in the row below:
+    <pre><code>=XLOOKUP([@ClientID], Clients[ClientID], Clients[Program])</code></pre></li>
+  <li>Add <code>Region</code> the same way, returning <code>Clients[Region]</code>.</li>
+  <li><strong>Insert the PivotTable.</strong> Click inside the Services table → <em>Insert → PivotTable</em> → <em>New Worksheet</em> → OK. Rename the new sheet <code>Pivot - Program</code>.</li>
+  <li>In the PivotTable Fields panel, drag <strong>Program</strong> to Rows, <strong>Category</strong> to Columns and <strong>UnitCost</strong> to Values. It should say <em>Sum of UnitCost</em> (if it says Count, click it → <em>Field Settings</em> → <em>Sum</em>).</li>
+  <li><strong>Format numbers.</strong> Click <em>Sum of UnitCost</em> in Values → <em>Field Settings → Number Format → Currency</em>, 0 decimal places.</li>
+  <li><strong>Add a slicer.</strong> Click in the PivotTable → <em>PivotTable Analyze</em> tab → <em>Insert Slicer</em> → tick <em>Region</em>. Click a region to filter and watch the numbers change. Clear the slicer (the funnel-with-X icon) when done.</li>
+  <li><strong>Second PivotTable.</strong> From the Services table again, <em>Insert → PivotTable → New Worksheet</em>. Rename the sheet <code>Pivot - Top Clients</code>. Rows = <strong>ClientID</strong>, Values = <strong>Sum of UnitCost</strong>.</li>
+  <li><strong>Sort.</strong> Right-click any number → <em>Sort → Sort Largest to Smallest</em>.</li>
+  <li><strong>Top 10.</strong> Click the Row Labels dropdown → <em>Value Filters → Top 10…</em> → OK. Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w6-top-program"><p class="q">Which program has the highest total spend?</p></div>
+<div class="checkpoint" data-key="w6-top-program-spend"><p class="q">How much did that program spend in total?</p></div>
+<div class="checkpoint" data-key="w6-top-client"><p class="q">Which client (ClientID) has the highest total spend?</p></div>
+<div class="checkpoint" data-key="w6-fa-spend"><p class="q">Total spend in the Financial Assistance category (all programs)?</p></div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Fields panel disappeared?</strong> Click inside the PivotTable. To reopen it: <em>PivotTable Analyze → Field List</em>.</li>
+    <li><strong>Numbers look wrong after cleaning more data?</strong> PivotTables don't update by themselves. Right-click → <em>Refresh</em>.</li>
+    <li><strong>Grand totals don't match Week 4?</strong> Make sure the slicer isn't filtering anything.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 20 min)</h2>
+<p>Make a third PivotTable: Rows = Region, Values = Sum of UnitCost. Which region spends the most? Now the harder question: is that because it has <em>more clients</em>, or <em>more spend per client</em>? A regular PivotTable can't easily count unique clients. That's one of the reasons Power BI exists, and you'll answer it properly in Week 15.</p>

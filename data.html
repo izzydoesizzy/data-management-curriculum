@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice data · Data Skills for Casework</title>
+<meta name="description" content="Download the fictional casework dataset used in every week.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-root="">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="index.html">Schedule</a><a href="toolkit.html">Free toolkit</a><a href="data.html" aria-current="page">Practice data</a><a href="glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Download once, use all 16 weeks</p>
+<h1>Practice data: Riverside Community Services</h1>
+<p class="lede">A <strong>completely fictional</strong> agency with 300 clients, 14 staff and 18 months of services (April 2025 to August 2026). It's shaped like a real case-management export, messiness included. No real people are in it.</p>
+
+<p><a class="btn" href="data/practice-data.zip" download>⬇ Download everything (.zip)</a></p>
+<p style="font-size:.9rem;color:var(--muted)">On a Mac, double-click the downloaded .zip to unzip it. Move the folder somewhere easy to find, like <code>Documents/Data Course</code>.</p>
+
+<h2>The files</h2>
+<div class="table-wrap"><table>
+<tr><th>File</th><th>What it is</th><th>Used in</th></tr>
+<tr><td><a href="data/services_raw.csv" download>services_raw.csv</a></td><td><strong>The messy export.</strong> One row per service delivered. 13,567 rows, with problems on purpose.</td><td>Weeks 1–8</td></tr>
+<tr><td><a href="data/clients.csv" download>clients.csv</a></td><td>One row per client: intake/discharge dates, program, region, age band, assigned worker.</td><td>Weeks 1–16</td></tr>
+<tr><td><a href="data/service_codes.csv" download>service_codes.csv</a></td><td>The price list: what each service code means, its category and its <strong>unit cost</strong>. Some services cost $0.</td><td>Weeks 4–16</td></tr>
+<tr><td><a href="data/workers.csv" download>workers.csv</a></td><td>Staff: worker ID, name and role (e.g. Community Help Worker).</td><td>Weeks 10–16</td></tr>
+<tr><td><a href="data/services_2026-09.csv" download>services_2026-09.csv</a></td><td>"Next month's export": September 2026, just as messy.</td><td>Week 8</td></tr>
+<tr><td><a href="data/services_clean.csv" download>services_clean.csv</a></td><td><strong>Catch-up file:</strong> services already cleaned (the result of Week 3).</td><td>Use if you fall behind</td></tr>
+<tr><td><a href="data/powerbi-starter.xlsx" download>powerbi-starter.xlsx</a></td><td>All four clean tables in one workbook, ready to upload to Power BI.</td><td>Weeks 9–16</td></tr>
+</table></div>
+
+<h2>How the tables connect</h2>
+<p>This is the most important picture in the course. Each table has an <strong>ID column</strong> that links it to the others. You'll use these links in Excel (XLOOKUP) and in Power BI (relationships).</p>
+<pre><code>                  ┌──────────────┐
+                  │   clients    │
+                  │  ClientID    │
+                  │  Program     │
+                  └──────┬───────┘
+                         │ one
+                         ▼ many
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│service_codes │  │   services   │  │   workers    │
+│ ServiceCode  ├─►│ ClientID     │◄─┤ WorkerID     │
+│ Category     │  │ ServiceCode  │  │ Name, Role   │
+│ UnitCost $   │  │ WorkerID     │  └──────────────┘
+└──────────────┘  │ ServiceDate  │
+  one → many      └──────────────┘    one → many</code></pre>
+<p>Notice what's <em>not</em> in the services table: there's no dollar amount. The cost lives in the price list (<code>service_codes.csv</code>). To answer "how much did we spend per client?" you have to <strong>connect</strong> the two. That's exactly the skill this course teaches.</p>
+
+<h2>Column dictionary</h2>
+<div class="table-wrap"><table>
+<tr><th>Column</th><th>Table</th><th>Meaning</th></tr>
+<tr><td>ServiceID</td><td>services</td><td>Unique ID for each service row, e.g. <code>S-000123</code></td></tr>
+<tr><td>ClientID</td><td>services, clients</td><td>Client identifier, e.g. <code>C-0042</code></td></tr>
+<tr><td>ServiceDate</td><td>services</td><td>Date the service happened (YYYY-MM-DD)</td></tr>
+<tr><td>ServiceCode</td><td>services, service_codes</td><td>What was done, e.g. <code>HV01</code> = Home visit</td></tr>
+<tr><td>WorkerID</td><td>services, workers</td><td>Staff member who delivered it</td></tr>
+<tr><td>DurationMins</td><td>services</td><td>Minutes spent</td></tr>
+<tr><td>IntakeDate / DischargeDate</td><td>clients</td><td>When the client started and left. <strong>Blank discharge = still active.</strong></td></tr>
+<tr><td>Program</td><td>clients</td><td>Housing Support, Mental Health, Youth Services or Newcomer Settlement</td></tr>
+<tr><td>Region</td><td>clients</td><td>North, South, East, West or Central</td></tr>
+<tr><td>AssignedWorker</td><td>clients</td><td>The client's main worker (a WorkerID)</td></tr>
+<tr><td>Category</td><td>service_codes</td><td>Group of services: Outreach, Counselling, Financial Assistance, Transportation, Admin, Support</td></tr>
+<tr><td>UnitCost</td><td>service_codes</td><td>Cost to the agency each time the service is delivered</td></tr>
+</table></div>
+
+<h2>The deliberate mess in services_raw.csv</h2>
+<p>Real exports are never clean. You'll fix these in Week 3 (by hand) and Week 7 (automatically):</p>
+<ul>
+  <li>Some service codes have <strong>extra spaces</strong>: <code>"HV01 "</code> instead of <code>"HV01"</code></li>
+  <li>Some are <strong>lower case</strong>: <code>"hv01"</code></li>
+  <li>Some rows were <strong>exported twice</strong> (exact duplicates)</li>
+  <li>Some rows have a <strong>blank service code</strong> (unusable for costing)</li>
+</ul>
+
+<details class="stuck">
+  <summary>For the curious: how this data was made</summary>
+  <p>The files are generated by a small Python script (<code>data/generate.py</code> in the project's GitHub repository) with a fixed random seed, so everyone gets identical data and identical answers. The answer key the checkpoints use was double-checked independently.</p>
+</details>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

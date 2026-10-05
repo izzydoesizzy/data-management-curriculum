@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2: Tables, sorting and filtering</title>
+<meta name="description" content="Turn plain cells into an Excel Table and answer your first questions with sort and filter.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="2">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 2 of 16 · Phase 1 · Excel foundations</p>
+<h1>Tables, sorting and filtering</h1>
+<div class="meta">
+  <span class="pill excel">Excel</span>
+  <span class="pill">⏱ About 60 min</span>
+</div>
+<p class="lede">Turn plain cells into an Excel Table and answer your first questions with sort and filter.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> "How many active clients do we have in Housing?" is a filter question. Most everyday questions can be answered in seconds once your data is in a proper Excel Table.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w02-t1"><span>Turn all four sheets into named Excel Tables</span></label></li>
+  <li><label><input type="checkbox" data-task="w02-t2"><span>Sort and filter the Clients table</span></label></li>
+  <li><label><input type="checkbox" data-task="w02-t3"><span>Answer both checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Right now your data is just cells. An <strong>Excel Table</strong> is a range Excel knows is one dataset. That gives you:</p>
+<ul>
+  <li><strong>A name</strong> (e.g. <code>Clients</code>) you can use in formulas: <code>Clients[Program]</code> means "the Program column of the Clients table". That's far easier to read than <code>D2:D301</code>.</li>
+  <li><strong>Filter and sort buttons</strong> on every header.</li>
+  <li><strong>Automatic growth:</strong> add a row or column and formulas extend themselves.</li>
+</ul>
+<p>Read: <a href="https://support.microsoft.com/en-us/office/overview-of-excel-tables-7ab0bb7d-3a9e-4b56-a3c9-6c94334e492c">Overview of Excel tables</a> (Microsoft, 5 min).</p>
+
+<h2 class="section-label">2. Do <span class="time">40 min</span></h2>
+<ol class="steps">
+  <li><strong>Make the Clients sheet a Table.</strong> Click any cell in the data, press <kbd>⌘</kbd> + <kbd>T</kbd>, make sure <em>My table has headers</em> is ticked, then click OK.</li>
+  <li><strong>Name it.</strong> With a cell in the table selected, go to the <em>Table</em> tab on the ribbon. In the <em>Table Name</em> box on the far left, type <code>Clients</code> and press Enter.</li>
+  <li><strong>Repeat for the other sheets.</strong> Name the tables exactly <code>Services</code>, <code>ServiceCodes</code> and <code>Workers</code>. These names are used in formulas later, so spelling matters.</li>
+  <li><strong>Sort.</strong> In Clients, click the arrow on <em>IntakeDate</em> → <em>Ascending</em>. The oldest intake is now at the top. Sort by ClientID ascending again to put things back.</li>
+  <li><strong>Filter by one value.</strong> Click the arrow on <em>Program</em>, untick <em>(Select All)</em>, tick <em>Housing Support</em>. Now click the <strong>ClientID column header letter</strong> (column A) and read <em>Count</em> in the status bar at the bottom right. Subtract 1 for the header.</li>
+  <li><strong>Clear the filter</strong> (Program arrow → <em>Clear Filter</em>).</li>
+  <li><strong>Find active clients.</strong> A blank DischargeDate means the client is still active. Click the arrow on <em>DischargeDate</em>, untick <em>(Select All)</em>, scroll to the bottom and tick <em>(Blanks)</em>. Count the ClientIDs the same way.</li>
+  <li>Clear all filters and save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w2-housing-clients">
+  <p class="q">How many clients are in the Housing Support program?</p>
+</div>
+<div class="checkpoint" data-key="w2-active-clients">
+  <p class="q">How many clients are still active (no discharge date)?</p>
+</div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>No Table tab?</strong> Click inside the table first. The tab only appears when a table cell is selected.</li>
+    <li><strong>Count looks too big?</strong> Make sure the filter is applied (the header arrow shows a funnel icon), and remember to subtract 1 for the header.</li>
+    <li><strong>"(Blanks)" not in the list?</strong> Scroll to the very bottom of the filter list.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Filter for clients who are <em>both</em> in Mental Health <em>and</em> in the North region and still active. Filters stack: each one narrows the last. How many are there?</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="2"> I finished Week 2</label>
+  <p class="done-msg" hidden>Week 2 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-01.html">← Week 1: Set up and meet your data</a><a href="week-03.html">Week 3: Cleaning messy exports →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

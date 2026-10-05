@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 7: Power Query: a recipe for cleaning</title>
+<meta name="description" content="Redo Week 3&#x27;s cleaning as recorded steps you never have to repeat by hand.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="7">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 7 of 16 · Phase 2 · Power Query</p>
+<h1>Power Query: a recipe for cleaning</h1>
+<div class="meta">
+  <span class="pill pq">Power Query</span>
+  <span class="pill">⏱ About 75 min</span>
+</div>
+<p class="lede">Redo Week 3's cleaning as recorded steps you never have to repeat by hand.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> in Week 3 you cleaned the data by hand. Next month you'd have to do it all again. <strong>Power Query records each cleaning step as a recipe.</strong> When a new export arrives you click <em>Refresh</em> and the recipe runs. It's also built into Power BI, so everything you learn here carries straight over.</p>
+</div>
+
+<div class="callout warn">
+  <p><strong>Needs:</strong> Excel for Mac with Microsoft 365, version 16.69 or newer (see <a href="../toolkit.html">toolkit</a>). Look for <em>Data → Get Data (Power Query)</em>. Only have Excel for the web? Read along this week and next, then do the same steps in Power BI's Power Query editor in Week 9.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w07-t1"><span>Load services_raw.csv into Power Query</span></label></li>
+  <li><label><input type="checkbox" data-task="w07-t2"><span>Apply the three cleaning rules as Power Query steps</span></label></li>
+  <li><label><input type="checkbox" data-task="w07-t3"><span>Load the result to a sheet and compare with Week 3</span></label></li>
+  <li><label><input type="checkbox" data-task="w07-t4"><span>Answer both checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Power Query has three ideas:</p>
+<ol>
+  <li><strong>Source:</strong> where the data comes from (a file, a folder, a database).</li>
+  <li><strong>Applied Steps:</strong> the list on the right of the editor. Every click you make (trim, remove duplicates, filter) is saved as a step. Click any step to see the data as it was at that point.</li>
+  <li><strong>Load:</strong> send the finished result to a sheet. The original file is never changed.</li>
+</ol>
+<p>Read: <a href="https://support.microsoft.com/en-us/office/import-and-shape-data-in-excel-for-mac-power-query-7b2f337d-e7d2-4fdf-bf00-3dfbb1e5e9c5">Import and shape data in Excel for Mac</a>.</p>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>Start fresh.</strong> Create a new blank workbook and save it as <code>Casework PQ.xlsx</code> in your Data Course folder.</li>
+  <li><strong>Connect to the file.</strong> <em>Data → Get Data (Power Query)</em> → <em>Text/CSV</em> → browse to <code>services_raw.csv</code> → Next. You'll see a preview. Click <strong>Transform Data</strong> (not Load) to open the Power Query Editor.</li>
+  <li><strong>Look at Applied Steps.</strong> Power Query already added <em>Source</em>, <em>Promoted Headers</em> and <em>Changed Type</em>. Check that ServiceCode's column icon is <code>ABC</code> (text).</li>
+  <li><strong>Rule 1: trim and upper case.</strong> Click the ServiceCode header to select it. <em>Transform → Format → Trim</em>. Then <em>Transform → Format → UPPERCASE</em>. Two new steps appear.</li>
+  <li><strong>Rule 2: remove duplicates.</strong> Select <em>all</em> columns: click the first column header, then <kbd>Shift</kbd>-click the last. <em>Home → Remove Rows → Remove Duplicates</em>.</li>
+  <li><strong>Rule 3: remove blank codes.</strong> Click the filter arrow on ServiceCode. Untick the empty entry at the top of the list (it may show as <em>(blank)</em> or as an empty line) → OK.
+    <br><em>Can't find it?</em> Use the arrow → <em>Text Filters → Does Not Equal</em>, leave the value box empty → OK.</li>
+  <li><strong>Name the query.</strong> In the Query Settings pane, change the name to <code>Services</code>.</li>
+  <li><strong>Load it.</strong> <em>Home → Close &amp; Load</em>. A new sheet appears with a green table, and the Queries pane shows how many rows loaded.</li>
+  <li><strong>Count distinct codes.</strong> In an empty cell beside the table type <code>=COUNTA(UNIQUE(Services[ServiceCode]))</code>.</li>
+  <li><strong>Test the magic.</strong> Go to <em>Data → Refresh All</em>. Same result in a second, with no manual steps. Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w7-clean-rows"><p class="q">How many rows did your Power Query load? (It should match Week 3.)</p></div>
+<div class="checkpoint" data-key="w7-distinct-codes"><p class="q">How many distinct service codes are in the cleaned data?</p></div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>No "Get Data (Power Query)" on the Data tab:</strong> update Excel (<em>Help → Check for Updates</em>). If it's still missing, your version doesn't support it. Skip to Week 9 and do these steps in Power BI instead.</li>
+    <li><strong>13,449 rows:</strong> the blank-code filter didn't apply. Check Applied Steps for a <em>Filtered Rows</em> step.</li>
+    <li><strong>More than 14 distinct codes:</strong> the Trim or UPPERCASE step was applied to the wrong column. Click each step in Applied Steps to check.</li>
+    <li><strong>Made a wrong step?</strong> Click the ✕ next to it in Applied Steps to delete it. Nothing is permanent here.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>In the Power Query Editor, open <em>View → Advanced Editor</em>. That's the recipe written out in Power Query's language (called "M"). You don't need to write M, but try to match each line to a step you clicked.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="7"> I finished Week 7</label>
+  <p class="done-msg" hidden>Week 7 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-06.html">← Week 6: Project 2: PivotTables</a><a href="week-08.html">Week 8: Merge, append and refresh →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

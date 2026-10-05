@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8: Merge, append and refresh</title>
+<meta name="description" content="Join tables inside Power Query and add next month&#x27;s data without starting over.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="8">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 8 of 16 · Phase 2 · Power Query</p>
+<h1>Merge, append and refresh</h1>
+<div class="meta">
+  <span class="pill pq">Power Query</span>
+  <span class="pill">⏱ About 90 min</span>
+</div>
+<p class="lede">Join tables inside Power Query and add next month's data without starting over.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> real reporting is monthly. A new export lands, and you need last month and this month together, with costs attached. Today you do that entirely in Power Query: <strong>append</strong> September onto the existing data, then <strong>merge</strong> in the price list. Next month it's one click.</p>
+</div>
+
+<h2>Project spec (exact parameters)</h2>
+<div class="card">
+  <p>In <code>Casework PQ.xlsx</code>, end up with a query called <code>AllServices</code> that contains:</p>
+  <ul>
+    <li>All cleaned services from <code>services_raw.csv</code> <strong>plus</strong> <code>services_2026-09.csv</code>, cleaned with the same three rules</li>
+    <li>Two extra columns from the price list: <code>UnitCost</code> and <code>Category</code></li>
+  </ul>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w08-t1"><span>Load the price list as a query</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t2"><span>Make a September query with the same cleaning steps</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t3"><span>Append Services + September into AllServices</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t4"><span>Merge the price list into AllServices</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t5"><span>Answer all three checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">10 min</span></h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Append</th><th>Merge</th></tr>
+<tr><td>What it does</td><td>Stacks tables <strong>on top of each other</strong></td><td>Joins tables <strong>side by side</strong> using a matching column</td></tr>
+<tr><td>Result</td><td>More rows</td><td>More columns</td></tr>
+<tr><td>Casework example</td><td>August services + September services</td><td>Services + price list, matched on ServiceCode</td></tr>
+<tr><td>Excel equivalent</td><td>Copy-paste one list under another</td><td>XLOOKUP (Week 4)</td></tr>
+</table></div>
+<p>Read: <a href="https://support.microsoft.com/en-us/office/merge-queries-power-query-fd157620-5470-4c0f-b132-7ca2616d17f9">Merge queries</a>.</p>
+
+<h2 class="section-label">2. Do <span class="time">70 min</span></h2>
+<ol class="steps">
+  <li>Open <code>Casework PQ.xlsx</code>. Open the Power Query Editor: <em>Data → Get Data (Power Query) → Launch Power Query Editor</em>.</li>
+  <li><strong>Load the price list.</strong> In the editor: <em>Home → New Source → Text/CSV</em> → <code>service_codes.csv</code>. Rename the query <code>ServiceCodes</code>. Check UnitCost's icon is a number (<code>1.2</code> or <code>$</code>).</li>
+  <li><strong>Make the September query.</strong> In the Queries list on the left, right-click <code>Services</code> → <em>Duplicate</em>. Rename the copy <code>September</code>. In its Applied Steps, click the ⚙ gear next to <em>Source</em> and choose <code>services_2026-09.csv</code> instead. All the cleaning steps now run on the new file.
+    <br><em>No gear icon?</em> Just repeat the Week 7 steps on <code>services_2026-09.csv</code> as a new query called <code>September</code>. Good practice anyway.</li>
+  <li><strong>Append.</strong> <em>Home → Append Queries → Append Queries as New</em>. First table: <code>Services</code>, second: <code>September</code> → OK. Rename the new query <code>AllServices</code>.</li>
+  <li><strong>Merge.</strong> With <code>AllServices</code> selected: <em>Home → Merge Queries</em>. Top table is AllServices; click its <strong>ServiceCode</strong> column. In the dropdown pick <code>ServiceCodes</code> and click its <strong>ServiceCode</strong> column. Join kind: <em>Left Outer</em> → OK.</li>
+  <li><strong>Expand.</strong> A new column of "Table" values appears. Click the ⇔ icon in its header, tick only <strong>UnitCost</strong> and <strong>Category</strong>, untick <em>Use original column name as prefix</em> → OK.</li>
+  <li><strong>Load.</strong> <em>Home → Close &amp; Load</em>. If Excel loads every query to its own sheet, that's fine. You'll use the <code>AllServices</code> sheet.</li>
+  <li><strong>Answer the questions.</strong> On the AllServices sheet: select the UnitCost column and read <em>Sum</em> in the status bar. Then filter ServiceDate to September 2026 only (date filter arrow → <em>Date Filters → After or Equal To…</em> 2026-09-01) and read the Sum again. Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w8-combined-rows"><p class="q">How many rows are in AllServices?</p></div>
+<div class="checkpoint" data-key="w8-combined-spend"><p class="q">Total spend across AllServices (April 2025 to September 2026)?</p></div>
+<div class="checkpoint" data-key="w8-sept-spend"><p class="q">Total spend in September 2026 alone?</p></div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>UnitCost column is all empty (null):</strong> the codes didn't match. Check that the September query has the Trim and UPPERCASE steps, and that you clicked ServiceCode in <em>both</em> tables when merging.</li>
+    <li><strong>Row count is a bit high:</strong> the September query is missing the Remove Duplicates or blank-code step.</li>
+    <li><strong>Merge or Append buttons missing:</strong> update Excel. If they're still missing, these steps work identically in Power BI's Power Query (Week 9 onward).</li>
+  </ul>
+</details>
+
+<div class="callout">
+  <p><strong>You just finished the Excel half of the course.</strong> You can clean an export, attach costs, total by client, pivot by program and automate it monthly. That's already more than most people who complain about reports can do.</p>
+</div>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Add a step to AllServices that calculates <code>Hours = DurationMins / 60</code>: <em>Add Column → Custom Column</em>, formula <code>[DurationMins] / 60</code>. Then Close &amp; Load and check total staff hours.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="8"> I finished Week 8</label>
+  <p class="done-msg" hidden>Week 8 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-07.html">← Week 7: Power Query: a recipe for cleaning</a><a href="week-09.html">Week 9: Get Power BI running on your Mac →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

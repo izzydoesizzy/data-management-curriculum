@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3: Cleaning messy exports</title>
+<meta name="description" content="Fix the mess that real systems produce: stray spaces, inconsistent case, duplicates and blanks.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="3">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 3 of 16 · Phase 1 · Excel foundations</p>
+<h1>Cleaning messy exports</h1>
+<div class="meta">
+  <span class="pill excel">Excel</span>
+  <span class="pill">⏱ About 75 min</span>
+</div>
+<p class="lede">Fix the mess that real systems produce: stray spaces, inconsistent case, duplicates and blanks.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> bad reports are often bad because of dirty data. If <code>"HV01"</code> and <code>"hv01 "</code> are counted as different services, or a visit was exported twice, every total is wrong. Cleaning is unglamorous, but it's the part that makes your numbers trustworthy.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w03-t1"><span>Spot the four kinds of mess in the Services table</span></label></li>
+  <li><label><input type="checkbox" data-task="w03-t2"><span>Standardize service codes with TRIM and UPPER</span></label></li>
+  <li><label><input type="checkbox" data-task="w03-t3"><span>Remove duplicate rows</span></label></li>
+  <li><label><input type="checkbox" data-task="w03-t4"><span>Remove rows with no service code</span></label></li>
+  <li><label><input type="checkbox" data-task="w03-t5"><span>Answer both checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Our export has four problems, all very common in real systems:</p>
+<div class="table-wrap"><table>
+<tr><th>Problem</th><th>Example</th><th>Fix</th></tr>
+<tr><td>Extra spaces</td><td><code>"HV01 "</code></td><td><code>TRIM()</code> removes spaces at the start and end</td></tr>
+<tr><td>Inconsistent case</td><td><code>"hv01"</code></td><td><code>UPPER()</code> makes everything capitals</td></tr>
+<tr><td>Duplicate rows</td><td>Same ServiceID twice</td><td>Data → Remove Duplicates</td></tr>
+<tr><td>Missing values</td><td>Blank ServiceCode</td><td>Filter for blanks and delete those rows</td></tr>
+</table></div>
+<p><strong>Our three cleaning rules</strong> (used for every answer in this course):</p>
+<ol>
+  <li>Service codes: trim spaces and convert to upper case.</li>
+  <li>Remove exact duplicate rows.</li>
+  <li>Remove rows with a blank service code.</li>
+</ol>
+<p>Read: <a href="https://support.microsoft.com/en-us/office/trim-function-410388fa-c5df-49c6-b16c-9e5630b479f9">TRIM function</a> and <a href="https://support.microsoft.com/en-us/office/filter-for-unique-values-or-remove-duplicate-values-ccf664b0-81d6-449b-bbe1-8daaec1e83c2">Remove duplicate values</a>.</p>
+
+<div class="callout warn">
+  <p><strong>Before you start:</strong> make a backup. <em>File → Save As</em> → <code>Casework Practice - before cleaning.xlsx</code>, then reopen <code>Casework Practice.xlsx</code>. Professionals never clean the only copy.</p>
+</div>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>See the mess.</strong> In the Services table, click the arrow on <em>ServiceCode</em>. You'll see a blank entry, plus codes that look identical but are listed twice (one has a hidden trailing space). Close the menu.</li>
+  <li><strong>Add a helper column.</strong> Click the first empty cell to the right of the header row (cell <strong>G1</strong>) and type <code>CodeClean</code>, then Enter. The table grows to include it.</li>
+  <li><strong>Write the cleaning formula.</strong> In G2 type:
+    <pre><code>=UPPER(TRIM([@ServiceCode]))</code></pre>
+    Press Enter. The formula fills down all 13,567 rows automatically. <code>[@ServiceCode]</code> means "the ServiceCode in <em>this</em> row".</li>
+  <li><strong>Replace the original codes with the clean ones.</strong> Click the top edge of the <em>CodeClean</em> header (cursor becomes a ↓ arrow) to select the column's data, then press <kbd>⌘</kbd> + <kbd>C</kbd>. Select the <em>ServiceCode</em> column's data the same way, then <em>Edit → Paste Special… → Values</em> → OK.</li>
+  <li><strong>Delete the helper column.</strong> Right-click any cell in CodeClean → <em>Delete → Table Columns</em>.</li>
+  <li><strong>Remove duplicates.</strong> Click any cell in the table → <em>Data</em> tab → <em>Remove Duplicates</em>. Make sure <strong>all</strong> columns are ticked → OK. Excel tells you how many duplicates it removed. <strong>Write that number down.</strong></li>
+  <li><strong>Remove blank codes.</strong> ServiceCode arrow → untick <em>(Select All)</em> → tick only <em>(Blanks)</em>. Select all visible rows (click the first row number, then <kbd>Shift</kbd>-click the last), right-click → <em>Delete Row</em>. Then clear the filter.</li>
+  <li><strong>Count what's left.</strong> Click column A's letter and read <em>Count</em> (minus 1 for the header). Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w3-dupes-removed">
+  <p class="q">How many duplicate rows did Remove Duplicates remove?</p>
+</div>
+<div class="checkpoint" data-key="w3-clean-rows">
+  <p class="q">How many service rows are left after all three cleaning rules?</p>
+</div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>You have 13,449 rows:</strong> you removed duplicates but not the blank codes (step 7).</li>
+    <li><strong>You have 13,530 rows:</strong> you removed blanks but not duplicates (step 6).</li>
+    <li><strong>Remove Duplicates removed far more than ~100?</strong> Some columns were unticked, so Excel treated rows as duplicates when only <em>some</em> columns matched. Undo (<kbd>⌘</kbd> + <kbd>Z</kbd>) and tick every column.</li>
+    <li><strong>Formula shows as text?</strong> The cell was formatted as Text. Format the column as General and re-enter the formula.</li>
+    <li><strong>Totally lost?</strong> No problem. Download <a href="../data/services_clean.csv" download>services_clean.csv</a>, which is the finished result. Paste it over your Services sheet and carry on next week.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Use the filter on <em>ServiceCode</em> again. How many distinct codes are there now? Compare with the 14 rows in the ServiceCodes table. They should match exactly. If they do, your data is ready for Week 4.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="3"> I finished Week 3</label>
+  <p class="done-msg" hidden>Week 3 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-02.html">← Week 2: Tables, sorting and filtering</a><a href="week-04.html">Week 4: Lookups: attach the dollar amounts →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 10: Relationships: connect the dots</title>
+<meta name="description" content="Link clients, services, codes and workers so Power BI understands how they relate.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="10">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 10 of 16 · Phase 3 · Power BI</p>
+<h1>Relationships: connect the dots</h1>
+<div class="meta">
+  <span class="pill pbi">Power BI</span>
+  <span class="pill">⏱ About 60 min</span>
+</div>
+<p class="lede">Link clients, services, codes and workers so Power BI understands how they relate.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> you said it yourself: <em>"find relationships between data points."</em> In Excel you connected tables one column at a time with XLOOKUP. In Power BI you connect them <strong>once</strong>, with relationships, and every chart understands the connection from then on.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w10-t1"><span>Open Model view and understand the star shape</span></label></li>
+  <li><label><input type="checkbox" data-task="w10-t2"><span>Make sure exactly three correct relationships exist</span></label></li>
+  <li><label><input type="checkbox" data-task="w10-t3"><span>Prove the relationships work with a bar chart</span></label></li>
+  <li><label><input type="checkbox" data-task="w10-t4"><span>Find the clients who have no services</span></label></li>
+  <li><label><input type="checkbox" data-task="w10-t5"><span>Answer both checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
+<p>Look at the diagram on the <a href="../data.html">practice data page</a> again. Our model is a <strong>star schema</strong>:</p>
+<ul>
+  <li><strong>Services</strong> is the <em>fact</em> table in the middle. It records events and has lots of rows.</li>
+  <li><strong>Clients, ServiceCodes and Workers</strong> are <em>dimension</em> tables around it. They describe the who and what, with one row each.</li>
+  <li>Each relationship is <strong>one-to-many</strong>: one client → many services; one code → many services; one worker → many services.</li>
+</ul>
+<p>Filters flow from the "one" side to the "many" side. Click "Housing Support" (a client attribute) and Power BI follows the relationship to keep only those clients' services.</p>
+<p>Read: <a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema">Understand star schema</a> (just the first few sections) and <a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-create-and-manage-relationships">Create and manage relationships</a>.</p>
+
+<h2 class="section-label">2. Do <span class="time">35 min</span></h2>
+<ol class="steps">
+  <li><strong>Open Model view</strong> (Path A: open the semantic model → <em>Open data model</em>, then the model/diagram view. Path B: the third icon on the left). Drag the boxes into a star: Services in the middle, others around it.</li>
+  <li><strong>Check existing lines.</strong> Power BI may have auto-created some relationships. Hover over or double-click each line. You want exactly these three:
+    <div class="table-wrap"><table>
+      <tr><th>From (one side)</th><th>To (many side)</th></tr>
+      <tr><td><code>Clients[ClientID]</code></td><td><code>Services[ClientID]</code></td></tr>
+      <tr><td><code>ServiceCodes[ServiceCode]</code></td><td><code>Services[ServiceCode]</code></td></tr>
+      <tr><td><code>Workers[WorkerID]</code></td><td><code>Services[WorkerID]</code></td></tr>
+    </table></div>
+    Delete any other relationship (right-click the line → Delete).</li>
+  <li><strong>Create any that are missing.</strong> Drag the column from one table onto the matching column in the other (e.g. drag <code>ClientID</code> in Clients onto <code>ClientID</code> in Services). Check: cardinality <em>Many to one (*:1)</em> or <em>One to many</em>, cross-filter direction <em>Single</em>.</li>
+  <li><strong>Prove it works.</strong> Go to the report. Add a <strong>Clustered bar chart</strong>: Y-axis = <code>Clients[Program]</code>, X-axis = <code>Services[ServiceID]</code> (set to <em>Count</em>). Each program shows a different number of services. Without the relationship, every bar would show the same total.</li>
+  <li><strong>Find the clients with no services.</strong> Add two cards: one with <code>Clients[ClientID]</code> set to <em>Count (Distinct)</em>, one with <code>Services[ClientID]</code> set to <em>Count (Distinct)</em>. The difference is clients on the books who have never received a service.</li>
+  <li>Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w10-relationships"><p class="q">How many relationships does your finished model have?</p></div>
+<div class="checkpoint" data-key="w10-no-service-clients"><p class="q">How many clients have no services at all?</p></div>
+
+<div class="callout">
+  <p><strong>Notice what just happened:</strong> those clients exist in one table but not the other. A report built only from the services table would never show them. That's exactly the kind of gap that makes reports "terrible". Now you know how to find it.</p>
+</div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Every bar is the same length:</strong> the Clients→Services relationship is missing or inactive (shown as a dotted line). Double-click it and tick <em>Make this relationship active</em>.</li>
+    <li><strong>Error about "many-to-many":</strong> you dragged columns the wrong way or onto the wrong column. Delete it and drag from the dimension table's ID column.</li>
+    <li><strong>A line from Clients[AssignedWorker] to Workers?</strong> Delete it for now. Two routes between tables confuse filters. (Advanced models handle this; ours doesn't need it.)</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Add a bar chart of service count by <code>Workers[Role]</code>. Which role delivers the most services? Then try <code>ServiceCodes[Category]</code>. Every dimension now slices the facts.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="10"> I finished Week 10</label>
+  <p class="done-msg" hidden>Week 10 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-09.html">← Week 9: Get Power BI running on your Mac</a><a href="week-11.html">Week 11: Measures: your first DAX →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

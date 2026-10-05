@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 13: Designing a report people actually use</title>
+<meta name="description" content="Learn the handful of design rules that separate useful reports from terrible ones.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="13">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 13 of 16 · Phase 3 · Power BI</p>
+<h1>Designing a report people actually use</h1>
+<div class="meta">
+  <span class="pill pbi">Power BI</span>
+  <span class="pill">⏱ About 60 min</span>
+</div>
+<p class="lede">Learn the handful of design rules that separate useful reports from terrible ones.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> you've seen terrible reports. Usually the data was fine; the <em>design</em> was the problem: too much on one page, no clear question, pie charts nobody can read, numbers with no context. This week is the antidote, and it's mostly about decisions, not software.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w13-t1"><span>Learn the 8 design rules</span></label></li>
+  <li><label><input type="checkbox" data-task="w13-t2"><span>Do the pie vs. bar experiment</span></label></li>
+  <li><label><input type="checkbox" data-task="w13-t3"><span>Sketch my Week 14 dashboard on paper</span></label></li>
+  <li><label><input type="checkbox" data-task="w13-t4"><span>Answer the checkpoint</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">25 min</span></h2>
+<h3>8 rules for reports people actually use</h3>
+<ol>
+  <li><strong>Start from the question, not the data.</strong> Write the 3–5 questions the page must answer before you add a single visual.</li>
+  <li><strong>One page, one purpose.</strong> "Where is our money going?" is a page. "Everything about clients" is not.</li>
+  <li><strong>Big numbers first.</strong> KPI cards across the top. People read top-left to bottom-right, the same as reading a page.</li>
+  <li><strong>5–7 visuals maximum per page.</strong> If you need more, you need another page.</li>
+  <li><strong>Bar charts beat pie charts.</strong> People compare lengths far more accurately than angles. Always sort bars largest to smallest.</li>
+  <li><strong>Lines for time.</strong> Anything over months goes in a line chart, left to right.</li>
+  <li><strong>Titles that say something.</strong> "Spend by Program" is fine; "Housing Support drives 42% of spend" is better. Always show units ($, days, clients).</li>
+  <li><strong>Filters in one place.</strong> Slicers in a row along the top or a column on the left, never scattered.</li>
+</ol>
+<p>Read: <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards-design-tips">Tips for designing a great Power BI dashboard</a> (Microsoft).</p>
+
+<h2 class="section-label">2. Do <span class="time">30 min</span></h2>
+<ol class="steps">
+  <li><strong>The pie vs. bar experiment.</strong> Add a new report page. Make a <strong>Pie chart</strong> with Legend = <code>ServiceCodes[Category]</code>, Values = <code>Total Spend</code>. Without hovering, try to rank the six slices from biggest to smallest.</li>
+  <li>Now copy the visual (<kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>⌘</kbd> + <kbd>V</kbd>, or <kbd>Ctrl</kbd> in the VM) and change the copy to a <strong>Clustered bar chart</strong>. Sort it by Total Spend, descending. Notice how much easier it is to read.</li>
+  <li><strong>Sketch Week 14 on paper.</strong> Read the <a href="week-14.html">Week 14 spec</a>, then draw boxes on a sheet of paper for where each visual goes. Five minutes, no software. Professionals do this too.</li>
+  <li>Delete the experiment page (or keep it as a reminder). Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">2 min</span></h2>
+<div class="checkpoint" data-key="w13-second-category"><p class="q">From your sorted bar chart: which category has the <em>second</em>-highest spend?</p></div>
+
+<h3>Self-check: rate an old report</h3>
+<p>Think of one report from your casework job. Which of the 8 rules did it break? Jot it down. That's your before picture, and you're about to build the after.</p>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Can't sort the bar chart:</strong> click the visual's <em>…</em> → <em>Sort axis</em> → <em>Total Spend</em> → <em>Sort descending</em>.</li>
+    <li><strong>Pie chart has dozens of slices:</strong> you used ServiceCode or Description instead of Category in Legend.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Pick a theme: <em>View → Themes</em> (Desktop) or the theme/format options in the browser. Choose one with calm, accessible colours. Avoid using red and green as the only difference between things; about 1 in 12 men can't tell them apart.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="13"> I finished Week 13</label>
+  <p class="done-msg" hidden>Week 13 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-12.html">← Week 12: Time: months, trends and length of stay</a><a href="week-14.html">Week 14: Project 3: Casework Cost Dashboard →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

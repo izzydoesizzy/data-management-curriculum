@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 11: Measures: your first DAX</title>
+<meta name="description" content="Write the three measures every casework report needs: Total Spend, Clients Served and Avg Spend per Client.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="11">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 11 of 16 · Phase 3 · Power BI</p>
+<h1>Measures: your first DAX</h1>
+<div class="meta">
+  <span class="pill pbi">Power BI</span>
+  <span class="pill">⏱ About 75 min</span>
+</div>
+<p class="lede">Write the three measures every casework report needs: Total Spend, Clients Served and Avg Spend per Client.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> a <strong>measure</strong> is a reusable calculation, like "Total Spend", that automatically recalculates for whatever you're looking at: the whole agency on a card, per program in a chart, per client in a table. Write it once, use it everywhere.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w11-t1"><span>Understand measure vs. column</span></label></li>
+  <li><label><input type="checkbox" data-task="w11-t2"><span>Create Total Spend, Total Services, Clients Served and Avg Spend per Client</span></label></li>
+  <li><label><input type="checkbox" data-task="w11-t3"><span>Format them as currency / whole numbers</span></label></li>
+  <li><label><input type="checkbox" data-task="w11-t4"><span>Use them in cards and a table</span></label></li>
+  <li><label><input type="checkbox" data-task="w11-t5"><span>Answer all three checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
+<p>DAX is Power BI's formula language. Our most important measure:</p>
+<pre><code>Total Spend = SUMX( Services, RELATED( ServiceCodes[UnitCost] ) )</code></pre>
+<p>In plain English: <em>"Go through the Services table row by row (<code>SUMX</code>). For each service, follow the relationship to the price list and fetch its UnitCost (<code>RELATED</code>). Add them all up."</em> It's Week 4's XLOOKUP plus Week 5's SUM, done in one line, with no extra columns needed.</p>
+<div class="table-wrap"><table>
+<tr><th></th><th>Measure</th><th>Calculated column</th></tr>
+<tr><td>Calculates</td><td>One number, on the fly, for the current filter</td><td>A value for every row, stored in the table</td></tr>
+<tr><td>Use for</td><td>Things you add/count/average (spend, clients)</td><td>Things you group or filter <em>by</em> (month, age group)</td></tr>
+<tr><td>Example</td><td>Total Spend</td><td>Month (next week)</td></tr>
+</table></div>
+<p>Read: <a href="https://learn.microsoft.com/en-us/dax/sumx-function-dax">SUMX</a>, <a href="https://learn.microsoft.com/en-us/dax/related-function-dax">RELATED</a> and <a href="https://learn.microsoft.com/en-us/dax/divide-function-dax">DIVIDE</a> in the DAX reference.</p>
+
+<h2 class="section-label">2. Do <span class="time">45 min</span></h2>
+<ol class="steps">
+  <li><strong>Create a measure.</strong> Path A: in the data model editor, select the Services table → <em>New measure</em>. Path B: in the Data pane, right-click <code>Services</code> → <em>New measure</em>. A formula bar appears at the top.</li>
+  <li>Type each measure exactly, pressing Enter after each one (create a new measure each time):
+<pre><code>Total Spend = SUMX(Services, RELATED(ServiceCodes[UnitCost]))
+
+Total Services = COUNTROWS(Services)
+
+Clients Served = DISTINCTCOUNT(Services[ClientID])
+
+Avg Spend per Client = DIVIDE([Total Spend], [Clients Served])</code></pre></li>
+  <li><strong>Format them.</strong> Select <em>Total Spend</em> in the Data pane → in <em>Measure tools</em> (or the properties pane) set Format to <strong>Currency</strong>, 2 decimals. Do the same for Avg Spend per Client. Set Total Services and Clients Served to <strong>Whole number</strong>.</li>
+  <li><strong>Cards.</strong> In the report, replace last week's cards with four cards, one per measure.</li>
+  <li><strong>Table by region.</strong> Add a <strong>Table</strong> visual with <code>Clients[Region]</code>, <code>Total Spend</code>, <code>Clients Served</code> and <code>Avg Spend per Client</code>. One set of measures, five regions, all different values. That's filter context at work.</li>
+  <li>Compare <em>Total Spend</em> with your Excel answer from Week 4. They should match exactly. Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w11-clients-served"><p class="q">What does Clients Served show for the whole agency?</p></div>
+<div class="checkpoint" data-key="w11-avg-spend-per-client"><p class="q">What is the Avg Spend per Client for the whole agency?</p></div>
+<div class="checkpoint" data-key="w11-north-spend"><p class="q">What is Total Spend for the North region?</p></div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Error "RELATED… column doesn't exist or doesn't have a relationship":</strong> the ServiceCodes→Services relationship is missing. Go back to Week 10, step 2.</li>
+    <li><strong>Red squiggle on a name:</strong> table and column names must match exactly, including capitals. Type <code>[</code> or the table name and pick from the suggestions instead of typing it all.</li>
+    <li><strong>Region table shows the same Total Spend for every region:</strong> the Clients→Services relationship isn't working (Week 10).</li>
+    <li><strong>Avg Spend per Client looks like $63:</strong> that's the average <em>per service</em>. Check you divided by Clients Served, not Total Services.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Write a measure for spend on Financial Assistance only:</p>
+<pre><code>FA Spend = CALCULATE([Total Spend], ServiceCodes[Category] = "Financial Assistance")</code></pre>
+<p><code>CALCULATE</code> is the most powerful function in DAX: "calculate this measure, but with this extra filter." Compare the result with your Week 6 PivotTable.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="11"> I finished Week 11</label>
+  <p class="done-msg" hidden>Week 11 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="week-10.html">← Week 10: Relationships: connect the dots</a><a href="week-12.html">Week 12: Time: months, trends and length of stay →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

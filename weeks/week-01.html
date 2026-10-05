@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1: Set up and meet your data</title>
+<meta name="description" content="Get your free tools working, download the practice data and learn what a good raw table looks like.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-week="1">
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">📊 Data Skills <span>for Casework</span></a>
+    <nav class="site-nav" aria-label="Main"><a href="../index.html">Schedule</a><a href="../toolkit.html">Free toolkit</a><a href="../data.html">Practice data</a><a href="../glossary.html">Glossary</a></nav>
+  </div>
+  <div class="mini-progress" aria-hidden="true"><div></div></div>
+</header>
+<main>
+<p class="eyebrow">Week 1 of 16 · Phase 1 · Excel foundations</p>
+<h1>Set up and meet your data</h1>
+<div class="meta">
+  <span class="pill excel">Excel</span>
+  <span class="pill">⏱ About 60 min</span>
+</div>
+<p class="lede">Get your free tools working, download the practice data and learn what a good raw table looks like.</p>
+<div class="callout why">
+  <p><strong>Why this matters:</strong> every report you were frustrated by at work started as rows of raw data. Once you can hold the raw data yourself, the report is just a set of questions you ask it. This week is about getting comfortable just <em>looking</em> at raw data.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li><label><input type="checkbox" data-task="w01-t1"><span>Read the <a href="../toolkit.html">free toolkit</a> page and choose my Power BI path</span></label></li>
+  <li><label><input type="checkbox" data-task="w01-t2"><span>Download and unzip the practice data</span></label></li>
+  <li><label><input type="checkbox" data-task="w01-t3"><span>Build my course workbook with all four tables in it</span></label></li>
+  <li><label><input type="checkbox" data-task="w01-t4"><span>Answer both checkpoints</span></label></li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<h3>Raw data vs. reports</h3>
+<p>A <strong>report</strong> is a summary: "Housing Support spent $358K this year." <strong>Raw data</strong> is the list of every single event behind it: each home visit, each rent supplement, each phone call. You can always build a report from raw data, but you can never get the raw data back from a report. That's why colleagues pulled raw data into Power BI: it let them ask <em>their own</em> questions.</p>
+
+<h3>What a good raw table looks like ("tidy data")</h3>
+<ul>
+  <li><strong>One row = one thing.</strong> In our services file, one row = one service, delivered to one client, on one day.</li>
+  <li><strong>One column = one kind of fact.</strong> A date column only has dates. A cost column only has numbers.</li>
+  <li><strong>One header row, at the top.</strong> No titles above it, no merged cells, no subtotal rows sprinkled in.</li>
+  <li><strong>An ID column</strong> that connects to other tables (ClientID, ServiceCode, WorkerID).</li>
+</ul>
+<p>Open the <a href="../data.html">practice data page</a> and look at the diagram of how the tables connect. Keep it handy; we'll use it all course.</p>
+
+<h2 class="section-label">2. Do <span class="time">40 min</span></h2>
+<ol class="steps">
+  <li><strong>Download the data.</strong> On the <a href="../data.html">practice data page</a>, click <em>Download everything</em>. Double-click the .zip in your Downloads folder to unzip it. Move the folder to <code>Documents/Data Course</code>.</li>
+  <li><strong>Open the services file.</strong> In Excel: <em>File → Open</em>, then pick <code>services_raw.csv</code>.</li>
+  <li><strong>Save it as a real workbook.</strong> <em>File → Save As</em>, name it <code>Casework Practice</code>, and set <em>File Format</em> to <strong>Excel Workbook (.xlsx)</strong>. CSV files can't hold multiple sheets or formulas, so always convert. Right-click the sheet tab at the bottom and rename it <code>Services</code>.</li>
+  <li><strong>Add the other three tables as sheets.</strong> Open <code>clients.csv</code>. Right-click its sheet tab → <em>Move or Copy…</em> → under <em>To book</em> choose <code>Casework Practice.xlsx</code> → tick <em>Create a copy</em> → OK. Rename the tab <code>Clients</code>. Do the same for <code>service_codes.csv</code> (tab name <code>ServiceCodes</code>) and <code>workers.csv</code> (tab name <code>Workers</code>).</li>
+  <li><strong>Freeze the header row on each sheet</strong> so it stays visible as you scroll: <em>View → Freeze Top Row</em>.</li>
+  <li><strong>Get around fast.</strong> On the Services sheet, click cell A1, then press <kbd>⌘</kbd> + <kbd>↓</kbd> to jump to the last row. <kbd>⌘</kbd> + <kbd>↑</kbd> jumps back up. Look at the row number on the left of the last row.</li>
+  <li><strong>Explore.</strong> Scroll through each sheet for 5 minutes. Find a client in Clients, then find a few of their services in Services. Look up what their service codes mean in ServiceCodes.</li>
+  <li>Save (<kbd>⌘</kbd> + <kbd>S</kbd>).</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w1-raw-rows">
+  <p class="q">How many rows of data are in services_raw.csv? (Don't count the header row.)</p>
+</div>
+<div class="checkpoint" data-key="w1-clients">
+  <p class="q">How many clients are in clients.csv?</p>
+</div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Row count off by one?</strong> The last row number includes the header row in row 1. Subtract 1.</li>
+    <li><strong>Another way:</strong> click the column letter <strong>A</strong> to select the whole column, then look at the bottom-right of the Excel window. <em>Count</em> shows how many filled cells there are (including the header). If you don't see Count, right-click the status bar and tick it.</li>
+    <li><strong>The file opened in Numbers instead of Excel?</strong> Right-click the file → <em>Open With → Microsoft Excel</em>.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Write down three questions you wished your old reports could answer. Keep the list. In Week 16 you'll turn them into a real report plan.</p>
+
+<div class="week-done">
+  <label><input type="checkbox" data-week-done="1"> I finished Week 1</label>
+  <p class="done-msg" hidden>Week 1 is done. Take a breath; next week builds on this.</p>
+</div>
+<nav class="pager" aria-label="Weeks"><a href="../index.html">← Schedule</a><a href="week-02.html">Week 2: Tables, sorting and filtering →</a></nav>
+
+</main>
+<footer class="site-footer">
+  Built for Laura · All practice data is fictional · Your progress is saved in this browser only
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

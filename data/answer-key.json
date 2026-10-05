@@ -1,0 +1,286 @@
+{
+  "w1-clients": {
+    "answer": 300,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "w1-raw-rows": {
+    "answer": 13567,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "rows"
+  },
+  "w10-no-service-clients": {
+    "answer": 12,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "w10-relationships": {
+    "answer": 3,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "relationships"
+  },
+  "w11-avg-spend-per-client": {
+    "answer": 2939.04,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w11-clients-served": {
+    "answer": 288,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "w11-north-spend": {
+    "answer": 213346.25,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w12-avg-los": {
+    "answer": 159.0,
+    "note": "",
+    "tolerance": 0.1,
+    "type": "number",
+    "unit": "days"
+  },
+  "w12-mar-2026-spend": {
+    "answer": 62798.75,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w12-top-month": {
+    "accept": [
+      "2026-08",
+      "August 2026",
+      "August2026",
+      "Aug 2026"
+    ],
+    "answer": "2026-08",
+    "note": "",
+    "type": "text"
+  },
+  "w13-second-category": {
+    "accept": [
+      "Outreach"
+    ],
+    "answer": "Outreach",
+    "note": "",
+    "type": "text"
+  },
+  "w14-chw-spend": {
+    "answer": 302358.75,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w14-ys-central": {
+    "answer": 26717.5,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w15-q1-top-worker": {
+    "accept": [
+      "W-14",
+      "Noah Fischer"
+    ],
+    "answer": "W-14",
+    "note": "",
+    "type": "text"
+  },
+  "w15-q2-mh-avg": {
+    "answer": 2617.18,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w15-q3-zero-cost-pct": {
+    "answer": 40.1,
+    "note": "",
+    "tolerance": 0.1,
+    "type": "number",
+    "unit": "%"
+  },
+  "w15-q4-top-avg-region": {
+    "accept": [
+      "North"
+    ],
+    "answer": "North",
+    "note": "",
+    "type": "text"
+  },
+  "w15-q5-over-2000": {
+    "answer": 156,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "w2-active-clients": {
+    "answer": 195,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "w2-housing-clients": {
+    "answer": 98,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "clients"
+  },
+  "w3-clean-rows": {
+    "answer": 13412,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "rows"
+  },
+  "w3-dupes-removed": {
+    "answer": 118,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "rows"
+  },
+  "w4-paid-services": {
+    "answer": 8040,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "services"
+  },
+  "w4-total-spend": {
+    "answer": 846443.75,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w5-avg-cost-per-service": {
+    "answer": 63.11,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w5-services-C-0042": {
+    "answer": 63,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "services"
+  },
+  "w5-spend-C-0042": {
+    "answer": 3303.75,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w5-spend-C-0117": {
+    "answer": 595.0,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w5-spend-C-0250": {
+    "answer": 422.5,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w6-fa-spend": {
+    "answer": 375460.0,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w6-top-client": {
+    "accept": [
+      "C-0063",
+      "0063"
+    ],
+    "answer": "C-0063",
+    "note": "",
+    "type": "text"
+  },
+  "w6-top-program": {
+    "accept": [
+      "Housing Support"
+    ],
+    "answer": "Housing Support",
+    "note": "",
+    "type": "text"
+  },
+  "w6-top-program-spend": {
+    "answer": 358350.0,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w7-clean-rows": {
+    "answer": 13412,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "rows"
+  },
+  "w7-distinct-codes": {
+    "answer": 14,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "codes"
+  },
+  "w8-combined-rows": {
+    "answer": 14598,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "rows"
+  },
+  "w8-combined-spend": {
+    "answer": 920222.5,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w8-sept-spend": {
+    "answer": 73778.75,
+    "note": "",
+    "tolerance": 0.01,
+    "type": "number",
+    "unit": "$"
+  },
+  "w9-services-rows": {
+    "answer": 13412,
+    "note": "",
+    "tolerance": 0,
+    "type": "number",
+    "unit": "rows"
+  }
+}

@@ -1,0 +1,55 @@
+<div class="callout why">
+  <p><strong>Why this matters:</strong> this is the exact problem you described. The services table says <em>what</em> happened (code <code>HV01</code>), but the <em>cost</em> lives in a separate price list. A lookup connects them. After today, every service row has a dollar figure.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li>Understand what XLOOKUP does, in plain English</li>
+  <li>Add UnitCost and Category columns to Services</li>
+  <li>Confirm every code found a match</li>
+  <li>Answer both checkpoints</li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>XLOOKUP is like looking something up in a phone book:</p>
+<pre><code>=XLOOKUP( what to find,  where to look,  what to bring back,  if not found )
+=XLOOKUP( "HV01",        ServiceCodes[ServiceCode],  ServiceCodes[UnitCost],  "NOT FOUND" )
+→ 85</code></pre>
+<p>"Find HV01 in the ServiceCode column of the price list, and bring back the UnitCost from the same row." The fourth part is a safety net: if a code isn't in the price list you'll see <code>NOT FOUND</code> instead of a confusing error.</p>
+<p>Read: <a href="https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929">XLOOKUP function</a>. You may have heard of VLOOKUP; XLOOKUP is its modern, easier replacement.</p>
+
+<h2 class="section-label">2. Do <span class="time">40 min</span></h2>
+<ol class="steps">
+  <li>Open <code>Casework Practice.xlsx</code> and go to the Services sheet.</li>
+  <li><strong>Add a UnitCost column.</strong> In the first empty header cell (G1) type <code>UnitCost</code>. In G2 type:
+    <pre><code>=XLOOKUP([@ServiceCode], ServiceCodes[ServiceCode], ServiceCodes[UnitCost], "NOT FOUND")</code></pre>
+    Press Enter. It fills all the way down.</li>
+  <li><strong>Format as money.</strong> Select the UnitCost column data → <em>Home</em> → number format dropdown → <em>Currency</em>.</li>
+  <li><strong>Add a Category column</strong> in H1, using the same pattern but bringing back <code>ServiceCodes[Category]</code>.</li>
+  <li><strong>Check for failures.</strong> Click the UnitCost filter arrow and scroll the list. There should be no <code>NOT FOUND</code>. If there is, that code wasn't cleaned (go back to Week 3, step 3).</li>
+  <li><strong>Grand total.</strong> Click in the table → <em>Table</em> tab → tick <em>Total Row</em>. A total row appears at the bottom. Click the total cell under UnitCost and choose <em>Sum</em> from its dropdown.</li>
+  <li><strong>Count the paid services.</strong> In any empty cell to the right of the table (e.g. K2) type:
+    <pre><code>=COUNTIF(Services[UnitCost], "&gt;0")</code></pre></li>
+  <li>Save.</li>
+</ol>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w4-total-spend">
+  <p class="q">What is the total spend across all clean services?</p>
+</div>
+<div class="checkpoint" data-key="w4-paid-services">
+  <p class="q">How many services had a cost greater than $0?</p>
+</div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong><code>#NAME?</code> error:</strong> a table name is misspelled. Check it's exactly <code>ServiceCodes</code> (Week 2, step 3) or your Excel is too old for XLOOKUP. Excel for the web always has it.</li>
+    <li><strong>Lots of NOT FOUND:</strong> your codes still have spaces or lower case. Redo Week 3 steps 2–5, or use the catch-up file <a href="../data/services_clean.csv" download>services_clean.csv</a>.</li>
+    <li><strong>Total is much higher than expected:</strong> you probably still have duplicates (Week 3, step 6).</li>
+    <li><strong>Total includes the Total Row itself?</strong> If you used the status bar, don't select the total row.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Add a third lookup column, <code>Program</code>, that brings back each client's program from the <code>Clients</code> table (look up <code>[@ClientID]</code> in <code>Clients[ClientID]</code>, return <code>Clients[Program]</code>). You'll need this in Week 6, so doing it now saves time.</p>

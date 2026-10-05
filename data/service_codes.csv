@@ -1,0 +1,15 @@
+ServiceCode,Description,Category,UnitCost
+CN01,Case note / file review,Admin,0.00
+PH01,Phone check-in,Outreach,0.00
+RF01,Referral to partner agency,Admin,0.00
+HV01,Home visit,Outreach,85.00
+CH02,Community accompaniment,Outreach,60.00
+CO01,Individual counselling session,Counselling,120.00
+CO02,Group counselling session,Counselling,45.00
+TR01,Monthly transit pass,Transportation,128.75
+TR02,Taxi / ride to appointment,Transportation,32.50
+FA01,Emergency grocery card,Financial Assistance,75.00
+FA02,Rent supplement,Financial Assistance,450.00
+FA03,Utility arrears payment,Financial Assistance,220.00
+ID01,ID replacement fee,Admin,35.00
+IN01,Interpreter (per session),Support,55.00

@@ -1,0 +1,71 @@
+<div class="callout why">
+  <p><strong>Capstone:</strong> this is what the job actually looks like. A manager sends questions, and you answer them with your data, clearly and correctly. No step-by-step instructions this week, just hints if you need them. You have every skill required.</p>
+</div>
+
+<div class="card">
+  <p class="eyebrow">Email from: Program Director, Riverside Community Services</p>
+  <p><em>Hi Laura, the board meets next week and I need a few numbers for April 2025 to August 2026:</em></p>
+  <ol>
+    <li><em>Which staff member is associated with the highest total spend?</em></li>
+    <li><em>What's our average spend per client in Mental Health?</em></li>
+    <li><em>What percentage of all services have no direct cost ($0)?</em></li>
+    <li><em>Which region has the highest average spend per client?</em></li>
+    <li><em>How many clients have had more than $2,000 spent on them?</em></li>
+  </ol>
+  <p><em>A short summary would be great too. Thanks!</em></p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li>Answer Q1–Q5 (Power BI or Excel, your choice)</li>
+  <li>Write a 5-sentence summary for the director</li>
+  <li>Save a screenshot of my dashboard to my portfolio folder</li>
+</ul>
+
+<h2 class="section-label">Answer the questions <span class="time">60 min</span></h2>
+
+<div class="checkpoint" data-key="w15-q1-top-worker"><p class="q">Q1. WorkerID (or name) with the highest total spend</p></div>
+<details class="stuck"><summary>Hint for Q1</summary>
+  <p>Table visual: <code>Workers[WorkerID]</code>, <code>Workers[Name]</code>, <code>Workers[Role]</code>, <code>Total Spend</code>, sorted descending. <strong>Then think:</strong> look at their role. Does high spend mean this person is doing something wrong, or that their role delivers expensive services (like rent supplements)? Good analysts always add that context.</p>
+</details>
+
+<div class="checkpoint" data-key="w15-q2-mh-avg"><p class="q">Q2. Average spend per client in Mental Health</p></div>
+<details class="stuck"><summary>Hint for Q2</summary>
+  <p>Your <code>Avg Spend per Client</code> measure with the Program slicer set to Mental Health. Remember to clear other slicers.</p>
+</details>
+
+<div class="checkpoint" data-key="w15-q3-zero-cost-pct"><p class="q">Q3. Percentage of services with $0 cost (1 decimal)</p></div>
+<details class="stuck"><summary>Hint for Q3</summary>
+  <p>New measure:</p>
+  <pre><code>% Zero-Cost Services =
+DIVIDE(
+    CALCULATE([Total Services], ServiceCodes[UnitCost] = 0),
+    [Total Services]
+)</code></pre>
+  <p>Format as Percentage. (Excel route: <code>=COUNTIF(Services[UnitCost], 0) / ROWS(Services)</code>.)</p>
+</details>
+
+<div class="checkpoint" data-key="w15-q4-top-avg-region"><p class="q">Q4. Region with the highest average spend per client</p></div>
+<details class="stuck"><summary>Hint for Q4</summary>
+  <p>Table visual: <code>Clients[Region]</code> and <code>Avg Spend per Client</code>, sorted descending. Compare with which region has the highest <em>total</em> spend. Are they the same? Why might that be?</p>
+</details>
+
+<div class="checkpoint" data-key="w15-q5-over-2000"><p class="q">Q5. Number of clients with total spend over $2,000</p></div>
+<details class="stuck"><summary>Hint for Q5</summary>
+  <p>Easiest in Excel: on your Week 5 <code>Client Spend</code> sheet, <code>=COUNTIF(B:B, "&gt;2000")</code>. In Power BI, a measure:</p>
+  <pre><code>Clients Over 2000 =
+COUNTROWS(FILTER(VALUES(Services[ClientID]), [Total Spend] &gt; 2000))</code></pre>
+</details>
+
+<h2 class="section-label">Write the summary <span class="time">20 min</span></h2>
+<p>Write 5 sentences to the director in plain language. A good structure:</p>
+<ol>
+  <li>The headline: total spend, clients served and average per client.</li>
+  <li>Where the money goes (top program and top category).</li>
+  <li>One trend over time.</li>
+  <li>One thing that surprised you, with context (e.g. Q1 or Q4).</li>
+  <li>One recommendation or follow-up question.</li>
+</ol>
+<div class="callout">
+  <p><strong>Portfolio tip:</strong> save the dashboard screenshot and this summary together in a folder called <code>Portfolio</code>. If you ever apply for a role involving data, this is concrete evidence of what you can do. (The data is fictional, so it's safe to share.)</p>
+</div>

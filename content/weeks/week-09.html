@@ -1,0 +1,64 @@
+<div class="callout why">
+  <p><strong>Why this matters:</strong> Excel got you far, but it starts to strain when there are many tables, many questions and many people asking. Power BI is built for exactly what your colleagues did: take raw tables, connect them, and build reports anyone can click through.</p>
+</div>
+
+<h2>This week's checklist</h2>
+<ul class="tasks">
+  <li>Get Power BI working (Path A browser, or Path B Windows VM)</li>
+  <li>Load all four tables from powerbi-starter.xlsx</li>
+  <li>Find the three views: Report, Table/Data and Model</li>
+  <li>Build my first card visual</li>
+  <li>Answer the checkpoint</li>
+</ul>
+
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Power BI has three parts you'll use constantly:</p>
+<ul>
+  <li><strong>Data pane</strong> (right side): your tables and their columns.</li>
+  <li><strong>Visualizations pane:</strong> chart types. Click one, then drag columns into its boxes, just like a PivotTable.</li>
+  <li><strong>Views:</strong> <em>Report</em> (the canvas), <em>Table/Data</em> (see the rows) and <em>Model</em> (see how tables connect, next week).</li>
+</ul>
+<p>Read: Microsoft Learn's free module <a href="https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/">Get started building with Power BI</a>. Do just the first two or three units this week.</p>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<p>Download <a href="../data/powerbi-starter.xlsx" download>powerbi-starter.xlsx</a> first. It holds the four clean tables, each as a named table. Then follow <strong>your</strong> path from the <a href="../toolkit.html">toolkit</a>:</p>
+
+<div class="card">
+<h3>Path A: Power BI in the browser</h3>
+<ol class="steps">
+  <li>Go to <a href="https://app.powerbi.com">app.powerbi.com</a> and sign in with your work or school email. If asked, start the free account.</li>
+  <li>In the left menu, open <strong>My workspace</strong>.</li>
+  <li>Click <strong>+ New item</strong> → <strong>Semantic model</strong> → <strong>Excel</strong> (or <em>Upload</em> / <em>Get data</em>, as the wording changes) → choose <code>powerbi-starter.xlsx</code> from your Mac. Select all four tables if asked.</li>
+  <li>When it finishes, open the new semantic model. You'll see buttons like <strong>Open data model</strong> (to see tables and relationships) and <strong>Create a report → Start from scratch</strong> (to build visuals). Try both.</li>
+  <li>In the report editor, click the <strong>Card</strong> visual, then tick <code>ServiceID</code> under the Services table in the Data pane. The card shows <em>Count of ServiceID</em>.</li>
+  <li>Save the report as <code>Casework Practice</code> (File → Save).</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>Path B: Power BI Desktop (Windows VM)</h3>
+<ol class="steps">
+  <li>Open Power BI Desktop → <strong>Home → Get data → Excel workbook</strong> → choose <code>powerbi-starter.xlsx</code> (copy it into the VM, or use a shared folder).</li>
+  <li>In the Navigator, tick the four tables (<code>Services</code>, <code>Clients</code>, <code>ServiceCodes</code>, <code>Workers</code>) → <strong>Load</strong>.</li>
+  <li>Click the three icons on the left edge to switch between Report, Table and Model views.</li>
+  <li>In Report view, click the <strong>Card</strong> visual, then tick <code>ServiceID</code> in the Services table. The card shows <em>Count of ServiceID</em>.</li>
+  <li><em>File → Save</em> as <code>Casework Practice.pbix</code>.</li>
+</ol>
+</div>
+
+<p><strong>Both paths:</strong> open the Table/Data view, click each table and scroll. It's the same data you know from Excel.</p>
+
+<h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
+<div class="checkpoint" data-key="w9-services-rows"><p class="q">What number does your Count of ServiceID card show?</p></div>
+
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>"You can't sign up with this email" (Path A):</strong> Power BI requires a work or school email. Try Path B, or use Path C (Looker Studio) from the toolkit.</li>
+    <li><strong>Card shows a big number like 1.3K?</strong> That's 13,4xx shortened. Select the card → <em>Format visual → Callout value → Display units → None</em>.</li>
+    <li><strong>Card shows "First ServiceID" instead of a count:</strong> click the dropdown on ServiceID in the visual's field well → <em>Count</em>.</li>
+  </ul>
+</details>
+
+<h2>Stretch (optional, 15 min)</h2>
+<p>Add a second card for the number of clients (<code>Clients[ClientID]</code>, count). Then click the Table visual and drag in <code>ServiceCodes[Description]</code> and <code>ServiceCodes[UnitCost]</code>. That's your price list, inside Power BI.</p>

@@ -1,0 +1,73 @@
+<p class="eyebrow">Read this in Week 1</p>
+<h1>Your free toolkit (Mac edition)</h1>
+<p class="lede">Short answer: <strong>yes, you can learn all of this for free.</strong> Power BI Desktop (the full Power BI app) is free, but it only runs on Windows. On a Mac, use one of the options below. You don't need a paid licence to learn; you only pay when you want to share reports with coworkers.</p>
+
+<p class="pill">Checked October 2026. Microsoft renames buttons often; if a menu name differs slightly, look for the closest match.</p>
+
+<h2>1. Excel (Weeks 1–8)</h2>
+<div class="table-wrap"><table>
+<tr><th>Option</th><th>Cost</th><th>Good for</th></tr>
+<tr><td><strong>Excel for Mac, Microsoft 365</strong> (the subscription version)</td><td>Subscription, or free if work/school provides it</td><td><strong>Everything in Weeks 1–8</strong>, including Power Query. Recommended.</td></tr>
+<tr><td><strong>Excel for the web</strong> (<a href="https://www.microsoft.com/en-us/microsoft-365/free-office-online-for-the-web">free with a Microsoft account</a>)</td><td>Free</td><td>Weeks 1–6 (tables, cleaning, XLOOKUP, SUMIFS, PivotTables). Not enough for Weeks 7–8 (Power Query editing).</td></tr>
+<tr><td>Excel 2021 / LTSC for Mac (one-time purchase)</td><td>Already owned</td><td>Weeks 1–6. Power Query editing may be missing.</td></tr>
+</table></div>
+<div class="callout">
+  <p><strong>Check your version:</strong> open Excel → <em>Excel</em> menu (top-left) → <em>About Excel</em>. For Power Query you want <strong>Microsoft 365</strong> and version <strong>16.69 or newer</strong>. Then check that the <em>Data</em> tab has <strong>Get Data (Power Query)</strong>. Microsoft's guide: <a href="https://support.microsoft.com/en-us/office/import-and-shape-data-in-excel-for-mac-power-query-7b2f337d-e7d2-4fdf-bf00-3dfbb1e5e9c5">Import and shape data in Excel for Mac</a>.</p>
+</div>
+
+<h2>2. Power BI on a Mac (Weeks 9–16): pick one path</h2>
+
+<div class="card">
+  <h3>Path A (recommended): Power BI in your web browser</h3>
+  <p><strong>Cost:</strong> free (the "Power BI (free)" licence). <strong>Setup time:</strong> 10 minutes.</p>
+  <ul>
+    <li>Go to <a href="https://app.powerbi.com">app.powerbi.com</a> and sign in. <strong>You need a work or school email</strong> (Microsoft blocks Gmail, Outlook.com and other personal addresses).</li>
+    <li>You can upload Excel files, build reports, create relationships and write measures in <strong>My workspace</strong>. You just can't share reports with other people on the free licence. That's fine for learning. <a href="https://learn.microsoft.com/en-us/power-bi/fundamentals/end-user-features">What free users can do</a>.</li>
+    <li>If your employer already uses Power BI, your work account probably has access already. Check with IT before uploading anything to a work account; the practice data here is fictional, so it's safe.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>Path B: Power BI Desktop in a free Windows virtual machine</h3>
+  <p><strong>Cost:</strong> free (UTM + unactivated Windows). <strong>Setup time:</strong> 1–2 hours. <strong>Needs:</strong> Apple-silicon Mac (M1 or newer), 16 GB memory recommended, 64 GB free disk.</p>
+  <ul>
+    <li>Install <a href="https://mac.getutm.app/">UTM</a> (free) and the <a href="https://www.microsoft.com/en-us/software-download/windows11arm64">Windows 11 for Arm</a> disk image from Microsoft. Unactivated Windows works for learning; it just shows a watermark.</li>
+    <li>Inside Windows, install <strong>Power BI Desktop</strong> from the Microsoft Store (free).</li>
+    <li>This is the most complete experience, the same app most workplaces use. Power BI Desktop isn't officially supported on Arm Windows, but it generally runs. If it misbehaves, use Path A.</li>
+    <li>Prefer smoother and paid? <em>Parallels Desktop</em> does the same job with less setup.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>Path C (fallback): Google Looker Studio</h3>
+  <p><strong>Cost:</strong> free with any Google account. Use this only if Paths A and B both fail. Same ideas, different buttons.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Power BI idea</th><th>Where it lives in <a href="https://lookerstudio.google.com/">Looker Studio</a></th></tr>
+    <tr><td>Load tables</td><td>Create → Data source → File upload (one CSV per source)</td></tr>
+    <tr><td>Relationships (Week 10)</td><td>Resource → Manage blends (join Services to Clients / ServiceCodes on the ID columns)</td></tr>
+    <tr><td>Measures (Week 11)</td><td>Calculated fields, e.g. <code>SUM(UnitCost)</code> and <code>COUNT_DISTINCT(ClientID)</code></td></tr>
+    <tr><td>Slicers (Week 13)</td><td>Add a control → Drop-down list</td></tr>
+  </table></div>
+  <p>Every checkpoint answer is the same whatever tool you use. Numbers are numbers.</p>
+</div>
+
+<h2>3. Do I ever need to pay?</h2>
+<ul>
+  <li><strong>To learn:</strong> no.</li>
+  <li><strong>To share reports with coworkers in Power BI:</strong> everyone involved needs <strong>Power BI Pro</strong> (about US $14 per user per month), or the organization needs a Premium/Fabric capacity. At a job this is the employer's cost, not yours. There's usually a free 60-day Pro trial.</li>
+  <li><strong>Optional certificate:</strong> Microsoft's <a href="https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/">PL-300 Power BI Data Analyst</a> exam is paid. The learning paths for it are free. See Week 16.</li>
+</ul>
+
+<h2>4. Free learning resources (used throughout)</h2>
+<ul>
+  <li><a href="https://learn.microsoft.com/en-us/training/powerplatform/power-bi">Microsoft Learn: Power BI training</a>: free, official, self-paced modules.</li>
+  <li><a href="https://support.microsoft.com/en-us/excel">Excel help &amp; learning</a>: official how-to articles for every function used here.</li>
+  <li><a href="https://learn.microsoft.com/en-us/dax/">DAX function reference</a>: look up any Power BI formula.</li>
+</ul>
+
+<h2>Week 1 setup checklist</h2>
+<ul class="tasks">
+  <li>Excel opens and I know which version I have</li>
+  <li>I've chosen my Power BI path (A, B or C), and if it's A, I know which work/school email I'll use</li>
+  <li>I downloaded the practice data from the <a href="data.html">practice data page</a></li>
+</ul>
