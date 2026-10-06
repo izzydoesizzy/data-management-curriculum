@@ -10,13 +10,13 @@ realistic (fictional) casework dataset. It's built for a Mac user and uses only 
 | Path | What it is |
 |---|---|
 | `index.html` | Home page: progress bar, start-date planner, 16-week schedule |
-| `weeks/week-NN.html` | One page per week: Learn → Do → Checkpoint → Stuck? → Stretch |
+| `weeks/week-NN.html` | One page per week: Learn → Do → Checkpoint → Stuck? → Stretch, with an Excel & Power BI / Google Sheets & Looker Studio switch |
 | `caseworks.html` | CaseWORKS track: what it records, getting data out, 3 extra projects, 12 report recipes |
 | `toolkit.html` | Free tools, and the three Power BI options for a Mac |
 | `data.html` | Practice data downloads and data dictionary |
 | `glossary.html` | Plain-English definitions |
 | `data/` | Practice CSVs, `powerbi-starter.xlsx`, `answer-key.json`, and the scripts that generate them |
-| `content/` | **Edit these** source fragments, then rebuild |
+| `content/` | **Edit these** source fragments, then rebuild. Google-path steps live in `content/weeks/google/` and replace the `<!--PATH-->` / `<!--STUCK-->` sections when that path is chosen |
 | `assets/` | Shared CSS and JS (progress saved in `localStorage`, answer checker) |
 
 ## Editing and rebuilding

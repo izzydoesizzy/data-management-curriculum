@@ -7,6 +7,7 @@
 <meta name="description" content="Using Power BI and Excel to build custom reports from CaseWORKS case-management data.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="">
 <header class="site-header">
@@ -85,6 +86,7 @@
 </ul>
 
 <h2>4. Three Caseworks projects (after Week 14)</h2>
+<p>Each project shows the Power BI steps, plus an <em>Excel route</em> and a <em>Google route</em> (Sheets &amp; Looker Studio). The answers are the same whichever you use.</p>
 <p>These use two extra practice files shaped like CaseWORKS waitlist and scheduling exports: <a href="data/referrals.csv" download>referrals.csv</a> and <a href="data/appointments.csv" download>appointments.csv</a>. Both are also included in the <a href="data.html">download bundle</a> and in <code>powerbi-starter.xlsx</code>. Add them to your Power BI model the same way you did in Week 9.</p>
 
 <div class="card">
@@ -107,6 +109,9 @@ On Waitlist = CALCULATE([Total Referrals], Referrals[Outcome] = "Waitlisted")</c
     <li>Build a page: cards (Total Referrals, Conversion %, Avg Days Waiting, On Waitlist); a bar chart of Avg Days Waiting by <strong>Referrals[Program]</strong>; a bar chart of Total Referrals by Source; and a table of the current waitlist sorted oldest first.</li>
   </ol>
   <p><em>Excel route:</em> add Days Waiting with <code>=IF([@Outcome]="Enrolled", XLOOKUP([@ClientID], Clients[ClientID], Clients[IntakeDate]) - [@ReferralDate], "")</code>, then use a PivotTable.</p>
+  <p><em>Google route:</em> in your <code>Casework Data</code> Sheet, on the Referrals tab, put <code>Days Waiting</code> in G1 and this in G2:</p>
+<pre><code>=ARRAYFORMULA(IF(F2:F &lt;&gt; "Enrolled", , XLOOKUP(C2:C, Clients!A:A, Clients!B:B) - B2:B))</code></pre>
+  <p>Add Referrals as a Looker Studio data source. Use Average of Days Waiting, and calculated fields <code>SUM(CASE WHEN Outcome = "Enrolled" THEN 1 ELSE 0 END) / COUNT(ReferralID)</code> (Percent) for conversion and <code>SUM(CASE WHEN Outcome = "Waitlisted" THEN 1 ELSE 0 END)</code> for the waitlist.</p>
   <div class="checkpoint" data-key="cw-avg-wait"><p class="q">Average days waiting (referral → intake) for enrolled referrals, 1 decimal?</p></div>
   <div class="checkpoint" data-key="cw-longest-wait-program"><p class="q">Which program has the longest average wait?</p></div>
   <div class="checkpoint" data-key="cw-conversion"><p class="q">What percentage of all referrals became enrolled clients (1 decimal)?</p></div>
@@ -125,6 +130,7 @@ On Waitlist = CALCULATE([Total Referrals], Referrals[Outcome] = "Waitlisted")</c
 No-show Rate = DIVIDE(CALCULATE([Appointments], Appointments[Status] = "No-show"), [Appointments])</code></pre></li>
     <li>Bar chart: No-show Rate by <code>Clients[AgeBand]</code>. Line chart: No-show Rate by month. Matrix: Program × Status.</li>
   </ol>
+  <p><em>Google route:</em> blend Appointments (left) with Clients on ClientID (bring in AgeBand and Program), then add a calculated field <code>No-show Rate = SUM(CASE WHEN Status = "No-show" THEN 1 ELSE 0 END) / COUNT(AppointmentID)</code> (Percent). Use a bar chart by AgeBand and a time series by ApptDate (Year Month).</p>
   <div class="checkpoint" data-key="cw-noshow-rate"><p class="q">Overall no-show rate (% of all appointments, 1 decimal)?</p></div>
   <div class="checkpoint" data-key="cw-noshow-band"><p class="q">Which age band has the highest no-show rate?</p></div>
 </div>
@@ -145,6 +151,7 @@ COUNTROWS(
     <li>Table: <code>Workers[WorkerID]</code>, <code>Workers[Name]</code>, <code>Workers[Role]</code>, Active Caseload, Hours Delivered, Total Spend. Add conditional-formatting data bars to the caseload column.</li>
   </ol>
   <p><em>Excel route:</em> a PivotTable on Clients filtered to blank DischargeDate, Rows = AssignedWorker, Values = Count of ClientID.</p>
+  <p><em>Google route:</em> on the Workers tab, add <code>Active Caseload</code> with <code>=COUNTIFS(Clients!G:G, A2, Clients!C:C, "")</code> and <code>Hours Delivered</code> with <code>=SUMIFS(Services!F:F, Services!E:E, A2) / 60</code>, filling both down. Then build a Looker Studio table on the Workers source with bar-style conditional formatting.</p>
   <div class="checkpoint" data-key="cw-top-caseload-worker"><p class="q">Which worker (WorkerID or name) has the largest active caseload?</p></div>
   <div class="checkpoint" data-key="cw-top-caseload"><p class="q">How many active clients are in that caseload?</p></div>
   <div class="checkpoint" data-key="cw-top-hours"><p class="q">What is the highest number of service hours delivered by any one worker (1 decimal)?</p></div>

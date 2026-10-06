@@ -1,0 +1,27 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Your data is a block of cells with a header row. Two habits turn it into something you can question:</p>
+<ul>
+  <li><strong>One table per tab, with a clear tab name</strong> (<code>Clients</code>, <code>Services</code>…). Formulas later refer to columns like <code>Clients!D:D</code>, which means "column D of the Clients tab".</li>
+  <li><strong>A filter</strong> on the header row, which gives you sort and filter buttons on every column.</li>
+</ul>
+<p>Read: <a href="https://support.google.com/docs/answer/3540681">Sort &amp; filter your data</a> (Google, 5 min).</p>
+
+<h2 class="section-label">2. Do <span class="time">40 min</span></h2>
+<ol class="steps">
+  <li><strong>Add a filter to Clients.</strong> Click any cell in the Clients data → <em>Data → Create a filter</em>. Filter icons appear in every header.</li>
+  <li><strong>Check your tab names.</strong> They must be exactly <code>Services</code>, <code>Clients</code>, <code>ServiceCodes</code> and <code>Workers</code>. Formulas later depend on them.</li>
+  <li><strong>Sort.</strong> In Clients, click the filter icon on <em>IntakeDate</em> → <em>Sort A → Z</em>. The oldest intake is now at the top. Sort ClientID A → Z again to put things back.</li>
+  <li><strong>Filter by one value.</strong> Click the filter icon on <em>Program</em> → <em>Filter by values</em> → <em>Clear</em> → tick <em>Housing Support</em> → OK. Click the <strong>column A letter</strong> and read <em>Count</em> at the bottom-right (switch it from Sum to Count if needed). Subtract 1 for the header.</li>
+  <li><strong>Clear the filter</strong> (Program filter icon → <em>Select all</em> → OK).</li>
+  <li><strong>Find active clients.</strong> A blank DischargeDate means the client is still active. DischargeDate filter icon → <em>Filter by values</em> → <em>Clear</em> → tick <em>(Blanks)</em> → OK. Count the ClientIDs the same way.</li>
+  <li>Clear all filters (<em>Data → Remove filter</em>).</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>No filter icons?</strong> Click inside the data first, then <em>Data → Create a filter</em>.</li>
+    <li><strong>Count looks too big?</strong> Check the filter icon in the header shows it's active, and subtract 1 for the header.</li>
+    <li><strong>(Blanks) not in the list?</strong> It's at the top or bottom of the values list. Click <em>Clear</em> first, then tick it.</li>
+  </ul>
+</details>

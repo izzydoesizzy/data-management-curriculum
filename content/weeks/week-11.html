@@ -4,13 +4,14 @@
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li>Understand measure vs. column</li>
+  <li>Understand measures/metrics vs. columns/dimensions</li>
   <li>Create Total Spend, Total Services, Clients Served and Avg Spend per Client</li>
   <li>Format them as currency / whole numbers</li>
-  <li>Use them in cards and a table</li>
+  <li>Use them in cards/scorecards and a table</li>
   <li>Answer all three checkpoints</li>
 </ul>
 
+<!--PATH-->
 <h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
 <p>DAX is Power BI's formula language. Our most important measure:</p>
 <pre><code>Total Spend = SUMX( Services, RELATED( ServiceCodes[UnitCost] ) )</code></pre>
@@ -40,6 +41,8 @@ Avg Spend per Client = DIVIDE([Total Spend], [Clients Served])</code></pre></li>
   <li>Compare <em>Total Spend</em> with your Excel answer from Week 4. They should match exactly. Save.</li>
 </ol>
 
+<!--/PATH-->
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w11-clients-served"><p class="q">What does Clients Served show for the whole agency?</p></div>
 <div class="checkpoint" data-key="w11-avg-spend-per-client"><p class="q">What is the Avg Spend per Client for the whole agency?</p></div>
@@ -56,6 +59,13 @@ Avg Spend per Client = DIVIDE([Total Spend], [Clients Served])</code></pre></li>
 </details>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>Write a measure for spend on Financial Assistance only:</p>
 <pre><code>FA Spend = CALCULATE([Total Spend], ServiceCodes[Category] = "Financial Assistance")</code></pre>
 <p><code>CALCULATE</code> is the most powerful function in DAX: "calculate this measure, but with this extra filter." Compare the result with your Week 6 PivotTable.</p>
+</div>
+<div data-path="google">
+<p>Make a Financial Assistance-only metric:</p>
+<pre><code>FA Spend = SUM(CASE WHEN Category = "Financial Assistance" THEN UnitCost ELSE 0 END)</code></pre>
+<p><code>CASE WHEN</code> is the Looker Studio way of saying "only count these rows." Compare the result with your Week 6 pivot table.</p>
+</div>

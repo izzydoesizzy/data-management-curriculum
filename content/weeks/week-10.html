@@ -1,16 +1,17 @@
 <div class="callout why">
-  <p><strong>Why this matters:</strong> you said it yourself: <em>"find relationships between data points."</em> In Excel you connected tables one column at a time with XLOOKUP. In Power BI you connect them <strong>once</strong>, with relationships, and every chart understands the connection from then on.</p>
+  <p><strong>Why this matters:</strong> you said it yourself: <em>"find relationships between data points."</em> In a spreadsheet you connected tables one column at a time with XLOOKUP. In Power BI (relationships) or Looker Studio (a blend) you connect them <strong>once</strong>, and every chart understands the connection from then on.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li>Open Model view and understand the star shape</li>
-  <li>Make sure exactly three correct relationships exist</li>
+  <li>Understand the star shape</li>
+  <li>Connect the tables with exactly three relationships (or joins in a blend)</li>
   <li>Prove the relationships work with a bar chart</li>
   <li>Find the clients who have no services</li>
   <li>Answer both checkpoints</li>
 </ul>
 
+<!--PATH-->
 <h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
 <p>Look at the diagram on the <a href="../data.html">practice data page</a> again. Our model is a <strong>star schema</strong>:</p>
 <ul>
@@ -37,6 +38,8 @@
   <li><strong>Find the clients with no services.</strong> Add two cards: one with <code>Clients[ClientID]</code> set to <em>Count (Distinct)</em>, one with <code>Services[ClientID]</code> set to <em>Count (Distinct)</em>. The difference is clients on the books who have never received a service.</li>
   <li>Save.</li>
 </ol>
+
+<!--/PATH-->
 
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w10-relationships"><p class="q">How many relationships does your finished model have?</p></div>

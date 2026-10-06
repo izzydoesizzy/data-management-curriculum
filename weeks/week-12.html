@@ -7,6 +7,7 @@
 <meta name="description" content="Add a month column, see spending over time and calculate average length of stay.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="12">
 <header class="site-header">
@@ -17,24 +18,32 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 12 of 16 · Phase 3 · Power BI</p>
+<p class="eyebrow">Week 12 of 16 · Phase 3 · Dashboards</p>
 <h1>Time: months, trends and length of stay</h1>
 <div class="meta">
-  <span class="pill pbi">Power BI</span>
+  <span class="pill pbi" data-path="ms">Power BI</span>
+  <span class="pill pbi" data-path="google">Looker Studio</span>
   <span class="pill">⏱ About 75 min</span>
 </div>
 <p class="lede">Add a month column, see spending over time and calculate average length of stay.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
   <p><strong>Why this matters:</strong> managers always ask "compared to when?" Is spending going up? How long do clients usually stay with us? Time is the dimension behind most real questions.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w12-t1"><span>Add a Month column to Services</span></label></li>
+  <li><label><input type="checkbox" data-task="w12-t1"><span>Group services by month</span></label></li>
   <li><label><input type="checkbox" data-task="w12-t2"><span>Build a monthly spend line chart</span></label></li>
-  <li><label><input type="checkbox" data-task="w12-t3"><span>Create the Avg Length of Stay measure</span></label></li>
+  <li><label><input type="checkbox" data-task="w12-t3"><span>Calculate average length of stay</span></label></li>
   <li><label><input type="checkbox" data-task="w12-t4"><span>Answer all three checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <ul>
@@ -61,11 +70,34 @@ AVERAGEX(
   <li><strong>Try it by program:</strong> a Table visual with <code>Clients[Program]</code> and <code>Avg Length of Stay (days)</code>. Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<ul>
+  <li>Looker Studio understands dates. You can show any date field as a <strong>Year Month</strong> to group services by month, with no extra column needed.</li>
+  <li><strong>Length of stay</strong> = days between IntakeDate and DischargeDate. Only discharged clients have one; active clients are left out automatically because their difference is empty (null), and averages ignore nulls.</li>
+</ul>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/6401549">Dates and times (incl. DATE_DIFF)</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">45 min</span></h2>
+<ol class="steps">
+  <li><strong>Monthly trend.</strong> <em>Insert → Time series chart</em>, data source Casework Model. Dimension = <strong>ServiceDate</strong>; click the small calendar icon next to it and choose <strong>Year Month</strong>. Metric = <strong>Total Spend</strong>.</li>
+  <li><strong>Find the numbers.</strong> Hover over points, or add a <em>Table</em> with ServiceDate (Year Month) and Total Spend, then click the Total Spend header to sort.</li>
+  <li><strong>Length of stay field.</strong> <em>Resource → Manage added data sources</em> → Edit <strong>Clients</strong> → <em>Add a field</em>. Name <code>Days Stayed</code>, formula:
+<pre><code>DATE_DIFF(DischargeDate, IntakeDate)</code></pre>
+    Save → Done.</li>
+  <li><strong>Average it.</strong> <em>Insert → Scorecard</em>, data source <strong>Clients</strong>, metric <strong>Days Stayed</strong> with aggregation <strong>Average</strong>. Show 1 decimal place (Setup → metric → decimal precision).</li>
+  <li><strong>Try it by program:</strong> a table on Clients with Program and Average of Days Stayed.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w12-top-month"><p class="q">Which month had the highest total spend? (format: YYYY-MM)</p></div>
 <div class="checkpoint" data-key="w12-mar-2026-spend"><p class="q">Total spend in March 2026?</p></div>
 <div class="checkpoint" data-key="w12-avg-los"><p class="q">Average length of stay for discharged clients, in days (1 decimal)?</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -75,8 +107,21 @@ AVERAGEX(
     <li><strong>Length of stay is a huge negative number?</strong> The FILTER isn't excluding blank discharge dates, so active clients are being counted with an "empty" date. Check the <code>NOT ISBLANK</code> line.</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>No calendar icon / dates look like text:</strong> set the field type to <em>Date</em> in the data source editor.</li>
+    <li><strong>DATE_DIFF error:</strong> both IntakeDate and DischargeDate must be Date type.</li>
+    <li><strong>Length of stay is a huge negative number:</strong> the order is <code>DATE_DIFF(later, earlier)</code>, so discharge comes first.</li>
+    <li><strong>Months out of order:</strong> time series charts sort by date automatically; in a table, sort by ServiceDate ascending.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 20 min)</h2>
+<div data-path="ms">
 <p>Build a proper date table. <em>New table</em>:</p>
 <pre><code>Date = ADDCOLUMNS(
     CALENDAR(DATE(2025, 4, 1), DATE(2026, 9, 30)),
@@ -84,12 +129,16 @@ AVERAGEX(
     "Year", YEAR([Date])
 )</code></pre>
 <p>Create a relationship from <code>Date[Date]</code> to <code>Services[ServiceDate]</code>, then rebuild the line chart using <code>Date[Month]</code>. This is the professional pattern you'll see in workplace reports.</p>
+</div>
+<div data-path="google">
+<p>Try different date groupings on the same time series chart: click the calendar icon on ServiceDate and switch between <strong>Year Quarter</strong>, <strong>Year Week</strong> and <strong>Year</strong>. Then add a <em>Date range control</em> (<em>Insert → Date range control</em>) so viewers can pick their own period.</p>
+</div>
 
 <div class="week-done">
   <label><input type="checkbox" data-week-done="12"> I finished Week 12</label>
   <p class="done-msg" hidden>Week 12 is done. Take a breath; next week builds on this.</p>
 </div>
-<nav class="pager" aria-label="Weeks"><a href="week-11.html">← Week 11: Measures: your first DAX</a><a href="week-13.html">Week 13: Designing a report people actually use →</a></nav>
+<nav class="pager" aria-label="Weeks"><a href="week-11.html">← Week 11: Measures: your first calculations</a><a href="week-13.html">Week 13: Designing a report people actually use →</a></nav>
 
 </main>
 <footer class="site-footer">

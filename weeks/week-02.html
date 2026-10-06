@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Week 2: Tables, sorting and filtering</title>
-<meta name="description" content="Turn plain cells into an Excel Table and answer your first questions with sort and filter.">
+<meta name="description" content="Turn plain cells into a proper table and answer your first questions with sort and filter.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="2">
 <header class="site-header">
@@ -17,23 +18,31 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 2 of 16 · Phase 1 · Excel foundations</p>
+<p class="eyebrow">Week 2 of 16 · Phase 1 · Spreadsheet foundations</p>
 <h1>Tables, sorting and filtering</h1>
 <div class="meta">
-  <span class="pill excel">Excel</span>
+  <span class="pill excel" data-path="ms">Excel</span>
+  <span class="pill excel" data-path="google">Google Sheets</span>
   <span class="pill">⏱ About 60 min</span>
 </div>
-<p class="lede">Turn plain cells into an Excel Table and answer your first questions with sort and filter.</p>
+<p class="lede">Turn plain cells into a proper table and answer your first questions with sort and filter.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
-  <p><strong>Why this matters:</strong> "How many active clients do we have in Housing?" is a filter question. Most everyday questions can be answered in seconds once your data is in a proper Excel Table.</p>
+  <p><strong>Why this matters:</strong> "How many active clients do we have in Housing?" is a filter question. Most everyday questions can be answered in seconds once your data is set up as a proper table.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w02-t1"><span>Turn all four sheets into named Excel Tables</span></label></li>
+  <li><label><input type="checkbox" data-task="w02-t1"><span>Set up all four tables (named Excel Tables, or named tabs with filters in Sheets)</span></label></li>
   <li><label><input type="checkbox" data-task="w02-t2"><span>Sort and filter the Clients table</span></label></li>
   <li><label><input type="checkbox" data-task="w02-t3"><span>Answer both checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <p>Right now your data is just cells. An <strong>Excel Table</strong> is a range Excel knows is one dataset. That gives you:</p>
@@ -56,6 +65,29 @@
   <li>Clear all filters and save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Your data is a block of cells with a header row. Two habits turn it into something you can question:</p>
+<ul>
+  <li><strong>One table per tab, with a clear tab name</strong> (<code>Clients</code>, <code>Services</code>…). Formulas later refer to columns like <code>Clients!D:D</code>, which means "column D of the Clients tab".</li>
+  <li><strong>A filter</strong> on the header row, which gives you sort and filter buttons on every column.</li>
+</ul>
+<p>Read: <a href="https://support.google.com/docs/answer/3540681">Sort &amp; filter your data</a> (Google, 5 min).</p>
+
+<h2 class="section-label">2. Do <span class="time">40 min</span></h2>
+<ol class="steps">
+  <li><strong>Add a filter to Clients.</strong> Click any cell in the Clients data → <em>Data → Create a filter</em>. Filter icons appear in every header.</li>
+  <li><strong>Check your tab names.</strong> They must be exactly <code>Services</code>, <code>Clients</code>, <code>ServiceCodes</code> and <code>Workers</code>. Formulas later depend on them.</li>
+  <li><strong>Sort.</strong> In Clients, click the filter icon on <em>IntakeDate</em> → <em>Sort A → Z</em>. The oldest intake is now at the top. Sort ClientID A → Z again to put things back.</li>
+  <li><strong>Filter by one value.</strong> Click the filter icon on <em>Program</em> → <em>Filter by values</em> → <em>Clear</em> → tick <em>Housing Support</em> → OK. Click the <strong>column A letter</strong> and read <em>Count</em> at the bottom-right (switch it from Sum to Count if needed). Subtract 1 for the header.</li>
+  <li><strong>Clear the filter</strong> (Program filter icon → <em>Select all</em> → OK).</li>
+  <li><strong>Find active clients.</strong> A blank DischargeDate means the client is still active. DischargeDate filter icon → <em>Filter by values</em> → <em>Clear</em> → tick <em>(Blanks)</em> → OK. Count the ClientIDs the same way.</li>
+  <li>Clear all filters (<em>Data → Remove filter</em>).</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w2-housing-clients">
   <p class="q">How many clients are in the Housing Support program?</p>
@@ -64,6 +96,7 @@
   <p class="q">How many clients are still active (no discharge date)?</p>
 </div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -72,6 +105,17 @@
     <li><strong>"(Blanks)" not in the list?</strong> Scroll to the very bottom of the filter list.</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>No filter icons?</strong> Click inside the data first, then <em>Data → Create a filter</em>.</li>
+    <li><strong>Count looks too big?</strong> Check the filter icon in the header shows it's active, and subtract 1 for the header.</li>
+    <li><strong>(Blanks) not in the list?</strong> It's at the top or bottom of the values list. Click <em>Clear</em> first, then tick it.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 15 min)</h2>
 <p>Filter for clients who are <em>both</em> in Mental Health <em>and</em> in the North region and still active. Filters stack: each one narrows the last. How many are there?</p>

@@ -1,0 +1,33 @@
+<h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
+<p>In Looker Studio, a <strong>metric</strong> is a number that recalculates for whatever the chart shows: the whole agency on a scorecard, per program in a bar chart, per client in a table. You can create your own with <strong>calculated fields</strong>:</p>
+<pre><code>Total Spend          = SUM(UnitCost)
+Total Services       = COUNT(ServiceID)
+Clients Served       = COUNT_DISTINCT(ClientID)
+Avg Spend per Client = SUM(UnitCost) / COUNT_DISTINCT(ClientID)</code></pre>
+<p>In plain English, Total Spend is "add up the cost of every service in view." Because you put UnitCost on each row in Week 9 (the same XLOOKUP as Week 4), this stays simple.</p>
+<div class="table-wrap"><table>
+<tr><th></th><th>Metric</th><th>Dimension</th></tr>
+<tr><td>Calculates</td><td>One number for whatever is in view</td><td>A label for every row</td></tr>
+<tr><td>Use for</td><td>Things you add/count/average (spend, clients)</td><td>Things you group or filter <em>by</em> (program, month)</td></tr>
+<tr><td>Example</td><td>Total Spend</td><td>Region</td></tr>
+</table></div>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/6299685">About calculated fields</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">45 min</span></h2>
+<ol class="steps">
+  <li><strong>Create a scorecard on the blend.</strong> <em>Insert → Scorecard</em>, Data source = <strong>Casework Model</strong>.</li>
+  <li><strong>Add a calculated metric.</strong> In Setup, click the metric → <em>Add field</em> / <em>Create field</em> (wording varies). Name it <code>Total Spend</code>, formula <code>SUM(UnitCost)</code>, type <strong>Currency</strong> → Apply.</li>
+  <li><strong>Make three more scorecards</strong> the same way: <code>Total Services</code>, <code>Clients Served</code> and <code>Avg Spend per Client</code> (formulas above). Tip: copy a finished scorecard (<kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>⌘</kbd> + <kbd>V</kbd>) and just change its metric.</li>
+  <li><strong>Table by region.</strong> <em>Insert → Table</em>, data source Casework Model. Dimension = <strong>Region</strong>. Metrics = Total Spend, Clients Served, Avg Spend per Client. Same formulas, five regions, five different answers.</li>
+  <li>Compare Total Spend with your Week 4 answer. They should match exactly.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>"Invalid formula":</strong> field names must match exactly, including capitals. Start typing and pick from the suggestions.</li>
+    <li><strong>Every region shows the same total:</strong> the table isn't using the Casework Model blend, or the Clients join is missing (Week 10).</li>
+    <li><strong>Avg Spend per Client looks like $63:</strong> that's the average <em>per service</em>. Divide by <code>COUNT_DISTINCT(ClientID)</code>, not <code>COUNT(ServiceID)</code>.</li>
+    <li><strong>Total Spend is zero or blank:</strong> UnitCost is text. Set its type to Number in the Services data source (Week 9, step 5).</li>
+  </ul>
+</details>

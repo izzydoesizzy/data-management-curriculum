@@ -1,0 +1,34 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>The "IFS" family adds up, counts or averages <strong>only the rows that match a condition</strong>:</p>
+<pre><code>=SUMIFS(   what to add up,     where to check,     what to match )
+=SUMIFS(   Services!G:G,       Services!B:B,       "C-0042" )</code></pre>
+<p>"Add up column G (UnitCost), but only for rows where column B (ClientID) is C-0042." <code>COUNTIFS</code> counts matching rows and <code>AVERAGEIFS</code> averages them. The "S" means you can add more conditions.</p>
+<p>Read: <a href="https://support.google.com/docs/answer/3238496">SUMIFS function</a> (Google).</p>
+<p><strong>Google Sheets version of the spec:</strong> same five columns, on a new tab called <code>Client Spend</code> in your <code>Casework Practice</code> spreadsheet.</p>
+
+<h2 class="section-label">2. Do <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li><strong>New tab.</strong> Click <strong>+</strong> at the bottom-left. Rename it <code>Client Spend</code>. Type the five headers from the spec into A1:E1.</li>
+  <li><strong>List every client once.</strong> In A2:
+    <pre><code>=SORT(UNIQUE(FILTER(Services!B2:B, Services!B2:B &lt;&gt; "")))</code></pre>
+    The list fills down automatically: one row per client who had services.</li>
+  <li><strong>Total Spend.</strong> In B2:
+    <pre><code>=SUMIFS(Services!G:G, Services!B:B, A2)</code></pre>
+    Then double-click the small blue square at the bottom-right corner of B2 to copy it down the list (or drag it down).</li>
+  <li><strong>Services.</strong> In C2: <code>=COUNTIFS(Services!B:B, A2)</code>, then fill down.</li>
+  <li><strong>Avg Cost per Service.</strong> In D2: <code>=AVERAGEIFS(Services!G:G, Services!B:B, A2)</code>, then fill down.</li>
+  <li><strong>Program.</strong> In E2: <code>=XLOOKUP(A2, Clients!A:A, Clients!D:D)</code>, then fill down.</li>
+  <li><strong>Format</strong> columns B and D as currency (<em>Format → Number → Currency</em>). Bold the header row and freeze it (<em>View → Freeze → 1 row</em>).</li>
+  <li><strong>Overall average.</strong> In G2 type <code>=AVERAGE(Services!G2:G)</code>. That's the average cost of a service across everyone.</li>
+  <li><strong>Find the checkpoint clients</strong> with <kbd>⌘</kbd> + <kbd>F</kbd>.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong><code>#REF!</code> in A2 ("would overwrite data"):</strong> clear the cells below A2.</li>
+    <li><strong>Every total is $0:</strong> UnitCost is text. Check the Week 4 formula returns numbers (right-aligned).</li>
+    <li><strong>Totals are a bit too high:</strong> duplicates are still there. Check you have 13,412 service rows.</li>
+    <li><strong>Avg cost per service is off?</strong> Average <code>Services!G2:G</code> (all services), not the client averages in column D.</li>
+  </ul>
+</details>

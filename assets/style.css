@@ -268,3 +268,16 @@ dl.glossary dd { margin: 4px 0 0; max-width: 68ch; }
   .site-header, .pager, .week-done, .checkpoint .row button { display: none; }
   body { background: #fff; color: #000; }
 }
+
+/* ---------- tool path switch (Excel & Power BI vs Google Sheets & Looker Studio) ---------- */
+html:not([data-path-choice="google"]) [data-path="google"],
+html[data-path-choice="google"] [data-path="ms"] { display: none !important; }
+.path-switch {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin: 16px 0; padding: 10px 12px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+  font-size: .92rem;
+}
+.path-switch span { color: var(--muted); font-weight: 600; margin-right: 4px; }
+.path-switch button { background: var(--surface); color: var(--text); border-color: var(--border); font-weight: 600; }
+.path-switch button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }

@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 6: Project 2: PivotTables</title>
+<title>Week 6: Project 2: pivot tables</title>
 <meta name="description" content="Summarize 13,000 rows in seconds by program, category and client, with clickable filters.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="6">
 <header class="site-header">
@@ -17,15 +18,21 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 6 of 16 · Phase 1 · Excel foundations</p>
-<h1>Project 2: PivotTables</h1>
+<p class="eyebrow">Week 6 of 16 · Phase 1 · Spreadsheet foundations</p>
+<h1>Project 2: pivot tables</h1>
 <div class="meta">
-  <span class="pill excel">Excel</span>
+  <span class="pill excel" data-path="ms">Excel</span>
+  <span class="pill excel" data-path="google">Google Sheets</span>
   <span class="pill">⏱ About 90 min</span>
 </div>
 <p class="lede">Summarize 13,000 rows in seconds by program, category and client, with clickable filters.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
-  <p><strong>Project 2:</strong> last week took five formulas per question. A PivotTable answers "spend by program", "spend by category", "top 10 clients" by dragging and dropping. This is the closest thing in Excel to the reports colleagues were building in Power BI.</p>
+  <p><strong>Project 2:</strong> last week took five formulas per question. A pivot table answers "spend by program", "spend by category", "top 10 clients" by dragging and dropping. It's the closest thing in a spreadsheet to the reports colleagues were building in Power BI.</p>
 </div>
 
 <h2>Project spec (exact parameters)</h2>
@@ -40,11 +47,13 @@
 <h2>This week's checklist</h2>
 <ul class="tasks">
   <li><label><input type="checkbox" data-task="w06-t1"><span>Add a Program column to Services (if I skipped last week's stretch)</span></label></li>
-  <li><label><input type="checkbox" data-task="w06-t2"><span>Build the Program × Category PivotTable</span></label></li>
+  <li><label><input type="checkbox" data-task="w06-t2"><span>Build the Program × Category pivot table</span></label></li>
   <li><label><input type="checkbox" data-task="w06-t3"><span>Add a Region slicer</span></label></li>
-  <li><label><input type="checkbox" data-task="w06-t4"><span>Build the Top 10 clients PivotTable</span></label></li>
+  <li><label><input type="checkbox" data-task="w06-t4"><span>Build the Top 10 clients pivot table</span></label></li>
   <li><label><input type="checkbox" data-task="w06-t5"><span>Answer all four checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <p>A PivotTable has four boxes you drag fields into:</p>
@@ -71,12 +80,41 @@
   <li><strong>Top 10.</strong> Click the Row Labels dropdown → <em>Value Filters → Top 10…</em> → OK. Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>A pivot table has four boxes you fill from the editor panel on the right:</p>
+<ul>
+  <li><strong>Rows:</strong> what you want one line per (e.g. Program)</li>
+  <li><strong>Columns:</strong> what to split across the top (e.g. Category)</li>
+  <li><strong>Values:</strong> the number to calculate (e.g. SUM of UnitCost)</li>
+  <li><strong>Filters:</strong> what to narrow the whole thing by</li>
+</ul>
+<p>A <strong>slicer</strong> is a clickable filter that sits above the pivot table, the same idea as the filter controls in Looker Studio.</p>
+<p>Read: <a href="https://support.google.com/a/users/answer/9308944">Create &amp; use pivot tables</a> (Google). <strong>Google Sheets version of the spec:</strong> same two pivot tables, on tabs named <code>Pivot - Program</code> and <code>Pivot - Top Clients</code>.</p>
+
+<h2 class="section-label">2. Do <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li><strong>Add Program and Region to Services</strong> (skip Program if you did it in the Week 4 stretch). In <strong>I1</strong> type <code>Program</code>, and in <strong>I2</strong>:
+    <pre><code>=ARRAYFORMULA(IF(B2:B = "", , XLOOKUP(B2:B, Clients!A:A, Clients!D:D)))</code></pre>
+    In <strong>J1</strong> type <code>Region</code>, and in <strong>J2</strong> use the same formula with <code>Clients!E:E</code>.</li>
+  <li><strong>Insert the pivot table.</strong> Click any cell in Services → <em>Insert → Pivot table</em>. Check the range covers all columns (A1:J…) → <em>New sheet</em> → Create. Rename the new tab <code>Pivot - Program</code>.</li>
+  <li>In the editor on the right: <strong>Rows</strong> → Add → <em>Program</em>. <strong>Columns</strong> → Add → <em>Category</em>. <strong>Values</strong> → Add → <em>UnitCost</em>, summarized by <em>SUM</em>.</li>
+  <li><strong>Format numbers.</strong> Select the pivot's numbers → <em>Format → Number → Currency rounded</em>.</li>
+  <li><strong>Add a slicer.</strong> Click the pivot table → <em>Data → Add a slicer</em>. In the slicer panel set the column to <em>Region</em>. Click the slicer and pick a region to filter. Set it back to all when done.</li>
+  <li><strong>Second pivot table.</strong> From Services again, <em>Insert → Pivot table → New sheet</em>. Rename the tab <code>Pivot - Top Clients</code>. Rows = <strong>ClientID</strong>, Values = <strong>SUM of UnitCost</strong>.</li>
+  <li><strong>Sort.</strong> Under Rows → ClientID → <em>Order: Descending</em>, <em>Sort by: SUM of UnitCost</em>. The top 10 rows are your top 10 clients.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w6-top-program"><p class="q">Which program has the highest total spend?</p></div>
 <div class="checkpoint" data-key="w6-top-program-spend"><p class="q">How much did that program spend in total?</p></div>
 <div class="checkpoint" data-key="w6-top-client"><p class="q">Which client (ClientID) has the highest total spend?</p></div>
 <div class="checkpoint" data-key="w6-fa-spend"><p class="q">Total spend in the Financial Assistance category (all programs)?</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -85,6 +123,17 @@
     <li><strong>Grand totals don't match Week 4?</strong> Make sure the slicer isn't filtering anything.</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Pivot editor disappeared?</strong> Click a cell inside the pivot table and click <em>Edit</em> under it.</li>
+    <li><strong>UnitCost isn't offered as SUM:</strong> the column contains text. Check Week 4's formula.</li>
+    <li><strong>Grand totals don't match Week 4?</strong> Check the slicer is set to all regions, and the pivot range includes every row.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 20 min)</h2>
 <p>Make a third PivotTable: Rows = Region, Values = Sum of UnitCost. Which region spends the most? Now the harder question: is that because it has <em>more clients</em>, or <em>more spend per client</em>? A regular PivotTable can't easily count unique clients. That's one of the reasons Power BI exists, and you'll answer it properly in Week 15.</p>
@@ -93,7 +142,7 @@
   <label><input type="checkbox" data-week-done="6"> I finished Week 6</label>
   <p class="done-msg" hidden>Week 6 is done. Take a breath; next week builds on this.</p>
 </div>
-<nav class="pager" aria-label="Weeks"><a href="week-05.html">← Week 5: Project 1: spend per client</a><a href="week-07.html">Week 7: Power Query: a recipe for cleaning →</a></nav>
+<nav class="pager" aria-label="Weeks"><a href="week-05.html">← Week 5: Project 1: spend per client</a><a href="week-07.html">Week 7: A recipe for cleaning →</a></nav>
 
 </main>
 <footer class="site-footer">

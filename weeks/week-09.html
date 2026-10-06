@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 9: Get Power BI running on your Mac</title>
-<meta name="description" content="Choose your Power BI path, load the four tables and find your way around.">
+<title>Week 9: Set up Power BI or Looker Studio</title>
+<meta name="description" content="Get your dashboard tool running, load the four tables and find your way around.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="9">
 <header class="site-header">
@@ -17,25 +18,33 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 9 of 16 · Phase 3 · Power BI</p>
-<h1>Get Power BI running on your Mac</h1>
+<p class="eyebrow">Week 9 of 16 · Phase 3 · Dashboards</p>
+<h1>Set up Power BI or Looker Studio</h1>
 <div class="meta">
-  <span class="pill pbi">Power BI</span>
+  <span class="pill pbi" data-path="ms">Power BI</span>
+  <span class="pill pbi" data-path="google">Looker Studio</span>
   <span class="pill">⏱ About 75 min</span>
 </div>
-<p class="lede">Choose your Power BI path, load the four tables and find your way around.</p>
+<p class="lede">Get your dashboard tool running, load the four tables and find your way around.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
-  <p><strong>Why this matters:</strong> Excel got you far, but it starts to strain when there are many tables, many questions and many people asking. Power BI is built for exactly what your colleagues did: take raw tables, connect them, and build reports anyone can click through.</p>
+  <p><strong>Why this matters:</strong> Spreadsheets got you far, but they start to strain when there are many tables, many questions and many people asking. Dashboard tools like Power BI and Looker Studio are built for exactly what your colleagues did: take raw tables, connect them, and build reports anyone can click through.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w09-t1"><span>Get Power BI working (Path A browser, or Path B Windows VM)</span></label></li>
+  <li><label><input type="checkbox" data-task="w09-t1"><span>Get my dashboard tool working (Power BI, or Looker Studio)</span></label></li>
   <li><label><input type="checkbox" data-task="w09-t2"><span>Load all four tables from powerbi-starter.xlsx</span></label></li>
-  <li><label><input type="checkbox" data-task="w09-t3"><span>Find the three views: Report, Table/Data and Model</span></label></li>
-  <li><label><input type="checkbox" data-task="w09-t4"><span>Build my first card visual</span></label></li>
+  <li><label><input type="checkbox" data-task="w09-t3"><span>Find my way around the editor</span></label></li>
+  <li><label><input type="checkbox" data-task="w09-t4"><span>Build my first card / scorecard</span></label></li>
   <li><label><input type="checkbox" data-task="w09-t5"><span>Answer the checkpoint</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <p>Power BI has three parts you'll use constantly:</p>
@@ -74,20 +83,63 @@
 
 <p><strong>Both paths:</strong> open the Table/Data view, click each table and scroll. It's the same data you know from Excel.</p>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p><strong>Looker Studio</strong> is Google's free dashboard tool. It reads directly from Google Sheets, so when the Sheet changes, the dashboard updates. Three parts you'll use constantly:</p>
+<ul>
+  <li><strong>Data sources:</strong> each tab of your Sheet becomes a data source (a table).</li>
+  <li><strong>Charts and controls:</strong> add from the <em>Insert</em> menu, then choose fields in the <em>Setup</em> panel on the right, like filling a pivot table.</li>
+  <li><strong>Edit vs. View mode:</strong> you build in Edit; others click around in View.</li>
+</ul>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/14528488">Create a report from Google Sheets</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>Put the clean data in one Google Sheet.</strong> Upload <a href="../data/powerbi-starter.xlsx" download>powerbi-starter.xlsx</a> to <a href="https://drive.google.com">Google Drive</a> (<em>New → File upload</em>). Double-click it, then <em>File → Save as Google Sheets</em>. Rename it <code>Casework Data</code>. It has tabs for Services, Clients, ServiceCodes and Workers (plus two for the Caseworks track).</li>
+  <li><strong>Add a UnitCost column to Services</strong> (Looker Studio works best when the cost is already on each row). On the Services tab, in <strong>G1</strong> type <code>UnitCost</code> and in <strong>G2</strong>:
+<pre><code>=ARRAYFORMULA(IF(D2:D = "", , XLOOKUP(D2:D, ServiceCodes!A:A, ServiceCodes!D:D)))</code></pre>
+    Exactly what you did in Week 4.</li>
+  <li><strong>Create a report.</strong> Go to <a href="https://lookerstudio.google.com">lookerstudio.google.com</a> → <em>Create → Report</em> → <em>Google Sheets</em> → <code>Casework Data</code> → worksheet <strong>Services</strong> → keep <em>Use first row as headers</em> ticked → <em>Add</em>.</li>
+  <li><strong>Add the other tabs as data sources.</strong> <em>Resource → Manage added data sources → Add a data source → Google Sheets</em>. Add <strong>Clients</strong>, <strong>ServiceCodes</strong> and <strong>Workers</strong> one at a time.</li>
+  <li><strong>Check data types.</strong> In <em>Resource → Manage added data sources</em>, click <em>Edit</em> on Services and make sure ServiceDate is a <strong>Date</strong> and UnitCost is a <strong>Number</strong> (or Currency). Do the same for IntakeDate and DischargeDate in Clients.</li>
+  <li><strong>First chart.</strong> <em>Insert → Scorecard</em>, place it on the page. In Setup: Data source = Services, Metric = <strong>Record Count</strong>.</li>
+  <li>Rename the report (top-left) to <code>Casework Practice</code>. It saves automatically.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w9-services-rows"><p class="q">What number does your Count of ServiceID card show?</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
-    <li><strong>"You can't sign up with this email" (Path A):</strong> Power BI requires a work or school email. Try Path B, or use Path C (Looker Studio) from the toolkit.</li>
+    <li><strong>"You can't sign up with this email" (Path A):</strong> Power BI requires a work or school email. Try Path B, or switch to the Google Sheets &amp; Looker Studio steps at the top of this page.</li>
     <li><strong>Card shows a big number like 1.3K?</strong> That's 13,4xx shortened. Select the card → <em>Format visual → Callout value → Display units → None</em>.</li>
     <li><strong>Card shows "First ServiceID" instead of a count:</strong> click the dropdown on ServiceID in the visual's field well → <em>Count</em>.</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Can't see your spreadsheet in Looker Studio:</strong> it must be a Google Sheet, not an .xlsx sitting in Drive. Use <em>File → Save as Google Sheets</em> first.</li>
+    <li><strong>Scorecard shows 13.4K:</strong> select it → <em>Style</em> → turn off <em>Compact numbers</em>.</li>
+    <li><strong>UnitCost shows as text:</strong> in the data source editor, change its type to Number.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>Add a second card for the number of clients (<code>Clients[ClientID]</code>, count). Then click the Table visual and drag in <code>ServiceCodes[Description]</code> and <code>ServiceCodes[UnitCost]</code>. That's your price list, inside Power BI.</p>
+</div>
+<div data-path="google">
+<p>Add a second scorecard for the number of clients (Clients data source, ClientID as Count Distinct). Then add a table on the ServiceCodes data source with Description and UnitCost. That's your price list, inside Looker Studio.</p>
+</div>
 
 <div class="week-done">
   <label><input type="checkbox" data-week-done="9"> I finished Week 9</label>

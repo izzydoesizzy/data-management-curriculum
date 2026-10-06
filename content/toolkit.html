@@ -1,10 +1,16 @@
 <p class="eyebrow">Read this in Week 1</p>
 <h1>Your free toolkit (Mac edition)</h1>
-<p class="lede">Short answer: <strong>yes, you can learn all of this for free.</strong> Power BI Desktop (the full Power BI app) is free, but it only runs on Windows. On a Mac, use one of the options below. You don't need a paid licence to learn; you only pay when you want to share reports with coworkers.</p>
+<p class="lede">Short answer: <strong>yes, you can learn all of this for free</strong>, on either of the course's two toolsets:</p>
+<div class="grid-2">
+  <div class="card"><h3>Excel &amp; Power BI</h3><p>What most CaseWORKS agencies use. Excel works fully on a Mac; for Power BI on a Mac, see section 2 below. You only pay to share Power BI reports with coworkers.</p></div>
+  <div class="card"><h3>Google Sheets &amp; Looker Studio</h3><p>100% free with any Google account, all in the browser, nothing to install. See section 3.</p></div>
+</div>
+<p>Pick one with the switch below. Every week has steps for both, and the answers are the same.</p>
+{{PATH_SWITCH}}
 
 <p class="pill">Checked October 2026. Microsoft renames buttons often; if a menu name differs slightly, look for the closest match.</p>
 
-<h2>1. Excel (Weeks 1–8)</h2>
+<h2>1. Excel (Weeks 1–8, Excel &amp; Power BI path)</h2>
 <div class="table-wrap"><table>
 <tr><th>Option</th><th>Cost</th><th>Good for</th></tr>
 <tr><td><strong>Excel for Mac, Microsoft 365</strong> (the subscription version)</td><td>Subscription, or free if work/school provides it</td><td><strong>Everything in Weeks 1–8</strong>, including Power Query. Recommended.</td></tr>
@@ -15,7 +21,7 @@
   <p><strong>Check your version:</strong> open Excel → <em>Excel</em> menu (top-left) → <em>About Excel</em>. For Power Query you want <strong>Microsoft 365</strong> and version <strong>16.69 or newer</strong>. Then check that the <em>Data</em> tab has <strong>Get Data (Power Query)</strong>. Microsoft's guide: <a href="https://support.microsoft.com/en-us/office/import-and-shape-data-in-excel-for-mac-power-query-7b2f337d-e7d2-4fdf-bf00-3dfbb1e5e9c5">Import and shape data in Excel for Mac</a>.</p>
 </div>
 
-<h2>2. Power BI on a Mac (Weeks 9–16): pick one path</h2>
+<h2>2. Power BI on a Mac (Weeks 9–16, Excel &amp; Power BI path)</h2>
 
 <div class="card">
   <h3>Path A (recommended): Power BI in your web browser</h3>
@@ -38,27 +44,37 @@
   </ul>
 </div>
 
+<p>If neither Power BI option works for you, use the Google Sheets &amp; Looker Studio path instead.</p>
+
+<h2>3. Google Sheets &amp; Looker Studio (all weeks, Google path)</h2>
 <div class="card">
-  <h3>Path C (fallback): Google Looker Studio</h3>
-  <p><strong>Cost:</strong> free with any Google account. Use this only if Paths A and B both fail. Same ideas, different buttons.</p>
+  <p><strong>Cost:</strong> free with any Google account (Gmail is fine). <strong>Setup time:</strong> 5 minutes. Works in any browser on a Mac.</p>
+  <ul>
+    <li><a href="https://sheets.google.com">Google Sheets</a> for Weeks 1–8. It has the same functions the course uses: XLOOKUP, SUMIFS, UNIQUE, pivot tables and slicers. Instead of Power Query, Weeks 7–8 build a cleaning "recipe" with one formula.</li>
+    <li><a href="https://lookerstudio.google.com">Looker Studio</a> for Weeks 9–16. It connects live to your Google Sheet, so the dashboard updates when the Sheet does. Relationships become <em>blends</em>, measures become <em>calculated fields</em>, and slicers become <em>controls</em>.</li>
+    <li>Sharing is free, too.</li>
+  </ul>
   <div class="table-wrap"><table>
-    <tr><th>Power BI idea</th><th>Where it lives in <a href="https://lookerstudio.google.com/">Looker Studio</a></th></tr>
-    <tr><td>Load tables</td><td>Create → Data source → File upload (one CSV per source)</td></tr>
-    <tr><td>Relationships (Week 10)</td><td>Resource → Manage blends (join Services to Clients / ServiceCodes on the ID columns)</td></tr>
-    <tr><td>Measures (Week 11)</td><td>Calculated fields, e.g. <code>SUM(UnitCost)</code> and <code>COUNT_DISTINCT(ClientID)</code></td></tr>
-    <tr><td>Slicers (Week 13)</td><td>Add a control → Drop-down list</td></tr>
+    <tr><th>Power BI idea</th><th>Looker Studio equivalent</th></tr>
+    <tr><td>Load tables</td><td>Add each Google Sheets tab as a data source</td></tr>
+    <tr><td>Relationships (Week 10)</td><td>A blend joining Services to Clients, ServiceCodes and Workers</td></tr>
+    <tr><td>Measures (Week 11)</td><td>Calculated fields, e.g. <code>SUM(UnitCost)</code>, <code>COUNT_DISTINCT(ClientID)</code></td></tr>
+    <tr><td>Slicers (Week 14)</td><td>Drop-down list controls</td></tr>
+    <tr><td>Drill-through</td><td>Cross-filtering (click a bar to filter the page)</td></tr>
   </table></div>
-  <p>Every checkpoint answer is the same whatever tool you use. Numbers are numbers.</p>
+</div>
+<div class="callout warn">
+  <p><strong>Privacy, for real work data:</strong> the practice data is fictional, so either path is safe for learning. Before putting <em>real</em> client data from CaseWORKS into Google Sheets or Looker Studio, check your agency's privacy policy. Many health and social-service agencies only allow client data in approved (often Microsoft 365) systems.</p>
 </div>
 
-<h2>3. Do I ever need to pay?</h2>
+<h2>4. Do I ever need to pay?</h2>
 <ul>
-  <li><strong>To learn:</strong> no.</li>
+  <li><strong>To learn:</strong> no, on either path.</li>
   <li><strong>To share reports with coworkers in Power BI:</strong> everyone involved needs <strong>Power BI Pro</strong> (about US $14 per user per month), or the organization needs a Premium/Fabric capacity. At a job this is the employer's cost, not yours. There's usually a free 60-day Pro trial.</li>
   <li><strong>Optional certificate:</strong> Microsoft's <a href="https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/">PL-300 Power BI Data Analyst</a> exam is paid. The learning paths for it are free. See Week 16.</li>
 </ul>
 
-<h2>4. Free learning resources (used throughout)</h2>
+<h2>5. Free learning resources (used throughout)</h2>
 <ul>
   <li><a href="https://learn.microsoft.com/en-us/training/powerplatform/power-bi">Microsoft Learn: Power BI training</a>: free, official, self-paced modules.</li>
   <li><a href="https://support.microsoft.com/en-us/excel">Excel help &amp; learning</a>: official how-to articles for every function used here.</li>
@@ -68,6 +84,6 @@
 <h2>Week 1 setup checklist</h2>
 <ul class="tasks">
   <li>Excel opens and I know which version I have</li>
-  <li>I've chosen my Power BI path (A, B or C), and if it's A, I know which work/school email I'll use</li>
+  <li>I've chosen my toolset (Excel &amp; Power BI, or Google Sheets &amp; Looker Studio), and for Power BI, which option (A or B) I'll use</li>
   <li>I downloaded the practice data from the <a href="data.html">practice data page</a></li>
 </ul>

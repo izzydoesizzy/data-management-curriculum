@@ -7,6 +7,7 @@
 <meta name="description" content="Answer the question that started all this: how much have we spent on each client?">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="5">
 <header class="site-header">
@@ -17,13 +18,19 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 5 of 16 · Phase 1 · Excel foundations</p>
+<p class="eyebrow">Week 5 of 16 · Phase 1 · Spreadsheet foundations</p>
 <h1>Project 1: spend per client</h1>
 <div class="meta">
-  <span class="pill excel">Excel</span>
+  <span class="pill excel" data-path="ms">Excel</span>
+  <span class="pill excel" data-path="google">Google Sheets</span>
   <span class="pill">⏱ About 90 min</span>
 </div>
 <p class="lede">Answer the question that started all this: how much have we spent on each client?</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
   <p><strong>Project 1, the question that started it all:</strong> <em>"Per client, how much money have we spent?"</em> Today you build a client spend summary: one row per client with their total spend, number of services and average cost per service.</p>
 </div>
@@ -44,12 +51,14 @@
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w05-t1"><span>Create the Client Spend sheet with a unique list of clients</span></label></li>
+  <li><label><input type="checkbox" data-task="w05-t1"><span>Create the Client Spend sheet/tab with a unique list of clients</span></label></li>
   <li><label><input type="checkbox" data-task="w05-t2"><span>Add Total Spend with SUMIFS</span></label></li>
   <li><label><input type="checkbox" data-task="w05-t3"><span>Add Services with COUNTIFS and Avg Cost per Service with AVERAGEIFS</span></label></li>
   <li><label><input type="checkbox" data-task="w05-t4"><span>Add Program with XLOOKUP</span></label></li>
   <li><label><input type="checkbox" data-task="w05-t5"><span>Answer all five checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <p>The "IFS" family adds up, counts or averages <strong>only the rows that match a condition</strong>:</p>
@@ -75,6 +84,35 @@
   <li><strong>Find the checkpoint clients</strong> with <kbd>⌘</kbd> + <kbd>F</kbd>. Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>The "IFS" family adds up, counts or averages <strong>only the rows that match a condition</strong>:</p>
+<pre><code>=SUMIFS(   what to add up,     where to check,     what to match )
+=SUMIFS(   Services!G:G,       Services!B:B,       "C-0042" )</code></pre>
+<p>"Add up column G (UnitCost), but only for rows where column B (ClientID) is C-0042." <code>COUNTIFS</code> counts matching rows and <code>AVERAGEIFS</code> averages them. The "S" means you can add more conditions.</p>
+<p>Read: <a href="https://support.google.com/docs/answer/3238496">SUMIFS function</a> (Google).</p>
+<p><strong>Google Sheets version of the spec:</strong> same five columns, on a new tab called <code>Client Spend</code> in your <code>Casework Practice</code> spreadsheet.</p>
+
+<h2 class="section-label">2. Do <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li><strong>New tab.</strong> Click <strong>+</strong> at the bottom-left. Rename it <code>Client Spend</code>. Type the five headers from the spec into A1:E1.</li>
+  <li><strong>List every client once.</strong> In A2:
+    <pre><code>=SORT(UNIQUE(FILTER(Services!B2:B, Services!B2:B &lt;&gt; "")))</code></pre>
+    The list fills down automatically: one row per client who had services.</li>
+  <li><strong>Total Spend.</strong> In B2:
+    <pre><code>=SUMIFS(Services!G:G, Services!B:B, A2)</code></pre>
+    Then double-click the small blue square at the bottom-right corner of B2 to copy it down the list (or drag it down).</li>
+  <li><strong>Services.</strong> In C2: <code>=COUNTIFS(Services!B:B, A2)</code>, then fill down.</li>
+  <li><strong>Avg Cost per Service.</strong> In D2: <code>=AVERAGEIFS(Services!G:G, Services!B:B, A2)</code>, then fill down.</li>
+  <li><strong>Program.</strong> In E2: <code>=XLOOKUP(A2, Clients!A:A, Clients!D:D)</code>, then fill down.</li>
+  <li><strong>Format</strong> columns B and D as currency (<em>Format → Number → Currency</em>). Bold the header row and freeze it (<em>View → Freeze → 1 row</em>).</li>
+  <li><strong>Overall average.</strong> In G2 type <code>=AVERAGE(Services!G2:G)</code>. That's the average cost of a service across everyone.</li>
+  <li><strong>Find the checkpoint clients</strong> with <kbd>⌘</kbd> + <kbd>F</kbd>.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">10 min</span></h2>
 <div class="checkpoint" data-key="w5-spend-C-0042"><p class="q">Total spend for client C-0042?</p></div>
 <div class="checkpoint" data-key="w5-spend-C-0117"><p class="q">Total spend for client C-0117?</p></div>
@@ -82,6 +120,7 @@
 <div class="checkpoint" data-key="w5-services-C-0042"><p class="q">How many services did C-0042 receive?</p></div>
 <div class="checkpoint" data-key="w5-avg-cost-per-service"><p class="q">What is the average cost per service across all services? (round to cents)</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -91,6 +130,18 @@
     <li><strong>Avg cost per service is off by a cent or two?</strong> Make sure you averaged <code>Services[UnitCost]</code> (all services), not the client averages in column D. Those are different questions!</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong><code>#REF!</code> in A2 ("would overwrite data"):</strong> clear the cells below A2.</li>
+    <li><strong>Every total is $0:</strong> UnitCost is text. Check the Week 4 formula returns numbers (right-aligned).</li>
+    <li><strong>Totals are a bit too high:</strong> duplicates are still there. Check you have 13,412 service rows.</li>
+    <li><strong>Avg cost per service is off?</strong> Average <code>Services!G2:G</code> (all services), not the client averages in column D.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 20 min)</h2>
 <ul>
@@ -103,7 +154,7 @@
   <label><input type="checkbox" data-week-done="5"> I finished Week 5</label>
   <p class="done-msg" hidden>Week 5 is done. Take a breath; next week builds on this.</p>
 </div>
-<nav class="pager" aria-label="Weeks"><a href="week-04.html">← Week 4: Lookups: attach the dollar amounts</a><a href="week-06.html">Week 6: Project 2: PivotTables →</a></nav>
+<nav class="pager" aria-label="Weeks"><a href="week-04.html">← Week 4: Lookups: attach the dollar amounts</a><a href="week-06.html">Week 6: Project 2: pivot tables →</a></nav>
 
 </main>
 <footer class="site-footer">

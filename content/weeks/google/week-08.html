@@ -1,0 +1,34 @@
+<h2 class="section-label">1. Learn <span class="time">10 min</span></h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Append</th><th>Merge</th></tr>
+<tr><td>What it does</td><td>Stacks tables <strong>on top of each other</strong></td><td>Joins tables <strong>side by side</strong> using a matching column</td></tr>
+<tr><td>Result</td><td>More rows</td><td>More columns</td></tr>
+<tr><td>Casework example</td><td>August services + September services</td><td>Services + price list, matched on ServiceCode</td></tr>
+<tr><td>Google Sheets tool</td><td><code>VSTACK(range1, range2)</code></td><td><code>XLOOKUP</code> over a whole column</td></tr>
+</table></div>
+<p>Read: <a href="https://support.google.com/docs/answer/13191461">VSTACK function</a> (Google). <strong>Google Sheets version of the spec:</strong> in <code>Casework Recipe</code>, rename the <code>Clean</code> tab to <code>AllServices</code>. It should contain both months, cleaned, plus <code>UnitCost</code> and <code>Category</code> columns.</p>
+
+<h2 class="section-label">2. Do <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li>Open <code>Casework Recipe</code>.</li>
+  <li><strong>Load the price list.</strong> <em>File → Import → Upload</em> → <code>service_codes.csv</code> → <em>Insert new sheet(s)</em>. Rename the tab <code>ServiceCodes</code>.</li>
+  <li><strong>Load next month.</strong> Import <code>services_2026-09.csv</code> the same way. Rename the tab <code>Sep</code>.</li>
+  <li><strong>Append.</strong> Rename the <code>Clean</code> tab to <code>AllServices</code>. Edit the formula in A2: change just the <code>raw</code> line so it stacks both months:
+<pre><code>  raw,  VSTACK(Raw!A2:F, Sep!A2:F),</code></pre>
+    The cleaning rules now run on both files at once.</li>
+  <li><strong>Merge in the price list.</strong> In G1 type <code>UnitCost</code>, and in G2:
+<pre><code>=ARRAYFORMULA(IF(D2:D = "", , XLOOKUP(D2:D, ServiceCodes!A:A, ServiceCodes!D:D, "NOT FOUND")))</code></pre>
+    In H1 type <code>Category</code>, and in H2 use the same formula with <code>ServiceCodes!C:C</code>.</li>
+  <li><strong>Answer the questions.</strong> In J1: <code>=COUNTA(A2:A)</code> (rows). In J2: <code>=SUM(G2:G)</code> (total spend). In J3, September only:
+<pre><code>=SUMIFS(G2:G, C2:C, "&gt;=" &amp; DATE(2026, 9, 1))</code></pre></li>
+  <li><strong>Next month, for real:</strong> import the new export into a new tab and add it to the <code>VSTACK</code>. That's the whole monthly update.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>UnitCost shows NOT FOUND:</strong> check the tab is named <code>ServiceCodes</code> and the codes in AllServices are clean (UPPER/TRIM).</li>
+    <li><strong>Row count is a bit high:</strong> the <code>raw</code> line must stack the two ranges inside the same cleaning formula, so both months get cleaned.</li>
+    <li><strong>September sum is $0:</strong> ServiceDate imported as text. Re-import with <em>Convert text to numbers, dates, and formulas</em> ticked.</li>
+  </ul>
+</details>

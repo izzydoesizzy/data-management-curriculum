@@ -1,5 +1,5 @@
 <div class="callout why">
-  <p><strong>Why this matters:</strong> real reporting is monthly. A new export lands, and you need last month and this month together, with costs attached. Today you do that entirely in Power Query: <strong>append</strong> September onto the existing data, then <strong>merge</strong> in the price list. Next month it's one click.</p>
+  <p><strong>Why this matters:</strong> real reporting is monthly. A new export lands, and you need last month and this month together, with costs attached. Today you do that inside your cleaning recipe: <strong>append</strong> September onto the existing data, then <strong>merge</strong> in the price list. Next month it takes a minute.</p>
 </div>
 
 <h2>Project spec (exact parameters)</h2>
@@ -13,13 +13,14 @@
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li>Load the price list as a query</li>
-  <li>Make a September query with the same cleaning steps</li>
-  <li>Append Services + September into AllServices</li>
+  <li>Load the price list</li>
+  <li>Get September's export cleaned with the same steps</li>
+  <li>Append both months into AllServices</li>
   <li>Merge the price list into AllServices</li>
   <li>Answer all three checkpoints</li>
 </ul>
 
+<!--PATH-->
 <h2 class="section-label">1. Learn <span class="time">10 min</span></h2>
 <div class="table-wrap"><table>
 <tr><th></th><th>Append</th><th>Merge</th></tr>
@@ -43,6 +44,8 @@
   <li><strong>Answer the questions.</strong> On the AllServices sheet: select the UnitCost column and read <em>Sum</em> in the status bar. Then filter ServiceDate to September 2026 only (date filter arrow → <em>Date Filters → After or Equal To…</em> 2026-09-01) and read the Sum again. Save.</li>
 </ol>
 
+<!--/PATH-->
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w8-combined-rows"><p class="q">How many rows are in AllServices?</p></div>
 <div class="checkpoint" data-key="w8-combined-spend"><p class="q">Total spend across AllServices (April 2025 to September 2026)?</p></div>
@@ -58,8 +61,13 @@
 </details>
 
 <div class="callout">
-  <p><strong>You just finished the Excel half of the course.</strong> You can clean an export, attach costs, total by client, pivot by program and automate it monthly. That's already more than most people who complain about reports can do.</p>
+  <p><strong>You just finished the spreadsheet half of the course.</strong> You can clean an export, attach costs, total by client, pivot by program and automate it monthly. That's already more than most people who complain about reports can do.</p>
 </div>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>Add a step to AllServices that calculates <code>Hours = DurationMins / 60</code>: <em>Add Column → Custom Column</em>, formula <code>[DurationMins] / 60</code>. Then Close &amp; Load and check total staff hours.</p>
+</div>
+<div data-path="google">
+<p>Add <code>Hours</code> in I1, and in I2: <code>=ARRAYFORMULA(IF(F2:F = "", , F2:F / 60))</code>. Then <code>=SUM(I2:I)</code> gives total staff hours.</p>
+</div>

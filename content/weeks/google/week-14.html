@@ -1,0 +1,31 @@
+<div class="callout">
+  <p><strong>Looker Studio version of the spec:</strong> same layout. Slicers = <em>drop-down list controls</em>, cards = <em>scorecards</em>, line chart = <em>time series</em> with ServiceDate as Year Month. Use the <strong>Casework Model</strong> blend for every chart and control, so the filters affect everything.</p>
+</div>
+
+<h2 class="section-label">Session 1 <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li>Add a new page (<em>Page → New page</em>). Rename it <code>Cost Dashboard</code> (<em>Page → Manage pages</em>).</li>
+  <li><strong>Title:</strong> <em>Insert → Text</em>. Type the title, size 20, bold.</li>
+  <li><strong>Controls:</strong> <em>Insert → Drop-down list</em>, data source Casework Model, Control field = <strong>Region</strong>. Repeat for <strong>Program</strong> and <strong>Role</strong>. Line them up along the top.</li>
+  <li><strong>Scorecards:</strong> four in a row, for Total Spend, Clients Served, Avg Spend per Client and Total Services (copy them from Week 11). Use <em>Arrange → Align</em> to line them up.</li>
+  <li><strong>Spend by Program</strong> (bar chart, sorted descending, data labels on under Style) and <strong>Monthly Spend</strong> (time series).</li>
+</ol>
+
+<h2 class="section-label">Session 2 <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li><strong>Spend by Category</strong> bar chart, sorted descending.</li>
+  <li><strong>Client Detail</strong> table: Dimensions ClientID, Program, Region; Metrics Total Services, Total Spend; sort by Total Spend descending.</li>
+  <li><strong>Tidy up:</strong> same widths, consistent gaps, all titles the same size (<em>Style → Chart title</em>).</li>
+  <li><strong>The 5-second test:</strong> click <em>View</em> (top-right) and show it to someone. In 5 seconds, can they say what the agency spent and where most of it goes?</li>
+  <li><strong>Use it.</strong> In View mode, set the controls to answer the checkpoints below, then reset them.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>A control doesn't filter a chart:</strong> controls only filter charts that use the same data source. Make sure every chart uses the Casework Model blend.</li>
+    <li><strong>Role control is empty:</strong> the Workers join (Week 10) is missing Role as a dimension. Edit the blend and add it.</li>
+    <li><strong>Scorecards show 846.4K:</strong> Style → turn off <em>Compact numbers</em>.</li>
+    <li><strong>Want drill-through?</strong> Looker Studio uses <em>cross-filtering</em> instead: in View mode, click a program's bar and every other chart filters to it. Click again to clear. For a client profile page, add a ClientID drop-down control on a second page.</li>
+  </ul>
+</details>

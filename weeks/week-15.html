@@ -7,6 +7,7 @@
 <meta name="description" content="Five realistic questions from a manager. Answer each one with your dashboard.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="15">
 <header class="site-header">
@@ -20,10 +21,16 @@
 <p class="eyebrow">Week 15 of 16 · Phase 4 · Capstone</p>
 <h1>Capstone: answer the questions</h1>
 <div class="meta">
-  <span class="pill cap">Capstone</span>
+  <span class="pill cap" data-path="ms">Capstone</span>
+  <span class="pill cap" data-path="google">Capstone</span>
   <span class="pill">⏱ About 90 min</span>
 </div>
 <p class="lede">Five realistic questions from a manager. Answer each one with your dashboard.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
   <p><strong>Capstone:</strong> this is what the job actually looks like. A manager sends questions, and you answer them with your data, clearly and correctly. No step-by-step instructions this week, just hints if you need them. You have every skill required.</p>
 </div>
@@ -43,7 +50,7 @@
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w15-t1"><span>Answer Q1–Q5 (Power BI or Excel, your choice)</span></label></li>
+  <li><label><input type="checkbox" data-task="w15-t1"><span>Answer Q1–Q5 (any of your tools: Excel, Power BI, Sheets or Looker Studio)</span></label></li>
   <li><label><input type="checkbox" data-task="w15-t2"><span>Write a 5-sentence summary for the director</span></label></li>
   <li><label><input type="checkbox" data-task="w15-t3"><span>Save a screenshot of my dashboard to my portfolio folder</span></label></li>
 </ul>
@@ -52,35 +59,47 @@
 
 <div class="checkpoint" data-key="w15-q1-top-worker"><p class="q">Q1. WorkerID (or name) with the highest total spend</p></div>
 <details class="stuck"><summary>Hint for Q1</summary>
-  <p>Table visual: <code>Workers[WorkerID]</code>, <code>Workers[Name]</code>, <code>Workers[Role]</code>, <code>Total Spend</code>, sorted descending. <strong>Then think:</strong> look at their role. Does high spend mean this person is doing something wrong, or that their role delivers expensive services (like rent supplements)? Good analysts always add that context.</p>
+  <div data-path="ms">
+  <p>Table visual: <code>Workers[WorkerID]</code>, <code>Workers[Name]</code>, <code>Workers[Role]</code>, <code>Total Spend</code>, sorted descending. <strong>Then think:</strong> look at their role. Does high spend mean this person is doing something wrong, or that their role delivers expensive services (like rent supplements)? Good analysts always add that context.</p></div>
+  <div data-path="google"><p>Looker Studio table on Casework Model: dimensions WorkerID, Name, Role; metric Total Spend; sort descending. <strong>Then think:</strong> look at their role. Does high spend mean this person is doing something wrong, or that their role delivers expensive services (like rent supplements)?</p></div>
 </details>
 
 <div class="checkpoint" data-key="w15-q2-mh-avg"><p class="q">Q2. Average spend per client in Mental Health</p></div>
 <details class="stuck"><summary>Hint for Q2</summary>
-  <p>Your <code>Avg Spend per Client</code> measure with the Program slicer set to Mental Health. Remember to clear other slicers.</p>
+  <div data-path="ms">
+  <p>Your <code>Avg Spend per Client</code> measure with the Program slicer set to Mental Health. Remember to clear other slicers.</p></div>
+  <div data-path="google"><p>Your Avg Spend per Client scorecard with the Program control set to Mental Health. Clear other controls first. (Sheets: on your Client Spend tab, <code>=AVERAGEIFS(B:B, E:E, "Mental Health")</code>.)</p></div>
 </details>
 
 <div class="checkpoint" data-key="w15-q3-zero-cost-pct"><p class="q">Q3. Percentage of services with $0 cost (1 decimal)</p></div>
 <details class="stuck"><summary>Hint for Q3</summary>
+  <div data-path="ms">
   <p>New measure:</p>
   <pre><code>% Zero-Cost Services =
 DIVIDE(
     CALCULATE([Total Services], ServiceCodes[UnitCost] = 0),
     [Total Services]
 )</code></pre>
-  <p>Format as Percentage. (Excel route: <code>=COUNTIF(Services[UnitCost], 0) / ROWS(Services)</code>.)</p>
+  <p>Format as Percentage. (Excel route: <code>=COUNTIF(Services[UnitCost], 0) / ROWS(Services)</code>.)</p></div>
+  <div data-path="google"><p>Chart-level calculated field in Looker Studio, type Percent:</p>
+  <pre><code>SUM(CASE WHEN UnitCost = 0 THEN 1 ELSE 0 END) / COUNT(ServiceID)</code></pre>
+  <p>(Sheets: <code>=COUNTIF(Services!G2:G, 0) / COUNTA(Services!A2:A)</code>.)</p></div>
 </details>
 
 <div class="checkpoint" data-key="w15-q4-top-avg-region"><p class="q">Q4. Region with the highest average spend per client</p></div>
 <details class="stuck"><summary>Hint for Q4</summary>
-  <p>Table visual: <code>Clients[Region]</code> and <code>Avg Spend per Client</code>, sorted descending. Compare with which region has the highest <em>total</em> spend. Are they the same? Why might that be?</p>
+  <div data-path="ms">
+  <p>Table visual: <code>Clients[Region]</code> and <code>Avg Spend per Client</code>, sorted descending. Compare with which region has the highest <em>total</em> spend. Are they the same? Why might that be?</p></div>
+  <div data-path="google"><p>Table on Casework Model: dimension Region, metric Avg Spend per Client, sorted descending. Compare with which region has the highest <em>total</em> spend. Are they the same? Why might that be?</p></div>
 </details>
 
 <div class="checkpoint" data-key="w15-q5-over-2000"><p class="q">Q5. Number of clients with total spend over $2,000</p></div>
 <details class="stuck"><summary>Hint for Q5</summary>
+  <div data-path="ms">
   <p>Easiest in Excel: on your Week 5 <code>Client Spend</code> sheet, <code>=COUNTIF(B:B, "&gt;2000")</code>. In Power BI, a measure:</p>
   <pre><code>Clients Over 2000 =
-COUNTROWS(FILTER(VALUES(Services[ClientID]), [Total Spend] &gt; 2000))</code></pre>
+COUNTROWS(FILTER(VALUES(Services[ClientID]), [Total Spend] &gt; 2000))</code></pre></div>
+  <div data-path="google"><p>Easiest in Sheets: on your Week 5 <code>Client Spend</code> tab, <code>=COUNTIF(B:B, "&gt;2000")</code>. In Looker Studio: a table with ClientID and Total Spend, then add a chart <em>Filter</em>: Include → Total Spend → Greater than → 2000. The row count shows at the bottom-right of the table.</p></div>
 </details>
 
 <h2 class="section-label">Write the summary <span class="time">20 min</span></h2>

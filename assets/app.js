@@ -35,6 +35,23 @@
   }
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
 
+  // ---------- tool path: "ms" (Excel & Power BI) or "google" (Sheets & Looker Studio) ----------
+  function paintPath() {
+    var p = state.path === "google" ? "google" : "ms";
+    if (p === "google") document.documentElement.setAttribute("data-path-choice", "google");
+    else document.documentElement.removeAttribute("data-path-choice");
+    document.querySelectorAll("[data-set-path]").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-set-path") === p ? "true" : "false");
+    });
+  }
+  document.querySelectorAll("[data-set-path]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.path = b.getAttribute("data-set-path");
+      save(); paintPath();
+    });
+  });
+  paintPath();
+
   // ---------- header mini progress ----------
   function paintMini() {
     var bar = document.querySelector(".mini-progress > div");
@@ -119,7 +136,7 @@
   if (resetBtn) {
     resetBtn.addEventListener("click", function () {
       if (window.confirm("Clear all your checkmarks, answers and start date on this device?")) {
-        state = { tasks: {}, weeks: {}, answers: {} };
+        state = { tasks: {}, weeks: {}, answers: {}, path: state.path };
         save();
         window.location.reload();
       }

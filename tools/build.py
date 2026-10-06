@@ -17,12 +17,12 @@ CONTENT = os.path.join(ROOT, "content")
 SITE_TITLE = "Data Skills for Casework"
 
 PHASES = {
-    "excel": ("Phase 1 · Excel foundations", "excel", "var(--excel)",
-              "Turn a messy system export into answers: clean it, look things up, total it, pivot it."),
-    "pq": ("Phase 2 · Power Query", "pq", "var(--pq)",
-           "Record your cleaning steps once, then refresh them every month with one click."),
-    "pbi": ("Phase 3 · Power BI", "pbi", "var(--pbi)",
-            "Connect tables with relationships, write measures, and build the report you always wanted."),
+    "excel": ("Phase 1 · Spreadsheet foundations", "excel", "var(--excel)",
+              "Turn a messy system export into answers in Excel or Google Sheets: clean it, look things up, total it, pivot it."),
+    "pq": ("Phase 2 · Repeatable cleaning", "pq", "var(--pq)",
+           "Record your cleaning steps once (Power Query or a Sheets formula), then reuse them every month."),
+    "pbi": ("Phase 3 · Dashboards", "pbi", "var(--pbi)",
+            "Connect tables, write measures, and build the report you always wanted, in Power BI or Looker Studio."),
     "cap": ("Phase 4 · Capstone", "cap", "var(--cap)",
             "Prove it: answer real questions with your own dashboard, then plan for real data."),
 }
@@ -32,24 +32,24 @@ WEEKS = [
     (1, "excel", "Excel", "Set up and meet your data",
      "Get your free tools working, download the practice data and learn what a good raw table looks like.", "60 min"),
     (2, "excel", "Excel", "Tables, sorting and filtering",
-     "Turn plain cells into an Excel Table and answer your first questions with sort and filter.", "60 min"),
+     "Turn plain cells into a proper table and answer your first questions with sort and filter.", "60 min"),
     (3, "excel", "Excel", "Cleaning messy exports",
      "Fix the mess that real systems produce: stray spaces, inconsistent case, duplicates and blanks.", "75 min"),
     (4, "excel", "Excel", "Lookups: attach the dollar amounts",
      "Use XLOOKUP to bring each service's cost into your services table. This is where the money appears.", "60 min"),
     (5, "excel", "Excel", "Project 1: spend per client",
      "Answer the question that started all this: how much have we spent on each client?", "90 min"),
-    (6, "excel", "Excel", "Project 2: PivotTables",
+    (6, "excel", "Excel", "Project 2: pivot tables",
      "Summarize 13,000 rows in seconds by program, category and client, with clickable filters.", "90 min"),
-    (7, "pq", "Power Query", "Power Query: a recipe for cleaning",
+    (7, "pq", "Power Query", "A recipe for cleaning",
      "Redo Week 3's cleaning as recorded steps you never have to repeat by hand.", "75 min"),
     (8, "pq", "Power Query", "Merge, append and refresh",
-     "Join tables inside Power Query and add next month's data without starting over.", "90 min"),
-    (9, "pbi", "Power BI", "Get Power BI running on your Mac",
-     "Choose your Power BI path, load the four tables and find your way around.", "75 min"),
+     "Join tables in your recipe and add next month's data without starting over.", "90 min"),
+    (9, "pbi", "Power BI", "Set up Power BI or Looker Studio",
+     "Get your dashboard tool running, load the four tables and find your way around.", "75 min"),
     (10, "pbi", "Power BI", "Relationships: connect the dots",
-     "Link clients, services, codes and workers so Power BI understands how they relate.", "60 min"),
-    (11, "pbi", "Power BI", "Measures: your first DAX",
+     "Link clients, services, codes and workers so your dashboard tool understands how they relate.", "60 min"),
+    (11, "pbi", "Power BI", "Measures: your first calculations",
      "Write the three measures every casework report needs: Total Spend, Clients Served and Avg Spend per Client.", "75 min"),
     (12, "pbi", "Power BI", "Time: months, trends and length of stay",
      "Add a month column, see spending over time and calculate average length of stay.", "75 min"),
@@ -62,6 +62,33 @@ WEEKS = [
     (16, "cap", "Capstone", "Real data, safely, and what's next",
      "Plan how to get real exports at work, protect client privacy and keep growing.", "60 min"),
 ]
+
+GOOGLE_TOOL = {"Excel": "Google Sheets", "Power Query": "Sheets formulas",
+               "Power BI": "Looker Studio", "Capstone": "Capstone"}
+
+PATH_SWITCH = """<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>"""
+
+
+def wrap_paths(fragment, google_file):
+    """Wrap the tool-specific part (between <!--PATH--> markers) and add the Google version."""
+    if "<!--PATH-->" not in fragment:
+        return fragment
+    google, _, google_stuck = read(google_file).partition("<!--STUCK-->")
+    a, rest = fragment.split("<!--PATH-->", 1)
+    ms, b = rest.split("<!--/PATH-->", 1)
+    if google_stuck.strip():
+        # swap the tool-specific "Stuck?" box that follows the checkpoints
+        i = b.index('<details class="stuck">')
+        j = b.index("</details>", i) + len("</details>")
+        b = (f'{b[:i]}<div data-path="ms">\n{b[i:j]}\n</div>\n'
+             f'<div data-path="google">\n{google_stuck.strip()}\n</div>{b[j:]}')
+    return (f'{a}<div data-path="ms">\n{ms}</div>\n'
+            f'<div data-path="google">\n{google}</div>\n{b}')
+
 
 NAV = [("index.html", "Schedule"), ("caseworks.html", "Caseworks"), ("toolkit.html", "Free toolkit"),
        ("data.html", "Practice data"), ("glossary.html", "Glossary")]
@@ -82,6 +109,7 @@ def layout(title, body, root, current="", description="", week=None, wide=False)
 <meta name="description" content="{html.escape(description)}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="{root}assets/style.css">
+<script>try{{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{{}}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}}catch(e){{}}</script>
 </head>
 <body data-root="{root}"{week_attr}>
 <header class="site-header">
@@ -137,7 +165,8 @@ def week_file(n):
 def build_week(i, w):
     n, phase, tool, title, goal, time = w
     phase_name, phase_cls, _, _ = PHASES[phase]
-    frag = add_task_boxes(read(f"weeks/{week_file(n)}"), f"w{n:02d}")
+    frag = wrap_paths(read(f"weeks/{week_file(n)}"), f"weeks/google/{week_file(n)}")
+    frag = add_task_boxes(frag, f"w{n:02d}")
     prev_link = (f'<a href="{week_file(WEEKS[i-1][0])}">← Week {WEEKS[i-1][0]}: {WEEKS[i-1][3]}</a>'
                  if i > 0 else '<a href="../index.html">← Schedule</a>')
     next_link = (f'<a href="{week_file(WEEKS[i+1][0])}">Week {WEEKS[i+1][0]}: {WEEKS[i+1][3]} →</a>'
@@ -145,10 +174,12 @@ def build_week(i, w):
     body = f"""<p class="eyebrow">Week {n} of {len(WEEKS)} · {phase_name}</p>
 <h1>{title}</h1>
 <div class="meta">
-  <span class="pill {phase_cls}">{tool}</span>
+  <span class="pill {phase_cls}" data-path="ms">{tool}</span>
+  <span class="pill {phase_cls}" data-path="google">{GOOGLE_TOOL[tool]}</span>
   <span class="pill">⏱ About {time}</span>
 </div>
 <p class="lede">{goal}</p>
+{PATH_SWITCH if "<!--PATH-->" in read(f"weeks/{week_file(n)}") or n == 15 else ""}
 {frag}
 <div class="week-done">
   <label><input type="checkbox" data-week-done="{n}"> I finished Week {n}</label>
@@ -181,13 +212,14 @@ def build_index():
 {chr(10).join(items)}
 </ul>
 </section>""")
-    body = read("index.html").replace("{{SCHEDULE}}", "\n".join(phases_html))
+    body = (read("index.html").replace("{{SCHEDULE}}", "\n".join(phases_html))
+            .replace("{{PATH_SWITCH}}", PATH_SWITCH))
     write("index.html", layout(SITE_TITLE, body, "", current="index.html",
                                description="A 16-week, 1–2 hours a week plan to build custom CaseWORKS reports and dashboards with Excel and Power BI."))
 
 
 def build_page(name, title, desc):
-    body = add_task_boxes(read(name), name.split(".")[0])
+    body = add_task_boxes(read(name).replace("{{PATH_SWITCH}}", PATH_SWITCH), name.split(".")[0])
     write(name, layout(f"{title} · {SITE_TITLE}", body, "", current=name, description=desc))
 
 

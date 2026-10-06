@@ -1,0 +1,45 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Google Sheets doesn't have Power Query, but you can build the same idea, <strong>a cleaning recipe that reruns itself</strong>, with two tabs:</p>
+<ol>
+  <li><strong>Raw:</strong> where you paste each new export, untouched.</li>
+  <li><strong>Clean:</strong> one formula that reads Raw and applies all three cleaning rules. Paste new data into Raw and Clean updates instantly.</li>
+</ol>
+<p>The formula uses a few building blocks:</p>
+<div class="table-wrap"><table>
+<tr><th>Piece</th><th>What it does</th></tr>
+<tr><td><code>LET(name, value, …)</code></td><td>Gives a piece of the formula a name so it's readable</td></tr>
+<tr><td><code>CHOOSECOLS(raw, 4)</code></td><td>Picks column 4 (ServiceCode) out of the raw table</td></tr>
+<tr><td><code>UPPER(TRIM(…))</code></td><td>Rule 1: tidy the codes</td></tr>
+<tr><td><code>HSTACK(…)</code></td><td>Glues columns back together side by side</td></tr>
+<tr><td><code>FILTER(…, code &lt;&gt; "")</code></td><td>Rule 3: drop rows with no code</td></tr>
+<tr><td><code>UNIQUE(…)</code></td><td>Rule 2: drop duplicate rows</td></tr>
+</table></div>
+<p>Read: <a href="https://support.google.com/docs/answer/13190535">LET function</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>Start fresh.</strong> Create a new blank spreadsheet called <code>Casework Recipe</code>.</li>
+  <li><strong>Raw tab.</strong> <em>File → Import → Upload</em> → <code>services_raw.csv</code> → <em>Replace current sheet</em>. Rename the tab <code>Raw</code>. Don't edit anything on this tab, ever.</li>
+  <li><strong>Clean tab.</strong> Add a new tab called <code>Clean</code>. Copy the header row from Raw into row 1 (A1:F1).</li>
+  <li><strong>The recipe.</strong> In Clean!A2 paste:
+<pre><code>=ARRAYFORMULA(LET(
+  raw,  Raw!A2:F,
+  code, UPPER(TRIM(CHOOSECOLS(raw, 4))),
+  UNIQUE(FILTER(
+    HSTACK(CHOOSECOLS(raw, 1, 2, 3), code, CHOOSECOLS(raw, 5, 6)),
+    code &lt;&gt; ""))))</code></pre>
+    The whole cleaned table appears.</li>
+  <li><strong>Count rows.</strong> In H1 type <code>=COUNTA(A2:A)</code>.</li>
+  <li><strong>Count distinct codes.</strong> In H2 type <code>=COUNTUNIQUE(D2:D)</code>.</li>
+  <li><strong>Test the magic.</strong> On the Raw tab, add a fake row at the bottom with code <code>" hv01 "</code>, then look at Clean: it appears as <code>HV01</code>. Delete the fake row again.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Formula error about LET or CHOOSECOLS:</strong> check every bracket and comma. Copy the formula exactly from this page.</li>
+    <li><strong>13,449 rows:</strong> the <code>code &lt;&gt; ""</code> filter is missing.</li>
+    <li><strong>More than 14 distinct codes:</strong> the <code>UPPER(TRIM(...))</code> part isn't applied to column 4.</li>
+    <li><strong>"Array result was not expanded":</strong> the Clean tab has stray data below A2. Clear it.</li>
+  </ul>
+</details>

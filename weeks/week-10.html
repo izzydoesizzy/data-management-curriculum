@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Week 10: Relationships: connect the dots</title>
-<meta name="description" content="Link clients, services, codes and workers so Power BI understands how they relate.">
+<meta name="description" content="Link clients, services, codes and workers so your dashboard tool understands how they relate.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="10">
 <header class="site-header">
@@ -17,25 +18,33 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 10 of 16 · Phase 3 · Power BI</p>
+<p class="eyebrow">Week 10 of 16 · Phase 3 · Dashboards</p>
 <h1>Relationships: connect the dots</h1>
 <div class="meta">
-  <span class="pill pbi">Power BI</span>
+  <span class="pill pbi" data-path="ms">Power BI</span>
+  <span class="pill pbi" data-path="google">Looker Studio</span>
   <span class="pill">⏱ About 60 min</span>
 </div>
-<p class="lede">Link clients, services, codes and workers so Power BI understands how they relate.</p>
+<p class="lede">Link clients, services, codes and workers so your dashboard tool understands how they relate.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
-  <p><strong>Why this matters:</strong> you said it yourself: <em>"find relationships between data points."</em> In Excel you connected tables one column at a time with XLOOKUP. In Power BI you connect them <strong>once</strong>, with relationships, and every chart understands the connection from then on.</p>
+  <p><strong>Why this matters:</strong> you said it yourself: <em>"find relationships between data points."</em> In a spreadsheet you connected tables one column at a time with XLOOKUP. In Power BI (relationships) or Looker Studio (a blend) you connect them <strong>once</strong>, and every chart understands the connection from then on.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w10-t1"><span>Open Model view and understand the star shape</span></label></li>
-  <li><label><input type="checkbox" data-task="w10-t2"><span>Make sure exactly three correct relationships exist</span></label></li>
+  <li><label><input type="checkbox" data-task="w10-t1"><span>Understand the star shape</span></label></li>
+  <li><label><input type="checkbox" data-task="w10-t2"><span>Connect the tables with exactly three relationships (or joins in a blend)</span></label></li>
   <li><label><input type="checkbox" data-task="w10-t3"><span>Prove the relationships work with a bar chart</span></label></li>
   <li><label><input type="checkbox" data-task="w10-t4"><span>Find the clients who have no services</span></label></li>
   <li><label><input type="checkbox" data-task="w10-t5"><span>Answer both checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
 <p>Look at the diagram on the <a href="../data.html">practice data page</a> again. Our model is a <strong>star schema</strong>:</p>
@@ -64,6 +73,31 @@
   <li>Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
+<p>Look at the diagram on the <a href="../data.html">practice data page</a> again. Our data is a <strong>star schema</strong>:</p>
+<ul>
+  <li><strong>Services</strong> is the <em>fact</em> table in the middle. It records events and has lots of rows.</li>
+  <li><strong>Clients, ServiceCodes and Workers</strong> are <em>dimension</em> tables around it. They describe the who and what, with one row each.</li>
+  <li>Each link is <strong>one-to-many</strong>: one client → many services; one code → many services; one worker → many services.</li>
+</ul>
+<p>In Looker Studio you connect tables with a <strong>blend</strong>: you pick a main table (Services) and <em>join</em> the others to it on their ID columns. Every chart built on the blend can then use fields from all four tables, so you can show "services by Program" even though Program lives in Clients.</p>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/9061421">Create, edit, and manage blends</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">35 min</span></h2>
+<ol class="steps">
+  <li><strong>Create the blend.</strong> <em>Resource → Manage blends → Add a blend</em>. For the first table choose <strong>Services</strong>. Add <strong>all</strong> its fields as <strong>dimensions</strong>: ServiceID, ClientID, ServiceDate, ServiceCode, WorkerID, DurationMins and UnitCost. (Keeping them as dimensions keeps one row per service; you'll build your own totals in Week 11.)</li>
+  <li><strong>Join Clients.</strong> Click <em>Join another table</em> → <strong>Clients</strong>. Dimensions: Program, Region, AgeBand, IntakeDate, DischargeDate. Click the join box between them → <strong>Left outer</strong> → join condition <code>ClientID = ClientID</code> → Save.</li>
+  <li><strong>Join ServiceCodes</strong> the same way: dimensions Description and Category; Left outer on <code>ServiceCode = ServiceCode</code>.</li>
+  <li><strong>Join Workers:</strong> dimensions Name and Role; Left outer on <code>WorkerID = WorkerID</code>.</li>
+  <li>Name the blend <code>Casework Model</code> (top of the blend editor) → <em>Save</em>. That's <strong>three joins</strong>, Looker Studio's version of relationships.</li>
+  <li><strong>Prove it works.</strong> <em>Insert → Bar chart</em>. Data source = <strong>Casework Model</strong>. Dimension = <strong>Program</strong>, Metric = <strong>ServiceID</strong> set to <em>Count</em>. Each program shows a different number of services, even though Program lives in another table.</li>
+  <li><strong>Find the clients with no services.</strong> Add two scorecards: one on the <strong>Clients</strong> data source with ClientID set to <em>Count Distinct</em>, one on <strong>Services</strong> with ClientID set to <em>Count Distinct</em>. The difference is clients on the books who have never received a service.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w10-relationships"><p class="q">How many relationships does your finished model have?</p></div>
 <div class="checkpoint" data-key="w10-no-service-clients"><p class="q">How many clients have no services at all?</p></div>
@@ -72,6 +106,7 @@
   <p><strong>Notice what just happened:</strong> those clients exist in one table but not the other. A report built only from the services table would never show them. That's exactly the kind of gap that makes reports "terrible". Now you know how to find it.</p>
 </div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -80,6 +115,17 @@
     <li><strong>A line from Clients[AssignedWorker] to Workers?</strong> Delete it for now. Two routes between tables confuse filters. (Advanced models handle this; ours doesn't need it.)</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Bar chart shows "null" as a program:</strong> a join key doesn't match. Check the join condition is ClientID = ClientID, and that you're using the Week 9 clean data.</li>
+    <li><strong>Totals are bigger than expected:</strong> make sure Services is the <em>first</em> (left) table and every join is <em>Left outer</em>.</li>
+    <li><strong>Can't find Manage blends:</strong> you need to be in Edit mode. Or select a chart, then in Setup click <em>Blend data</em> under the data source.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 15 min)</h2>
 <p>Add a bar chart of service count by <code>Workers[Role]</code>. Which role delivers the most services? Then try <code>ServiceCodes[Category]</code>. Every dimension now slices the facts.</p>
@@ -88,7 +134,7 @@
   <label><input type="checkbox" data-week-done="10"> I finished Week 10</label>
   <p class="done-msg" hidden>Week 10 is done. Take a breath; next week builds on this.</p>
 </div>
-<nav class="pager" aria-label="Weeks"><a href="week-09.html">← Week 9: Get Power BI running on your Mac</a><a href="week-11.html">Week 11: Measures: your first DAX →</a></nav>
+<nav class="pager" aria-label="Weeks"><a href="week-09.html">← Week 9: Set up Power BI or Looker Studio</a><a href="week-11.html">Week 11: Measures: your first calculations →</a></nav>
 
 </main>
 <footer class="site-footer">

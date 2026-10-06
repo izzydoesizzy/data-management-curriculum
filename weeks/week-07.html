@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 7: Power Query: a recipe for cleaning</title>
+<title>Week 7: A recipe for cleaning</title>
 <meta name="description" content="Redo Week 3&#x27;s cleaning as recorded steps you never have to repeat by hand.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="7">
 <header class="site-header">
@@ -17,28 +18,36 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 7 of 16 · Phase 2 · Power Query</p>
-<h1>Power Query: a recipe for cleaning</h1>
+<p class="eyebrow">Week 7 of 16 · Phase 2 · Repeatable cleaning</p>
+<h1>A recipe for cleaning</h1>
 <div class="meta">
-  <span class="pill pq">Power Query</span>
+  <span class="pill pq" data-path="ms">Power Query</span>
+  <span class="pill pq" data-path="google">Sheets formulas</span>
   <span class="pill">⏱ About 75 min</span>
 </div>
 <p class="lede">Redo Week 3's cleaning as recorded steps you never have to repeat by hand.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
-  <p><strong>Why this matters:</strong> in Week 3 you cleaned the data by hand. Next month you'd have to do it all again. <strong>Power Query records each cleaning step as a recipe.</strong> When a new export arrives you click <em>Refresh</em> and the recipe runs. It's also built into Power BI, so everything you learn here carries straight over.</p>
+  <p><strong>Why this matters:</strong> in Week 3 you cleaned the data by hand. Next month you'd have to do it all again. <strong>This week you turn your cleaning into a recipe</strong>: with Power Query (Excel &amp; Power BI) or one formula (Google Sheets). When a new export arrives, the recipe reruns and you're done.</p>
 </div>
 
-<div class="callout warn">
-  <p><strong>Needs:</strong> Excel for Mac with Microsoft 365, version 16.69 or newer (see <a href="../toolkit.html">toolkit</a>). Look for <em>Data → Get Data (Power Query)</em>. Only have Excel for the web? Read along this week and next, then do the same steps in Power BI's Power Query editor in Week 9.</p>
+<div class="callout warn" data-path="ms">
+  <p><strong>Needs:</strong> Excel for Mac with Microsoft 365, version 16.69 or newer (see <a href="../toolkit.html">toolkit</a>). Look for <em>Data → Get Data (Power Query)</em>. Only have Excel for the web? Switch to the Google Sheets steps above for Weeks 7–8, or read along and do these steps in Power BI's Power Query editor in Week 9.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w07-t1"><span>Load services_raw.csv into Power Query</span></label></li>
-  <li><label><input type="checkbox" data-task="w07-t2"><span>Apply the three cleaning rules as Power Query steps</span></label></li>
-  <li><label><input type="checkbox" data-task="w07-t3"><span>Load the result to a sheet and compare with Week 3</span></label></li>
+  <li><label><input type="checkbox" data-task="w07-t1"><span>Load services_raw.csv into my cleaning recipe (Power Query, or a Raw tab in Sheets)</span></label></li>
+  <li><label><input type="checkbox" data-task="w07-t2"><span>Apply the three cleaning rules as recorded steps (or one formula)</span></label></li>
+  <li><label><input type="checkbox" data-task="w07-t3"><span>Check the result matches Week 3</span></label></li>
   <li><label><input type="checkbox" data-task="w07-t4"><span>Answer both checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <p>Power Query has three ideas:</p>
@@ -64,10 +73,51 @@
   <li><strong>Test the magic.</strong> Go to <em>Data → Refresh All</em>. Same result in a second, with no manual steps. Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Google Sheets doesn't have Power Query, but you can build the same idea, <strong>a cleaning recipe that reruns itself</strong>, with two tabs:</p>
+<ol>
+  <li><strong>Raw:</strong> where you paste each new export, untouched.</li>
+  <li><strong>Clean:</strong> one formula that reads Raw and applies all three cleaning rules. Paste new data into Raw and Clean updates instantly.</li>
+</ol>
+<p>The formula uses a few building blocks:</p>
+<div class="table-wrap"><table>
+<tr><th>Piece</th><th>What it does</th></tr>
+<tr><td><code>LET(name, value, …)</code></td><td>Gives a piece of the formula a name so it's readable</td></tr>
+<tr><td><code>CHOOSECOLS(raw, 4)</code></td><td>Picks column 4 (ServiceCode) out of the raw table</td></tr>
+<tr><td><code>UPPER(TRIM(…))</code></td><td>Rule 1: tidy the codes</td></tr>
+<tr><td><code>HSTACK(…)</code></td><td>Glues columns back together side by side</td></tr>
+<tr><td><code>FILTER(…, code &lt;&gt; "")</code></td><td>Rule 3: drop rows with no code</td></tr>
+<tr><td><code>UNIQUE(…)</code></td><td>Rule 2: drop duplicate rows</td></tr>
+</table></div>
+<p>Read: <a href="https://support.google.com/docs/answer/13190535">LET function</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>Start fresh.</strong> Create a new blank spreadsheet called <code>Casework Recipe</code>.</li>
+  <li><strong>Raw tab.</strong> <em>File → Import → Upload</em> → <code>services_raw.csv</code> → <em>Replace current sheet</em>. Rename the tab <code>Raw</code>. Don't edit anything on this tab, ever.</li>
+  <li><strong>Clean tab.</strong> Add a new tab called <code>Clean</code>. Copy the header row from Raw into row 1 (A1:F1).</li>
+  <li><strong>The recipe.</strong> In Clean!A2 paste:
+<pre><code>=ARRAYFORMULA(LET(
+  raw,  Raw!A2:F,
+  code, UPPER(TRIM(CHOOSECOLS(raw, 4))),
+  UNIQUE(FILTER(
+    HSTACK(CHOOSECOLS(raw, 1, 2, 3), code, CHOOSECOLS(raw, 5, 6)),
+    code &lt;&gt; ""))))</code></pre>
+    The whole cleaned table appears.</li>
+  <li><strong>Count rows.</strong> In H1 type <code>=COUNTA(A2:A)</code>.</li>
+  <li><strong>Count distinct codes.</strong> In H2 type <code>=COUNTUNIQUE(D2:D)</code>.</li>
+  <li><strong>Test the magic.</strong> On the Raw tab, add a fake row at the bottom with code <code>" hv01 "</code>, then look at Clean: it appears as <code>HV01</code>. Delete the fake row again.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w7-clean-rows"><p class="q">How many rows did your Power Query load? (It should match Week 3.)</p></div>
 <div class="checkpoint" data-key="w7-distinct-codes"><p class="q">How many distinct service codes are in the cleaned data?</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -77,15 +127,32 @@
     <li><strong>Made a wrong step?</strong> Click the ✕ next to it in Applied Steps to delete it. Nothing is permanent here.</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Formula error about LET or CHOOSECOLS:</strong> check every bracket and comma. Copy the formula exactly from this page.</li>
+    <li><strong>13,449 rows:</strong> the <code>code &lt;&gt; ""</code> filter is missing.</li>
+    <li><strong>More than 14 distinct codes:</strong> the <code>UPPER(TRIM(...))</code> part isn't applied to column 4.</li>
+    <li><strong>"Array result was not expanded":</strong> the Clean tab has stray data below A2. Clear it.</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>In the Power Query Editor, open <em>View → Advanced Editor</em>. That's the recipe written out in Power Query's language (called "M"). You don't need to write M, but try to match each line to a step you clicked.</p>
+</div>
+<div data-path="google">
+<p>Replace the Raw tab's pasted data with a live link. Once this site is published, in Raw!A1 type <code>=IMPORTDATA("https://izzydoesizzy.github.io/data-management-curriculum/data/services_raw.csv")</code>. Your Clean tab now updates straight from the source file. That's the Sheets version of "Refresh".</p>
+</div>
 
 <div class="week-done">
   <label><input type="checkbox" data-week-done="7"> I finished Week 7</label>
   <p class="done-msg" hidden>Week 7 is done. Take a breath; next week builds on this.</p>
 </div>
-<nav class="pager" aria-label="Weeks"><a href="week-06.html">← Week 6: Project 2: PivotTables</a><a href="week-08.html">Week 8: Merge, append and refresh →</a></nav>
+<nav class="pager" aria-label="Weeks"><a href="week-06.html">← Week 6: Project 2: pivot tables</a><a href="week-08.html">Week 8: Merge, append and refresh →</a></nav>
 
 </main>
 <footer class="site-footer">

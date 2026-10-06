@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 11: Measures: your first DAX</title>
+<title>Week 11: Measures: your first calculations</title>
 <meta name="description" content="Write the three measures every casework report needs: Total Spend, Clients Served and Avg Spend per Client.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="11">
 <header class="site-header">
@@ -17,25 +18,33 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 11 of 16 · Phase 3 · Power BI</p>
-<h1>Measures: your first DAX</h1>
+<p class="eyebrow">Week 11 of 16 · Phase 3 · Dashboards</p>
+<h1>Measures: your first calculations</h1>
 <div class="meta">
-  <span class="pill pbi">Power BI</span>
+  <span class="pill pbi" data-path="ms">Power BI</span>
+  <span class="pill pbi" data-path="google">Looker Studio</span>
   <span class="pill">⏱ About 75 min</span>
 </div>
 <p class="lede">Write the three measures every casework report needs: Total Spend, Clients Served and Avg Spend per Client.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
   <p><strong>Why this matters:</strong> a <strong>measure</strong> is a reusable calculation, like "Total Spend", that automatically recalculates for whatever you're looking at: the whole agency on a card, per program in a chart, per client in a table. Write it once, use it everywhere.</p>
 </div>
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w11-t1"><span>Understand measure vs. column</span></label></li>
+  <li><label><input type="checkbox" data-task="w11-t1"><span>Understand measures/metrics vs. columns/dimensions</span></label></li>
   <li><label><input type="checkbox" data-task="w11-t2"><span>Create Total Spend, Total Services, Clients Served and Avg Spend per Client</span></label></li>
   <li><label><input type="checkbox" data-task="w11-t3"><span>Format them as currency / whole numbers</span></label></li>
-  <li><label><input type="checkbox" data-task="w11-t4"><span>Use them in cards and a table</span></label></li>
+  <li><label><input type="checkbox" data-task="w11-t4"><span>Use them in cards/scorecards and a table</span></label></li>
   <li><label><input type="checkbox" data-task="w11-t5"><span>Answer all three checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
 <p>DAX is Power BI's formula language. Our most important measure:</p>
@@ -66,11 +75,40 @@ Avg Spend per Client = DIVIDE([Total Spend], [Clients Served])</code></pre></li>
   <li>Compare <em>Total Spend</em> with your Excel answer from Week 4. They should match exactly. Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">20 min</span></h2>
+<p>In Looker Studio, a <strong>metric</strong> is a number that recalculates for whatever the chart shows: the whole agency on a scorecard, per program in a bar chart, per client in a table. You can create your own with <strong>calculated fields</strong>:</p>
+<pre><code>Total Spend          = SUM(UnitCost)
+Total Services       = COUNT(ServiceID)
+Clients Served       = COUNT_DISTINCT(ClientID)
+Avg Spend per Client = SUM(UnitCost) / COUNT_DISTINCT(ClientID)</code></pre>
+<p>In plain English, Total Spend is "add up the cost of every service in view." Because you put UnitCost on each row in Week 9 (the same XLOOKUP as Week 4), this stays simple.</p>
+<div class="table-wrap"><table>
+<tr><th></th><th>Metric</th><th>Dimension</th></tr>
+<tr><td>Calculates</td><td>One number for whatever is in view</td><td>A label for every row</td></tr>
+<tr><td>Use for</td><td>Things you add/count/average (spend, clients)</td><td>Things you group or filter <em>by</em> (program, month)</td></tr>
+<tr><td>Example</td><td>Total Spend</td><td>Region</td></tr>
+</table></div>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/6299685">About calculated fields</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">45 min</span></h2>
+<ol class="steps">
+  <li><strong>Create a scorecard on the blend.</strong> <em>Insert → Scorecard</em>, Data source = <strong>Casework Model</strong>.</li>
+  <li><strong>Add a calculated metric.</strong> In Setup, click the metric → <em>Add field</em> / <em>Create field</em> (wording varies). Name it <code>Total Spend</code>, formula <code>SUM(UnitCost)</code>, type <strong>Currency</strong> → Apply.</li>
+  <li><strong>Make three more scorecards</strong> the same way: <code>Total Services</code>, <code>Clients Served</code> and <code>Avg Spend per Client</code> (formulas above). Tip: copy a finished scorecard (<kbd>⌘</kbd> + <kbd>C</kbd> / <kbd>⌘</kbd> + <kbd>V</kbd>) and just change its metric.</li>
+  <li><strong>Table by region.</strong> <em>Insert → Table</em>, data source Casework Model. Dimension = <strong>Region</strong>. Metrics = Total Spend, Clients Served, Avg Spend per Client. Same formulas, five regions, five different answers.</li>
+  <li>Compare Total Spend with your Week 4 answer. They should match exactly.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w11-clients-served"><p class="q">What does Clients Served show for the whole agency?</p></div>
 <div class="checkpoint" data-key="w11-avg-spend-per-client"><p class="q">What is the Avg Spend per Client for the whole agency?</p></div>
 <div class="checkpoint" data-key="w11-north-spend"><p class="q">What is Total Spend for the North region?</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -80,11 +118,30 @@ Avg Spend per Client = DIVIDE([Total Spend], [Clients Served])</code></pre></li>
     <li><strong>Avg Spend per Client looks like $63:</strong> that's the average <em>per service</em>. Check you divided by Clients Served, not Total Services.</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>"Invalid formula":</strong> field names must match exactly, including capitals. Start typing and pick from the suggestions.</li>
+    <li><strong>Every region shows the same total:</strong> the table isn't using the Casework Model blend, or the Clients join is missing (Week 10).</li>
+    <li><strong>Avg Spend per Client looks like $63:</strong> that's the average <em>per service</em>. Divide by <code>COUNT_DISTINCT(ClientID)</code>, not <code>COUNT(ServiceID)</code>.</li>
+    <li><strong>Total Spend is zero or blank:</strong> UnitCost is text. Set its type to Number in the Services data source (Week 9, step 5).</li>
+  </ul>
+</details>
+</div>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>Write a measure for spend on Financial Assistance only:</p>
 <pre><code>FA Spend = CALCULATE([Total Spend], ServiceCodes[Category] = "Financial Assistance")</code></pre>
 <p><code>CALCULATE</code> is the most powerful function in DAX: "calculate this measure, but with this extra filter." Compare the result with your Week 6 PivotTable.</p>
+</div>
+<div data-path="google">
+<p>Make a Financial Assistance-only metric:</p>
+<pre><code>FA Spend = SUM(CASE WHEN Category = "Financial Assistance" THEN UnitCost ELSE 0 END)</code></pre>
+<p><code>CASE WHEN</code> is the Looker Studio way of saying "only count these rows." Compare the result with your Week 6 pivot table.</p>
+</div>
 
 <div class="week-done">
   <label><input type="checkbox" data-week-done="11"> I finished Week 11</label>

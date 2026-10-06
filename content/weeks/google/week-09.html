@@ -1,0 +1,30 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p><strong>Looker Studio</strong> is Google's free dashboard tool. It reads directly from Google Sheets, so when the Sheet changes, the dashboard updates. Three parts you'll use constantly:</p>
+<ul>
+  <li><strong>Data sources:</strong> each tab of your Sheet becomes a data source (a table).</li>
+  <li><strong>Charts and controls:</strong> add from the <em>Insert</em> menu, then choose fields in the <em>Setup</em> panel on the right, like filling a pivot table.</li>
+  <li><strong>Edit vs. View mode:</strong> you build in Edit; others click around in View.</li>
+</ul>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/14528488">Create a report from Google Sheets</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>Put the clean data in one Google Sheet.</strong> Upload <a href="../data/powerbi-starter.xlsx" download>powerbi-starter.xlsx</a> to <a href="https://drive.google.com">Google Drive</a> (<em>New → File upload</em>). Double-click it, then <em>File → Save as Google Sheets</em>. Rename it <code>Casework Data</code>. It has tabs for Services, Clients, ServiceCodes and Workers (plus two for the Caseworks track).</li>
+  <li><strong>Add a UnitCost column to Services</strong> (Looker Studio works best when the cost is already on each row). On the Services tab, in <strong>G1</strong> type <code>UnitCost</code> and in <strong>G2</strong>:
+<pre><code>=ARRAYFORMULA(IF(D2:D = "", , XLOOKUP(D2:D, ServiceCodes!A:A, ServiceCodes!D:D)))</code></pre>
+    Exactly what you did in Week 4.</li>
+  <li><strong>Create a report.</strong> Go to <a href="https://lookerstudio.google.com">lookerstudio.google.com</a> → <em>Create → Report</em> → <em>Google Sheets</em> → <code>Casework Data</code> → worksheet <strong>Services</strong> → keep <em>Use first row as headers</em> ticked → <em>Add</em>.</li>
+  <li><strong>Add the other tabs as data sources.</strong> <em>Resource → Manage added data sources → Add a data source → Google Sheets</em>. Add <strong>Clients</strong>, <strong>ServiceCodes</strong> and <strong>Workers</strong> one at a time.</li>
+  <li><strong>Check data types.</strong> In <em>Resource → Manage added data sources</em>, click <em>Edit</em> on Services and make sure ServiceDate is a <strong>Date</strong> and UnitCost is a <strong>Number</strong> (or Currency). Do the same for IntakeDate and DischargeDate in Clients.</li>
+  <li><strong>First chart.</strong> <em>Insert → Scorecard</em>, place it on the page. In Setup: Data source = Services, Metric = <strong>Record Count</strong>.</li>
+  <li>Rename the report (top-left) to <code>Casework Practice</code>. It saves automatically.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>Can't see your spreadsheet in Looker Studio:</strong> it must be a Google Sheet, not an .xlsx sitting in Drive. Use <em>File → Save as Google Sheets</em> first.</li>
+    <li><strong>Scorecard shows 13.4K:</strong> select it → <em>Style</em> → turn off <em>Compact numbers</em>.</li>
+    <li><strong>UnitCost shows as text:</strong> in the data source editor, change its type to Number.</li>
+  </ul>
+</details>

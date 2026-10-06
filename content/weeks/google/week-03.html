@@ -1,0 +1,44 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>Our export has four problems, all very common in real systems:</p>
+<div class="table-wrap"><table>
+<tr><th>Problem</th><th>Example</th><th>Fix in Google Sheets</th></tr>
+<tr><td>Extra spaces</td><td><code>"HV01 "</code></td><td><code>TRIM()</code> (or <em>Data → Data cleanup → Trim whitespace</em>)</td></tr>
+<tr><td>Inconsistent case</td><td><code>"hv01"</code></td><td><code>UPPER()</code> makes everything capitals</td></tr>
+<tr><td>Duplicate rows</td><td>Same ServiceID twice</td><td><em>Data → Data cleanup → Remove duplicates</em></td></tr>
+<tr><td>Missing values</td><td>Blank ServiceCode</td><td>Filter for blanks and delete those rows</td></tr>
+</table></div>
+<p><strong>Our three cleaning rules</strong> (used for every answer in this course):</p>
+<ol>
+  <li>Service codes: trim spaces and convert to upper case.</li>
+  <li>Remove exact duplicate rows.</li>
+  <li>Remove rows with a blank service code.</li>
+</ol>
+<p>Read: <a href="https://support.google.com/docs/answer/3094140">TRIM function</a> (Google).</p>
+
+<div class="callout warn">
+  <p><strong>Before you start:</strong> make a backup. <em>File → Make a copy</em> → name it <code>Casework Practice - before cleaning</code>. Keep working in the original. Professionals never clean the only copy.</p>
+</div>
+
+<h2 class="section-label">2. Do <span class="time">50 min</span></h2>
+<ol class="steps">
+  <li><strong>See the mess.</strong> On the Services tab, <em>Data → Create a filter</em>, then open the filter on <em>ServiceCode</em> → <em>Filter by values</em>. You'll see blanks and odd-looking duplicates. Close it.</li>
+  <li><strong>Add a helper column.</strong> In <strong>G1</strong> type <code>CodeClean</code>. In <strong>G2</strong> type this one formula, which fills the whole column:
+    <pre><code>=ARRAYFORMULA(IF(A2:A = "", , UPPER(TRIM(D2:D))))</code></pre>
+    In plain English: "for every row that has data, take the code, trim it and make it upper case".</li>
+  <li><strong>Replace the original codes with the clean ones.</strong> Click <strong>G2</strong>, press <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>↓</kbd> to select down to the last row, then <kbd>⌘</kbd> + <kbd>C</kbd>. Click <strong>D2</strong> → <em>Edit → Paste special → Values only</em> (<kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>). Start at row 2 so you don't overwrite the header.</li>
+  <li><strong>Delete the helper column.</strong> Right-click the G column letter → <em>Delete column</em>.</li>
+  <li><strong>Remove duplicates.</strong> <em>Data → Remove filter</em> first. Click the top-left corner box to select everything → <em>Data → Data cleanup → Remove duplicates</em> → tick <em>Data has header row</em> → <em>Select all</em> columns → <em>Remove duplicates</em>. Sheets tells you how many it removed. <strong>Write that number down.</strong></li>
+  <li><strong>Remove blank codes.</strong> <em>Data → Create a filter</em> → ServiceCode filter → <em>Filter by values</em> → <em>Clear</em> → tick only <em>(Blanks)</em> → OK. Select the visible rows (click the first row number, then <kbd>Shift</kbd>-click the last) → right-click → <em>Delete selected rows</em>. Then <em>Data → Remove filter</em>.</li>
+  <li><strong>Count what's left.</strong> Click column A's letter and read <em>Count</em> at the bottom-right (minus 1 for the header).</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>You have 13,449 rows:</strong> you removed duplicates but not the blank codes (step 6).</li>
+    <li><strong>You have 13,530 rows:</strong> you removed blanks but not duplicates (step 5).</li>
+    <li><strong>Remove duplicates removed far more than ~100?</strong> Some columns weren't selected. Undo (<kbd>⌘</kbd> + <kbd>Z</kbd>) and select all columns.</li>
+    <li><strong>Header changed to CodeClean?</strong> You pasted from row 1. Undo and paste from D2.</li>
+    <li><strong>Totally lost?</strong> Import <a href="../data/services_clean.csv" download>services_clean.csv</a> into the Services tab (<em>Replace current sheet</em>) and carry on next week.</li>
+  </ul>
+</details>

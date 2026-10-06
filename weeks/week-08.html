@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Week 8: Merge, append and refresh</title>
-<meta name="description" content="Join tables inside Power Query and add next month&#x27;s data without starting over.">
+<meta name="description" content="Join tables in your recipe and add next month&#x27;s data without starting over.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="stylesheet" href="../assets/style.css">
+<script>try{var s=JSON.parse(localStorage.getItem("laura-data-curriculum-v1")||"{}");if(s.path==="google")document.documentElement.setAttribute("data-path-choice","google");}catch(e){}</script>
 </head>
 <body data-root="../" data-week="8">
 <header class="site-header">
@@ -17,15 +18,21 @@
   <div class="mini-progress" aria-hidden="true"><div></div></div>
 </header>
 <main>
-<p class="eyebrow">Week 8 of 16 · Phase 2 · Power Query</p>
+<p class="eyebrow">Week 8 of 16 · Phase 2 · Repeatable cleaning</p>
 <h1>Merge, append and refresh</h1>
 <div class="meta">
-  <span class="pill pq">Power Query</span>
+  <span class="pill pq" data-path="ms">Power Query</span>
+  <span class="pill pq" data-path="google">Sheets formulas</span>
   <span class="pill">⏱ About 90 min</span>
 </div>
-<p class="lede">Join tables inside Power Query and add next month's data without starting over.</p>
+<p class="lede">Join tables in your recipe and add next month's data without starting over.</p>
+<div class="path-switch" role="group" aria-label="Choose your tools">
+  <span>Show steps for:</span>
+  <button type="button" data-set-path="ms">Excel &amp; Power BI</button>
+  <button type="button" data-set-path="google">Google Sheets &amp; Looker Studio</button>
+</div>
 <div class="callout why">
-  <p><strong>Why this matters:</strong> real reporting is monthly. A new export lands, and you need last month and this month together, with costs attached. Today you do that entirely in Power Query: <strong>append</strong> September onto the existing data, then <strong>merge</strong> in the price list. Next month it's one click.</p>
+  <p><strong>Why this matters:</strong> real reporting is monthly. A new export lands, and you need last month and this month together, with costs attached. Today you do that inside your cleaning recipe: <strong>append</strong> September onto the existing data, then <strong>merge</strong> in the price list. Next month it takes a minute.</p>
 </div>
 
 <h2>Project spec (exact parameters)</h2>
@@ -39,12 +46,14 @@
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li><label><input type="checkbox" data-task="w08-t1"><span>Load the price list as a query</span></label></li>
-  <li><label><input type="checkbox" data-task="w08-t2"><span>Make a September query with the same cleaning steps</span></label></li>
-  <li><label><input type="checkbox" data-task="w08-t3"><span>Append Services + September into AllServices</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t1"><span>Load the price list</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t2"><span>Get September's export cleaned with the same steps</span></label></li>
+  <li><label><input type="checkbox" data-task="w08-t3"><span>Append both months into AllServices</span></label></li>
   <li><label><input type="checkbox" data-task="w08-t4"><span>Merge the price list into AllServices</span></label></li>
   <li><label><input type="checkbox" data-task="w08-t5"><span>Answer all three checkpoints</span></label></li>
 </ul>
+
+<div data-path="ms">
 
 <h2 class="section-label">1. Learn <span class="time">10 min</span></h2>
 <div class="table-wrap"><table>
@@ -69,11 +78,42 @@
   <li><strong>Answer the questions.</strong> On the AllServices sheet: select the UnitCost column and read <em>Sum</em> in the status bar. Then filter ServiceDate to September 2026 only (date filter arrow → <em>Date Filters → After or Equal To…</em> 2026-09-01) and read the Sum again. Save.</li>
 </ol>
 
+</div>
+<div data-path="google">
+<h2 class="section-label">1. Learn <span class="time">10 min</span></h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Append</th><th>Merge</th></tr>
+<tr><td>What it does</td><td>Stacks tables <strong>on top of each other</strong></td><td>Joins tables <strong>side by side</strong> using a matching column</td></tr>
+<tr><td>Result</td><td>More rows</td><td>More columns</td></tr>
+<tr><td>Casework example</td><td>August services + September services</td><td>Services + price list, matched on ServiceCode</td></tr>
+<tr><td>Google Sheets tool</td><td><code>VSTACK(range1, range2)</code></td><td><code>XLOOKUP</code> over a whole column</td></tr>
+</table></div>
+<p>Read: <a href="https://support.google.com/docs/answer/13191461">VSTACK function</a> (Google). <strong>Google Sheets version of the spec:</strong> in <code>Casework Recipe</code>, rename the <code>Clean</code> tab to <code>AllServices</code>. It should contain both months, cleaned, plus <code>UnitCost</code> and <code>Category</code> columns.</p>
+
+<h2 class="section-label">2. Do <span class="time">60 min</span></h2>
+<ol class="steps">
+  <li>Open <code>Casework Recipe</code>.</li>
+  <li><strong>Load the price list.</strong> <em>File → Import → Upload</em> → <code>service_codes.csv</code> → <em>Insert new sheet(s)</em>. Rename the tab <code>ServiceCodes</code>.</li>
+  <li><strong>Load next month.</strong> Import <code>services_2026-09.csv</code> the same way. Rename the tab <code>Sep</code>.</li>
+  <li><strong>Append.</strong> Rename the <code>Clean</code> tab to <code>AllServices</code>. Edit the formula in A2: change just the <code>raw</code> line so it stacks both months:
+<pre><code>  raw,  VSTACK(Raw!A2:F, Sep!A2:F),</code></pre>
+    The cleaning rules now run on both files at once.</li>
+  <li><strong>Merge in the price list.</strong> In G1 type <code>UnitCost</code>, and in G2:
+<pre><code>=ARRAYFORMULA(IF(D2:D = "", , XLOOKUP(D2:D, ServiceCodes!A:A, ServiceCodes!D:D, "NOT FOUND")))</code></pre>
+    In H1 type <code>Category</code>, and in H2 use the same formula with <code>ServiceCodes!C:C</code>.</li>
+  <li><strong>Answer the questions.</strong> In J1: <code>=COUNTA(A2:A)</code> (rows). In J2: <code>=SUM(G2:G)</code> (total spend). In J3, September only:
+<pre><code>=SUMIFS(G2:G, C2:C, "&gt;=" &amp; DATE(2026, 9, 1))</code></pre></li>
+  <li><strong>Next month, for real:</strong> import the new export into a new tab and add it to the <code>VSTACK</code>. That's the whole monthly update.</li>
+</ol>
+</div>
+
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w8-combined-rows"><p class="q">How many rows are in AllServices?</p></div>
 <div class="checkpoint" data-key="w8-combined-spend"><p class="q">Total spend across AllServices (April 2025 to September 2026)?</p></div>
 <div class="checkpoint" data-key="w8-sept-spend"><p class="q">Total spend in September 2026 alone?</p></div>
 
+<div data-path="ms">
 <details class="stuck">
   <summary>Stuck? Try this</summary>
   <ul>
@@ -82,19 +122,35 @@
     <li><strong>Merge or Append buttons missing:</strong> update Excel. If they're still missing, these steps work identically in Power BI's Power Query (Week 9 onward).</li>
   </ul>
 </details>
+</div>
+<div data-path="google">
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>UnitCost shows NOT FOUND:</strong> check the tab is named <code>ServiceCodes</code> and the codes in AllServices are clean (UPPER/TRIM).</li>
+    <li><strong>Row count is a bit high:</strong> the <code>raw</code> line must stack the two ranges inside the same cleaning formula, so both months get cleaned.</li>
+    <li><strong>September sum is $0:</strong> ServiceDate imported as text. Re-import with <em>Convert text to numbers, dates, and formulas</em> ticked.</li>
+  </ul>
+</details>
+</div>
 
 <div class="callout">
-  <p><strong>You just finished the Excel half of the course.</strong> You can clean an export, attach costs, total by client, pivot by program and automate it monthly. That's already more than most people who complain about reports can do.</p>
+  <p><strong>You just finished the spreadsheet half of the course.</strong> You can clean an export, attach costs, total by client, pivot by program and automate it monthly. That's already more than most people who complain about reports can do.</p>
 </div>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>Add a step to AllServices that calculates <code>Hours = DurationMins / 60</code>: <em>Add Column → Custom Column</em>, formula <code>[DurationMins] / 60</code>. Then Close &amp; Load and check total staff hours.</p>
+</div>
+<div data-path="google">
+<p>Add <code>Hours</code> in I1, and in I2: <code>=ARRAYFORMULA(IF(F2:F = "", , F2:F / 60))</code>. Then <code>=SUM(I2:I)</code> gives total staff hours.</p>
+</div>
 
 <div class="week-done">
   <label><input type="checkbox" data-week-done="8"> I finished Week 8</label>
   <p class="done-msg" hidden>Week 8 is done. Take a breath; next week builds on this.</p>
 </div>
-<nav class="pager" aria-label="Weeks"><a href="week-07.html">← Week 7: Power Query: a recipe for cleaning</a><a href="week-09.html">Week 9: Get Power BI running on your Mac →</a></nav>
+<nav class="pager" aria-label="Weeks"><a href="week-07.html">← Week 7: A recipe for cleaning</a><a href="week-09.html">Week 9: Set up Power BI or Looker Studio →</a></nav>
 
 </main>
 <footer class="site-footer">

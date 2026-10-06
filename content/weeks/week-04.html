@@ -10,6 +10,7 @@
   <li>Answer both checkpoints</li>
 </ul>
 
+<!--PATH-->
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <p>XLOOKUP is like looking something up in a phone book:</p>
 <pre><code>=XLOOKUP( what to find,  where to look,  what to bring back,  if not found )
@@ -33,6 +34,8 @@
   <li>Save.</li>
 </ol>
 
+<!--/PATH-->
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w4-total-spend">
   <p class="q">What is the total spend across all clean services?</p>
@@ -52,4 +55,9 @@
 </details>
 
 <h2>Stretch (optional, 15 min)</h2>
+<div data-path="ms">
 <p>Add a third lookup column, <code>Program</code>, that brings back each client's program from the <code>Clients</code> table (look up <code>[@ClientID]</code> in <code>Clients[ClientID]</code>, return <code>Clients[Program]</code>). You'll need this in Week 6, so doing it now saves time.</p>
+</div>
+<div data-path="google">
+<p>Add a third column, <code>Program</code>, in I1/I2: <code>=ARRAYFORMULA(IF(B2:B = "", , XLOOKUP(B2:B, Clients!A:A, Clients!D:D)))</code>. You'll need it in Week 6, so doing it now saves time.</p>
+</div>

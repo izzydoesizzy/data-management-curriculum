@@ -1,0 +1,31 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<p>XLOOKUP is like looking something up in a phone book:</p>
+<pre><code>=XLOOKUP( what to find,  where to look,       what to bring back,  if not found )
+=XLOOKUP( "HV01",        ServiceCodes!A:A,    ServiceCodes!D:D,    "NOT FOUND" )
+→ 85</code></pre>
+<p>"Find HV01 in column A of the price list, and bring back column D (UnitCost) from the same row." The fourth part is a safety net: if a code isn't in the price list you'll see <code>NOT FOUND</code>.</p>
+<p>In Google Sheets you can look up <em>every row at once</em> by wrapping it in <code>ARRAYFORMULA</code> and giving it a whole column (<code>D2:D</code>) instead of one cell.</p>
+<p>Read: <a href="https://support.google.com/docs/answer/12405947">XLOOKUP function</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">40 min</span></h2>
+<ol class="steps">
+  <li>Open <code>Casework Practice</code> and go to the Services tab.</li>
+  <li><strong>Add a UnitCost column.</strong> In <strong>G1</strong> type <code>UnitCost</code>. In <strong>G2</strong>:
+    <pre><code>=ARRAYFORMULA(IF(D2:D = "", , XLOOKUP(D2:D, ServiceCodes!A:A, ServiceCodes!D:D, "NOT FOUND")))</code></pre></li>
+  <li><strong>Format as money.</strong> Click the G column letter → <em>Format → Number → Currency</em>.</li>
+  <li><strong>Add a Category column</strong> in <strong>H1</strong>/<strong>H2</strong>, using the same pattern but bringing back <code>ServiceCodes!C:C</code>.</li>
+  <li><strong>Check for failures.</strong> <em>Data → Create a filter</em> → UnitCost filter → <em>Filter by values</em>. There should be no <code>NOT FOUND</code>. Remove the filter.</li>
+  <li><strong>Grand total.</strong> In an empty cell to the right (e.g. <strong>K1</strong>) type <code>=SUM(G2:G)</code>.</li>
+  <li><strong>Count the paid services.</strong> In <strong>K2</strong> type:
+    <pre><code>=COUNTIF(G2:G, "&gt;0")</code></pre></li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong><code>#REF!</code> or <code>#N/A</code>:</strong> check the tab name is exactly <code>ServiceCodes</code>.</li>
+    <li><strong>Lots of NOT FOUND:</strong> your codes still have spaces or lower case. Redo Week 3, or use the catch-up file <a href="../data/services_clean.csv" download>services_clean.csv</a>.</li>
+    <li><strong>"Array result was not expanded":</strong> something is typed in the column below G2. Clear it.</li>
+    <li><strong>Total is much higher than expected:</strong> duplicates are probably still in your data (Week 3, step 5).</li>
+  </ul>
+</details>

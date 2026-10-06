@@ -1,0 +1,27 @@
+<h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
+<ul>
+  <li>Looker Studio understands dates. You can show any date field as a <strong>Year Month</strong> to group services by month, with no extra column needed.</li>
+  <li><strong>Length of stay</strong> = days between IntakeDate and DischargeDate. Only discharged clients have one; active clients are left out automatically because their difference is empty (null), and averages ignore nulls.</li>
+</ul>
+<p>Read: <a href="https://support.google.com/looker-studio/answer/6401549">Dates and times (incl. DATE_DIFF)</a> (Google).</p>
+
+<h2 class="section-label">2. Do <span class="time">45 min</span></h2>
+<ol class="steps">
+  <li><strong>Monthly trend.</strong> <em>Insert → Time series chart</em>, data source Casework Model. Dimension = <strong>ServiceDate</strong>; click the small calendar icon next to it and choose <strong>Year Month</strong>. Metric = <strong>Total Spend</strong>.</li>
+  <li><strong>Find the numbers.</strong> Hover over points, or add a <em>Table</em> with ServiceDate (Year Month) and Total Spend, then click the Total Spend header to sort.</li>
+  <li><strong>Length of stay field.</strong> <em>Resource → Manage added data sources</em> → Edit <strong>Clients</strong> → <em>Add a field</em>. Name <code>Days Stayed</code>, formula:
+<pre><code>DATE_DIFF(DischargeDate, IntakeDate)</code></pre>
+    Save → Done.</li>
+  <li><strong>Average it.</strong> <em>Insert → Scorecard</em>, data source <strong>Clients</strong>, metric <strong>Days Stayed</strong> with aggregation <strong>Average</strong>. Show 1 decimal place (Setup → metric → decimal precision).</li>
+  <li><strong>Try it by program:</strong> a table on Clients with Program and Average of Days Stayed.</li>
+</ol>
+<!--STUCK-->
+<details class="stuck">
+  <summary>Stuck? Try this</summary>
+  <ul>
+    <li><strong>No calendar icon / dates look like text:</strong> set the field type to <em>Date</em> in the data source editor.</li>
+    <li><strong>DATE_DIFF error:</strong> both IntakeDate and DischargeDate must be Date type.</li>
+    <li><strong>Length of stay is a huge negative number:</strong> the order is <code>DATE_DIFF(later, earlier)</code>, so discharge comes first.</li>
+    <li><strong>Months out of order:</strong> time series charts sort by date automatically; in a table, sort by ServiceDate ascending.</li>
+  </ul>
+</details>

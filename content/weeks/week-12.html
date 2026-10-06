@@ -4,12 +4,13 @@
 
 <h2>This week's checklist</h2>
 <ul class="tasks">
-  <li>Add a Month column to Services</li>
+  <li>Group services by month</li>
   <li>Build a monthly spend line chart</li>
-  <li>Create the Avg Length of Stay measure</li>
+  <li>Calculate average length of stay</li>
   <li>Answer all three checkpoints</li>
 </ul>
 
+<!--PATH-->
 <h2 class="section-label">1. Learn <span class="time">15 min</span></h2>
 <ul>
   <li>To chart by month, every service needs a <strong>Month</strong> label. That's a <em>calculated column</em>, because you group <em>by</em> it.</li>
@@ -35,6 +36,8 @@ AVERAGEX(
   <li><strong>Try it by program:</strong> a Table visual with <code>Clients[Program]</code> and <code>Avg Length of Stay (days)</code>. Save.</li>
 </ol>
 
+<!--/PATH-->
+
 <h2 class="section-label">3. Checkpoint <span class="time">5 min</span></h2>
 <div class="checkpoint" data-key="w12-top-month"><p class="q">Which month had the highest total spend? (format: YYYY-MM)</p></div>
 <div class="checkpoint" data-key="w12-mar-2026-spend"><p class="q">Total spend in March 2026?</p></div>
@@ -51,6 +54,7 @@ AVERAGEX(
 </details>
 
 <h2>Stretch (optional, 20 min)</h2>
+<div data-path="ms">
 <p>Build a proper date table. <em>New table</em>:</p>
 <pre><code>Date = ADDCOLUMNS(
     CALENDAR(DATE(2025, 4, 1), DATE(2026, 9, 30)),
@@ -58,3 +62,7 @@ AVERAGEX(
     "Year", YEAR([Date])
 )</code></pre>
 <p>Create a relationship from <code>Date[Date]</code> to <code>Services[ServiceDate]</code>, then rebuild the line chart using <code>Date[Month]</code>. This is the professional pattern you'll see in workplace reports.</p>
+</div>
+<div data-path="google">
+<p>Try different date groupings on the same time series chart: click the calendar icon on ServiceDate and switch between <strong>Year Quarter</strong>, <strong>Year Week</strong> and <strong>Year</strong>. Then add a <em>Date range control</em> (<em>Insert → Date range control</em>) so viewers can pick their own period.</p>
+</div>
